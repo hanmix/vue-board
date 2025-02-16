@@ -6,7 +6,7 @@
       class="inputbox"
       type="text"
       placeholder="아이디를 입력해주세요."
-      :ref="email"
+      v-model="email"
       required
     />
     <input
@@ -14,7 +14,7 @@
       class="inputbox"
       type="password"
       placeholder="비밀번호 입력해주세요."
-      :ref="password"
+      v-model="password"
       required
     />
     <button id="submit" @click="handleSignIn">로그인</button>
@@ -27,11 +27,23 @@
 <script setup lang="ts">
 import { router } from "@routers/router";
 import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
 
 const email = ref("");
 const password = ref("");
+const userStore = useUserStore();
 
-const handleSignIn = () => {
-  router.push("/board");
+const handleSignIn = async () => {
+  try {
+    await userStore.login(email.value, password.value);
+    if (userStore.currentUser) {
+      router.push("/board");
+    } else {
+      alert("아이디 또는 비밀번호가 틀렸습니다.");
+    }
+  } catch (error) {
+    console.error("Error during sign-in:", error);
+    alert("로그인 중 오류가 발생했습니다.");
+  }
 };
 </script>
