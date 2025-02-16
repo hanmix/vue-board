@@ -15,6 +15,17 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
+  "basedUrl": ".",
+  "path": {
+    "@/*": ["src/*"],
+    "@apis/*": ["src/apis/*"],
+    "@assets/*": ["src/assets/*"],
+    "@compoents/*": ["src/compoents/*"],
+    "@pages/*": ["src/pages/*"],
+    "@routes/*": ["src/routes/*"],
+    "@stores/*": ["src/stores/*"],
+    "@types/*": ["src/types/*"]
+  },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [
     { "path": "./tsconfig.app.json" },
