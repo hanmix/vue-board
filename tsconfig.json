@@ -13,18 +13,18 @@
     "declaration": true,
     "composite": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
-  },
-  "basedUrl": ".",
-  "path": {
-    "@/*": ["src/*"],
-    "@apis/*": ["src/apis/*"],
-    "@assets/*": ["src/assets/*"],
-    "@compoents/*": ["src/compoents/*"],
-    "@pages/*": ["src/pages/*"],
-    "@routes/*": ["src/routes/*"],
-    "@stores/*": ["src/stores/*"],
-    "@types/*": ["src/types/*"]
+    "noUnusedParameters": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@apis/*": ["apis/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@routers/*": ["routers/*"],
+      "@stores/*": ["stores/*"],
+      "@types/*": ["types/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [
