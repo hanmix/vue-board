@@ -1,10 +1,7 @@
-export interface NewUser {
+export interface User {
+  id: string;
   name: string;
   email: string;
   password: string;
   role: string;
-}
-
-export interface User extends NewUser {
-  id: string;
 }
