@@ -40,6 +40,7 @@ const handleSignIn = async () => {
   try {
     await userStore.signIn(email.value, password.value);
     if (userStore.currentUser) {
+      showAlert('로그인 되었습니다.');
       router.push('/board');
     } else {
       showAlert('아이디 또는 비밀번호가 틀렸습니다.');
