@@ -25,25 +25,28 @@
   </div>
 </template>
 <script setup lang="ts">
-import { router } from "@routers/router";
-import { ref } from "vue";
-import { useUserStore } from "@/stores/user";
+import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
+import { useModal } from '@/composables/useModal';
 
-const email = ref("");
-const password = ref("");
+const email = ref('');
+const password = ref('');
 const userStore = useUserStore();
+const router = useRouter();
+const { showAlert } = useModal();
 
 const handleSignIn = async () => {
   try {
-    await userStore.login(email.value, password.value);
+    await userStore.signIn(email.value, password.value);
     if (userStore.currentUser) {
-      router.push("/board");
+      router.push('/board');
     } else {
-      alert("아이디 또는 비밀번호가 틀렸습니다.");
+      showAlert('아이디 또는 비밀번호가 틀렸습니다.');
     }
   } catch (error) {
-    console.error("Error during sign-in:", error);
-    alert("로그인 중 오류가 발생했습니다.");
+    console.error('Error during sign-in:', error);
+    showAlert('로그인 중 오류가 발생했습니다.');
   }
 };
 </script>
