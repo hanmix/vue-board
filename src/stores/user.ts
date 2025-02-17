@@ -1,53 +1,47 @@
-import { defineStore } from "pinia";
-import type { User } from "../types/user";
-import { login } from "../apis/auth";
-import { jwtDecode } from "jwt-decode";
+import { defineStore } from 'pinia';
+import type { User } from '../types/user';
+import { jwtDecode } from 'jwt-decode';
+import { getUserById } from '../apis/user';
+import { login } from '@/apis/auth';
+import { ref, computed } from 'vue';
+import type { DecodedToken } from '@/types';
 
-interface DecodedToken {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-}
+export const useUserStore = defineStore('user', () => {
+  const users = ref([] as User[]);
+  const currentUser = ref(null as User | null);
+  const token = ref(null as string | null);
 
-export const useUserStore = defineStore("user", {
-  state: () => ({
-    users: [] as User[],
-    currentUser: null as User | null,
-    token: null as string | null,
-  }),
-  actions: {
-    async login(email: string, password: string) {
-      try {
-        const response = await login(email, password);
-        console.log(response);
-        if (response.isSuccess) {
-          const token = response.data.token;
-          this.token = token;
-          const decoded = jwtDecode<DecodedToken>(token);
-          const existingUser = this.users.find(
-            (user: User) => user.id === decoded.id
-          );
+  const isLoggedIn = computed(() => !!token.value);
 
-          if (!existingUser) {
-            const newUser: User = {
-              id: decoded.id,
-              name: decoded.name,
-              email: decoded.email,
-              password: decoded.password,
-              role: decoded.role,
-            };
-            this.users.push(newUser);
-            this.currentUser = newUser;
-            console.log("로그인 성공", this.currentUser.id);
-          } else {
-            this.currentUser = existingUser;
-          }
-        }
-      } catch (error) {
-        console.error("Login failed", error);
-      }
-    },
-  },
+  const signIn = async (email: string, password: string) => {
+    try {
+      const {
+        isSuccess,
+        data: { token: accessToken },
+      } = await login(email, password);
+      if (!isSuccess) throw new Error('Login failed');
+
+      const { id: userId } = jwtDecode<DecodedToken>(accessToken);
+      const { data: user } = await getUserById(userId, accessToken);
+      if (!user) throw new Error('User not found');
+
+      token.value = accessToken;
+      currentUser.value = user;
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
+
+  return {
+    // state
+    users,
+    currentUser,
+    token,
+
+    // getters
+    isLoggedIn,
+
+    // actions
+    signIn,
+  };
 });
