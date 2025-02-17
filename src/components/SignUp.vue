@@ -28,9 +28,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import { useModal } from '@/composables/useModal';
-import { useAuth } from '@/composables/useAuth';
+import { useUserStore } from '@/stores';
+import { useModal, useAuth } from '@/composables';
 
 const router = useRouter();
 const userStore = useUserStore();

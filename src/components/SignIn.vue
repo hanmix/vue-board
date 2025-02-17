@@ -25,10 +25,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores';
 import { useRouter } from 'vue-router';
-import { useModal } from '@/composables/useModal';
-import { useAuth } from '@/composables/useAuth';
+import { useModal, useAuth } from '@/composables';
 
 const userStore = useUserStore();
 const router = useRouter();
