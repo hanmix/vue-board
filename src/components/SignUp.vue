@@ -29,16 +29,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import { ref } from 'vue';
 import { useModal } from '@/composables/useModal';
+import { useAuth } from '@/composables/useAuth';
 
 const router = useRouter();
 const userStore = useUserStore();
 const { showAlert } = useModal();
-
-const name = ref('');
-const email = ref('');
-const password = ref('');
+const { name, email, password } = useAuth();
 
 const handleSignUp = async () => {
   try {

@@ -25,16 +25,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 import { useModal } from '@/composables/useModal';
+import { useAuth } from '@/composables/useAuth';
 
-const email = ref('');
-const password = ref('');
 const userStore = useUserStore();
 const router = useRouter();
 const { showAlert } = useModal();
+const { email, password } = useAuth();
 
 const handleSignIn = async () => {
   try {
