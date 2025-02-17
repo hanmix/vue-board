@@ -11,7 +11,13 @@
     "noUncheckedSideEffectImports": true,
     "composite": true,
     "noEmit": false,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+
+    // Path
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
