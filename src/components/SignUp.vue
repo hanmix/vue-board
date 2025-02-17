@@ -27,9 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { router } from "@routers/router";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const handleSignUp = () => {
-  router.push("signIn");
+  router.push('signIn');
 };
 </script>
