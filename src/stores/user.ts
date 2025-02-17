@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import type { User } from '../types/user';
 import { jwtDecode } from 'jwt-decode';
 import { getUserById } from '../apis/user';
-import { login } from '@/apis/auth';
+import { login, register } from '@/apis/auth';
 import { ref, computed } from 'vue';
 import type { DecodedToken } from '@/types';
 
@@ -32,6 +32,25 @@ export const useUserStore = defineStore('user', () => {
     }
   };
 
+  const signUp = async (name: string, email: string, password: string) => {
+    try {
+      const {
+        isSuccess,
+        data: { token: accessToken },
+      } = await register(email, password, name);
+      if (!isSuccess) throw new Error('Register failed');
+
+      const { id: userId } = jwtDecode<DecodedToken>(accessToken);
+      const { data: user } = await getUserById(userId, accessToken);
+      if (!user) throw new Error('User not found');
+
+      token.value = accessToken;
+      currentUser.value = user;
+    } catch (error) {
+      console.error('Register failed', error);
+    }
+  };
+
   return {
     // state
     users,
@@ -43,5 +62,6 @@ export const useUserStore = defineStore('user', () => {
 
     // actions
     signIn,
+    signUp,
   };
 });
