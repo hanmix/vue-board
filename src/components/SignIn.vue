@@ -36,6 +36,16 @@ const { showAlert } = useModal();
 const { email, password } = useAuth();
 
 const handleSignIn = async () => {
+  if (email.value.trim() === '') {
+    showAlert('아이디를 입력해주세요.');
+    return;
+  }
+
+  if (password.value.trim() === '') {
+    showAlert('비밀번호를 입력해주세요.');
+    return;
+  }
+
   try {
     await userStore.signIn(email.value, password.value);
     if (userStore.currentUser) {
