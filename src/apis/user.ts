@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_HOST = import.meta.env.VUE_APP_API_HOST;
+const API_HOST = import.meta.env.VITE_API_HOST;
 
 export const getUsers = async () => {
   const response = await axios.get(`${API_HOST}/api/users`);
