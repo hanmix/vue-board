@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
-import type { User } from '../types/user';
 import { jwtDecode } from 'jwt-decode';
-import { getUserById } from '../apis/user';
-import { login, register } from '@/apis/auth';
+import { login, register, getUserById } from '@/apis';
 import { ref, computed } from 'vue';
-import type { DecodedToken } from '@/types';
+import type { DecodedToken, User } from '@/types';
 
 export const useUserStore = defineStore('user', () => {
   const users = ref([] as User[]);
