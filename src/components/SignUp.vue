@@ -8,19 +8,29 @@
       placeholder="이름을 입력해주세요."
       v-model="name"
     />
-    <input
-      id="email"
-      class="inputbox"
-      type="text"
-      placeholder="아이디를 입력해주세요."
-      v-model="email"
-    />
+    <div>
+      <input
+        id="email"
+        class="inputbox"
+        type="text"
+        placeholder="이메일을 입력해주세요."
+        v-model="email"
+      />
+      <button @click="checkedEmail">이메일 중복확인</button>
+    </div>
     <input
       id="password"
       class="inputbox"
       type="password"
       placeholder="비밀번호 입력해주세요."
       v-model="password"
+    />
+    <input
+      id="doublePassword"
+      class="inputbox"
+      type="password"
+      placeholder="비밀번호 다시 입력해주세요."
+      v-model="doubleCheckPassword"
     />
     <button id="submit" @click="handleSignUp">회원가입 하기</button>
   </div>
@@ -34,18 +44,48 @@ import { useModal, useAuth } from '@/composables';
 const router = useRouter();
 const userStore = useUserStore();
 const { showAlert } = useModal();
-const { name, email, password } = useAuth();
+const {
+  name,
+  email,
+  password,
+  doubleCheckPassword,
+  isCheckEmptyName,
+  isCheckEmptyEmail,
+  isCheckEmptyPassword,
+  isPasswordMatch,
+} = useAuth();
+
+const checkedEmail = async () => {
+  if (isCheckEmptyEmail.value) {
+    showAlert('이메일을 입력해주세요.');
+    return;
+  }
+
+  try {
+    await userStore.emailChecker(email.value);
+    if (userStore.isAvailableId) {
+      showAlert('사용 가능한 이메일 입니다.');
+    } else {
+      showAlert('이미 사용중인 이메일 입니다.');
+    }
+  } catch (error) {
+    console.error('Error during id-check:', error);
+  }
+};
 
 const handleSignUp = async () => {
   switch (true) {
-    case name.value.trim() === '':
+    case isCheckEmptyName.value:
       showAlert('이름을 입력해주세요.');
       return;
-    case email.value.trim() === '':
-      showAlert('아이디를 입력해주세요.');
+    case isCheckEmptyEmail.value:
+      showAlert('이메일을 입력해주세요.');
       return;
-    case password.value.trim() === '':
+    case isCheckEmptyPassword.value:
       showAlert('비밀번호를 입력해주세요.');
+      return;
+    case isPasswordMatch.value:
+      showAlert('비밀번호를 다시 확인해주세요.');
       return;
   }
 

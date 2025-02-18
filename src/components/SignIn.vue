@@ -32,14 +32,14 @@ import { useModal, useAuth } from '@/composables';
 const userStore = useUserStore();
 const router = useRouter();
 const { showAlert } = useModal();
-const { email, password } = useAuth();
+const { email, password, isCheckEmptyEmail, isCheckEmptyPassword } = useAuth();
 
 const handleSignIn = async () => {
   switch (true) {
-    case email.value.trim() === '':
+    case isCheckEmptyEmail.value:
       showAlert('아이디를 입력해주세요.');
       return;
-    case password.value.trim() === '':
+    case isCheckEmptyPassword.value:
       showAlert('비밀번호를 입력해주세요.');
       return;
   }
