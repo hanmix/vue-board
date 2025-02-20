@@ -1,10 +1,10 @@
 import axios from 'axios';
-import type { Response, LoginData, RegisterData } from '@/types';
+import type { AuthResponse, LoginData, RegisterData } from '@/types';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
 export const login = async (email: string, password: string) => {
-  const response = await axios.post<Response, any, LoginData>(
+  const response = await axios.post<AuthResponse, any, LoginData>(
     `${API_HOST}/api/auth/login`,
     {
       email,
@@ -19,7 +19,7 @@ export const register = async (
   password: string,
   name: string
 ) => {
-  const response = await axios.post<Response, any, RegisterData>(
+  const response = await axios.post<AuthResponse, any, RegisterData>(
     `${API_HOST}/api/auth/register`,
     {
       email,

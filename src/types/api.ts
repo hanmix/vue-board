@@ -1,4 +1,4 @@
-export interface Response {
+export interface AuthResponse {
   isSuccess: boolean;
   data: { token: string };
 }

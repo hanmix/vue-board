@@ -1,4 +1,4 @@
-export interface post {
+export interface Post {
   id: string;
   type: string;
   title: string;
@@ -10,4 +10,19 @@ export interface post {
   view: number;
   parentId: string | null;
   data: Date;
+}
+
+export interface PostParams {
+  page: number;
+  size: number;
+  type: string;
+  keyword: string;
+}
+
+export interface PostResponse {
+  isSuccess: Boolean;
+  message: string;
+  data: {
+    posts: [];
+  };
 }

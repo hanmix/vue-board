@@ -1,12 +1,10 @@
+import type { PostResponse, PostParams } from '@/types';
 import axios from 'axios';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
-export const getPosts = async (
-  params: { page: number; size: number; type: string; keyword: string },
-  token: string
-) => {
-  const response = await axios.get(`${API_HOST}/api/posts`, {
+export const getPosts = async (params: PostParams, token: string) => {
+  const response = await axios.get<PostResponse, any>(`${API_HOST}/api/posts`, {
     headers: { Authorization: `Bearer ${token}` },
     params,
   });

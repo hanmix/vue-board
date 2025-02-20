@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', () => {
       const { data: user } = await getUserById(userId, accessToken);
       if (!user) throw new Error('User not found');
 
+      localStorage.setItem('token', accessToken);
       token.value = accessToken;
       currentUser.value = user;
     } catch (error) {
