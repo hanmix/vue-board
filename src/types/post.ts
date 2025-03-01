@@ -2,11 +2,11 @@ export interface Post {
   id: string;
   title: string;
   content: string;
-  createdAt: string;
+  date: string;
   updatedAt?: string;
-  viewCount: number;
-  likeCount: number;
-  dislikeCount: number;
+  view: number;
+  likes: number;
+  dislikes: number;
   user: {
     email: string;
     name: string;

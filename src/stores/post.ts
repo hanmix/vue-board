@@ -162,7 +162,7 @@ export const usePostStore = defineStore('post', () => {
     try {
       await increaseViewApi(postId);
       if (currentPost.value?.id === postId) {
-        currentPost.value.viewCount++;
+        currentPost.value.view++;
       }
     } catch (err: any) {
       console.error(err);
@@ -174,7 +174,7 @@ export const usePostStore = defineStore('post', () => {
     try {
       await likePostApi(postId);
       if (currentPost.value?.id === postId) {
-        currentPost.value.likeCount++;
+        currentPost.value.likes++;
       }
     } catch (err: any) {
       console.error(err);
@@ -186,7 +186,7 @@ export const usePostStore = defineStore('post', () => {
     try {
       await dislikePostApi(postId);
       if (currentPost.value?.id === postId) {
-        currentPost.value.dislikeCount++;
+        currentPost.value.dislikes++;
       }
     } catch (err: any) {
       console.error(err);
