@@ -24,6 +24,7 @@ export const getPostsApi = async (
       headers: {
         // 토큰이 있을 경우 Bearer 토큰 형식으로 전송
         Authorization: token ? `Bearer ${token}` : '',
+        'Cache-Control': 'no-cache',
       },
     }
   );
