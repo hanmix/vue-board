@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineEmits } from 'vue';
 
 const props = defineProps<{ page: number; lastPage: number }>();
 const emit = defineEmits<{ (event: 'update:page', value: number): void }>();

@@ -1,52 +1,39 @@
 <template>
-  <div class="container">
+  <div class="login-container">
     <h1>로그인</h1>
-    <input
-      id="email"
-      class="inputbox"
-      type="text"
-      placeholder="아이디를 입력해주세요."
-      v-model="email"
-      required
-    />
-    <input
-      id="password"
-      class="inputbox"
-      type="password"
-      placeholder="비밀번호 입력해주세요."
-      v-model="password"
-      required
-    />
-    <button id="submit" @click="handleSignIn">로그인</button>
-    <div>
-      <p>아직 아이디가 없으신가요?</p>
-      <router-link to="/signUp">회원가입</router-link>
-    </div>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label for="email">이메일</label>
+        <input id="email" type="email" v-model="email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input id="password" type="password" v-model="password" required />
+      </div>
+      <button type="submit" :disabled="userStore.loading">로그인</button>
+      <p v-if="userStore.error" class="error">{{ userStore.error }}</p>
+    </form>
   </div>
 </template>
-<script setup lang="ts">
+
+<script lang="ts" setup>
+import { ref } from 'vue';
 import { useUserStore } from '@/stores';
 import { useRouter } from 'vue-router';
-import { useModal, useAuth } from '@/composables';
+import { useModal } from '@/composables';
+
+const { showAlert } = useModal();
+
+const email = ref('');
+const password = ref('');
 
 const userStore = useUserStore();
 const router = useRouter();
-const { showAlert } = useModal();
-const { email, password, isCheckEmptyEmail, isCheckEmptyPassword } = useAuth();
 
-const handleSignIn = async () => {
-  switch (true) {
-    case isCheckEmptyEmail.value:
-      showAlert('아이디를 입력해주세요.');
-      return;
-    case isCheckEmptyPassword.value:
-      showAlert('비밀번호를 입력해주세요.');
-      return;
-  }
-
+const handleLogin = async () => {
   try {
-    await userStore.signIn(email.value, password.value);
-    if (userStore.currentUser) {
+    await userStore.login(email.value, password.value);
+    if (userStore.isAuthenticated) {
       showAlert('로그인 되었습니다.');
       router.push('/board');
     } else {
@@ -58,3 +45,41 @@ const handleSignIn = async () => {
   }
 };
 </script>
+
+<style scoped>
+.login-container {
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: #95a5a6;
+}
+.error {
+  color: red;
+  margin-top: 0.5rem;
+}
+</style>

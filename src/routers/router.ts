@@ -42,12 +42,12 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const { isLoggedIn } = useUserStore();
-  const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
+// router.beforeEach((to, from, next) => {
+//   const { isLoggedIn } = useUserStore();
+//   const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (isRequiresAuth && !isLoggedIn) return next({ name: 'signIn' });
-  next();
-});
+//   if (isRequiresAuth && !isLoggedIn) return next({ name: 'signIn' });
+//   next();
+// });
 
 export default router;

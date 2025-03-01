@@ -1,38 +1,41 @@
 import axios from 'axios';
-import type { AuthResponse, LoginData, RegisterData } from '@/types';
+import type {
+  ApiResponse,
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  CheckIdResponse,
+} from '@/types';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
-export const login = async (email: string, password: string) => {
-  const response = await axios.post<AuthResponse, any, LoginData>(
+export const loginApi = async (
+  payload: LoginRequest
+): Promise<ApiResponse<LoginResponse>> => {
+  const response = await axios.post<ApiResponse<LoginResponse>>(
     `${API_HOST}/api/auth/login`,
-    {
-      email,
-      password,
-    }
+    payload
   );
   return response.data;
 };
 
-export const register = async (
-  email: string,
-  password: string,
-  name: string
-) => {
-  const response = await axios.post<AuthResponse, any, RegisterData>(
+export const registerApi = async (
+  payload: RegisterRequest
+): Promise<ApiResponse<RegisterResponse>> => {
+  const response = await axios.post<ApiResponse<RegisterResponse>>(
     `${API_HOST}/api/auth/register`,
-    {
-      email,
-      password,
-      name,
-    }
+    payload
   );
   return response.data;
 };
 
-export const checkId = async (id: string) => {
-  const response = await axios.get(`${API_HOST}/api/auth/check-id`, {
-    params: { id },
-  });
+export const checkIdApi = async (
+  id: string
+): Promise<ApiResponse<CheckIdResponse>> => {
+  const response = await axios.get<ApiResponse<CheckIdResponse>>(
+    `${API_HOST}/api/auth/check-id`,
+    { params: { id } }
+  );
   return response.data;
 };
