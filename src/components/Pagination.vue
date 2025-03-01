@@ -36,14 +36,24 @@ const nextPage = () => {
   margin-top: 1rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
+
 button {
   padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  background: #fff;
+  background-color: #2c3e50; /* 차분한 다크 블루-그레이 계열 */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
+
+button:hover:not(:disabled) {
+  background-color: #34495e;
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
