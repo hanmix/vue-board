@@ -37,20 +37,21 @@
       게시글이 없습니다.
     </div>
 
-    <!-- 페이징 컨트롤: 전체 페이지가 1 이상일 때 보임 -->
-    <div v-if="totalPages > 1" class="pagination">
-      <button @click="prevPage" :disabled="currentPage === 1">이전</button>
-      <span>페이지 {{ currentPage }} / {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">
-        다음
-      </button>
-    </div>
+    <!-- Pagination 컴포넌트 사용 -->
+    <Pagination
+      v-if="totalPages > 1"
+      :currentPage="currentPage"
+      :totalPages="totalPages"
+      @prev-page="prevPage"
+      @next-page="nextPage"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
 import { usePostStore } from '@/stores';
+import Pagination from '@/components/Pagination.vue';
 
 const postStore = usePostStore();
 
@@ -60,7 +61,7 @@ const pageSize = ref(10);
 const filterType = ref('title');
 const searchKeyword = ref('');
 
-// totalPages 계산 시 최소 1페이지를 보장 (게시글이 없을 경우에도 1페이지로 간주)
+// totalPages 계산: 게시글이 없더라도 최소 1페이지로 간주
 const totalPages = computed(() => {
   const pages = Math.ceil(postStore.totalPosts / pageSize.value);
   return pages > 0 ? pages : 1;
@@ -119,24 +120,5 @@ onMounted(() => loadPosts());
 .stats {
   font-size: 0.9rem;
   color: #555;
-}
-
-.pagination {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.pagination button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
-}
-
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 </style>
