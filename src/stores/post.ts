@@ -1,28 +1,36 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { getPosts, getPostById } from '@/apis/post';
 import type { Post } from '@/types/post';
+import type { PaginationParams, PageInfo } from '@/types';
 
 export const usePostStore = defineStore('post', () => {
-  const posts1 = ref<Post[]>([]);
+  const posts = ref<Post[]>([]);
+  const pagination = ref<PageInfo>({
+    total: 0,
+    size: 10,
+    page: 1,
+    lastPage: 1,
+  });
   const currentPost = ref<Post | null>(null);
+  const params = ref<PaginationParams>({
+    page: 1,
+    size: 10,
+    type: 'user',
+    keyword: '',
+  });
   const token = localStorage.getItem('token');
 
-  const loadPosts = async (params: {
-    page: number;
-    size: number;
-    type: string;
-    keyword: string;
-  }) => {
+  const loadPosts = async () => {
     if (typeof token === 'string') {
       try {
-        const {
-          isSuccess,
-          message,
-          data: { posts },
-        } = await getPosts(params, token);
+        const { isSuccess, message, data, pageInfo } = await getPosts(
+          params.value,
+          token
+        );
         if (!isSuccess) throw new Error('Failed to load posts');
-        posts1.value = posts;
+        posts.value = data;
+        pagination.value = pageInfo;
         console.log(message);
       } catch (error) {
         console.error('Failed to fetch posts', error);
@@ -40,9 +48,13 @@ export const usePostStore = defineStore('post', () => {
     }
   };
 
+  watch(params, loadPosts, { deep: true, immediate: true });
+
   return {
-    posts1,
+    posts,
     currentPost,
+    pagination,
+    params,
     token,
     loadPosts,
     loadPostById,

@@ -1,64 +1,35 @@
 <template>
   <div class="post-container">
-    <div v-for="post in postStore.posts1" :key="post.id" class="post">
+    <h1>게시글 목록</h1>
+    <input v-model="postStore.params.keyword" placeholder="검색어 입력" />
+    <select v-model="postStore.params.type">
+      <option v-for="type in searchTypes" :key="type" :value="type">
+        {{
+          type === 'title' ? '제목' : type === 'content' ? '내용' : '제목+내용'
+        }}
+      </option>
+    </select>
+    <ul v-for="post in postStore.posts" :key="post.id" class="post">
       <div v-if="post.type === 'post'">
         <h2 class="post-title">{{ post.title }}</h2>
         <p class="post-content">{{ post.content }}</p>
-        <p>{{ post.type }}</p>
       </div>
-    </div>
+    </ul>
   </div>
-  <div class="pagination">
-    <button @click="prevPage" :disabled="currentPage === 1">이전</button>
-    <span>{{ currentPage }} / {{ totalPages }}</span>
-    <button @click="nextPage" :disabled="currentPage === totalPages">
-      다음
-    </button>
-  </div>
+  <Pagination
+    :page="postStore.pagination.page"
+    :last-page="postStore.pagination.lastPage"
+    @update:page="postStore.params.page = $event"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
 import { usePostStore } from '@/stores/post';
+import Pagination from './Pagination.vue';
+import { SearchType } from '@/types';
 
 const postStore = usePostStore();
-const currentPage = ref(1);
-const pageSize = ref(10);
-
-const totalPages = computed(() => {
-  return Math.ceil(postStore.posts1.length / pageSize.value);
-});
-
-const loadPosts = async () => {
-  try {
-    await postStore.loadPosts({
-      page: currentPage.value,
-      size: pageSize.value,
-      type: 'title',
-      keyword: 'react',
-    });
-  } catch (error) {
-    console.error('Failed to load posts', error);
-  }
-};
-
-const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-    loadPosts();
-  }
-};
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    loadPosts();
-  }
-};
-
-onMounted(() => {
-  loadPosts();
-});
+const searchTypes: SearchType[] = ['title', 'content', 'title_content'];
 </script>
 
 <style scoped>

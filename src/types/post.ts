@@ -11,18 +11,3 @@ export interface Post {
   parentId: string | null;
   data: Date;
 }
-
-export interface PostParams {
-  page: number;
-  size: number;
-  type: string;
-  keyword: string;
-}
-
-export interface PostResponse {
-  isSuccess: Boolean;
-  message: string;
-  data: {
-    posts: [];
-  };
-}

@@ -1,3 +1,5 @@
+import type { PageInfo } from './pagination';
+
 export interface AuthResponse {
   isSuccess: boolean;
   data: { token: string };
@@ -18,4 +20,11 @@ export interface DecodedToken {
   email: string;
   password: string;
   role: string;
+}
+
+export interface PostResponse<T> {
+  isSuccess: Boolean;
+  message: string;
+  data: T;
+  pageInfo: PageInfo;
 }
