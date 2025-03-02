@@ -15,13 +15,13 @@ export const useUserStore = defineStore('auth', () => {
     error.value = null;
     try {
       const payload: LoginRequest = { email, password };
-      const response = await loginApi(payload);
-      if (response.isSuccess) {
-        token.value = response.data.token;
+      const { isSuccess, message, data } = await loginApi(payload);
+      if (isSuccess) {
+        token.value = data.token;
         localStorage.setItem('token', token.value);
         isAuthenticated.value = true;
       } else {
-        error.value = response.message || '로그인에 실패했습니다.';
+        error.value = message || '로그인에 실패했습니다.';
       }
     } catch (err: any) {
       error.value = err.message || '로그인 중 오류가 발생했습니다.';
