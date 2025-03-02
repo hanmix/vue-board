@@ -1,6 +1,9 @@
 <template>
   <div class="board-container">
     <h1 class="header">게시글 목록</h1>
+    <div class="logout">
+      <button @click="userStore.logout">로그아웃</button>
+    </div>
     <!-- 검색/필터 컨트롤 -->
     <form @submit.prevent="onSearch" class="search-form">
       <select v-model="filterType">
@@ -54,11 +57,12 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { usePostStore } from '@/stores';
+import { usePostStore, useUserStore } from '@/stores';
 import { formatDate } from '@/utils';
 import Pagination from '@/components/Pagination.vue';
 
 const postStore = usePostStore();
+const userStore = useUserStore();
 
 // 페이징, 검색, 필터 상태
 const currentPage = ref(1);
