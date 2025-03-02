@@ -13,6 +13,10 @@
       <button type="submit" :disabled="userStore.loading">로그인</button>
       <p v-if="userStore.error" class="error">{{ userStore.error }}</p>
     </form>
+    <div>
+      <p>아직 아이디가 없으신가요?</p>
+      <router-link to="/signUp">회원가입</router-link>
+    </div>
   </div>
 </template>
 

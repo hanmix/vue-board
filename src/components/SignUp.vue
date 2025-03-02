@@ -61,16 +61,16 @@ const checkedEmail = async () => {
     return;
   }
 
-  try {
-    await userStore.emailChecker(email.value);
-    if (userStore.isAvailableId) {
-      showAlert('사용 가능한 이메일 입니다.');
-    } else {
-      showAlert('이미 사용중인 이메일 입니다.');
-    }
-  } catch (error) {
-    console.error('Error during id-check:', error);
-  }
+  // try {
+  //   await userStore.emailChecker(email.value);
+  //   if (userStore.isAvailableId) {
+  //     showAlert('사용 가능한 이메일 입니다.');
+  //   } else {
+  //     showAlert('이미 사용중인 이메일 입니다.');
+  //   }
+  // } catch (error) {
+  //   console.error('Error during id-check:', error);
+  // }
 };
 
 const handleSignUp = async () => {
@@ -90,8 +90,8 @@ const handleSignUp = async () => {
   }
 
   try {
-    await userStore.signUp(name.value, email.value, password.value);
-    if (userStore.currentUser) {
+    await userStore.register(name.value, email.value, password.value);
+    if (userStore.isAuthenticated) {
       showAlert('회원가입이 완료되었습니다.');
       router.push('/signIn');
     }
