@@ -10,8 +10,10 @@ export interface Post {
   likes: Array<string>;
   dislikes: Array<string>;
   user: {
+    id: string;
     email: string;
     name: string;
+    role: string;
   };
 }
 

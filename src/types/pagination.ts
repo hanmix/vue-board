@@ -1,8 +1,8 @@
 export interface PaginationParams {
   page: number;
   size: number;
-  type: SearchType;
-  keyword?: string;
+  type: string;
+  keyword: string;
 }
 
 export interface PaginationInfo {

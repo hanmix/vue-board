@@ -1,7 +1,7 @@
 export interface ApiResponse<T> {
   isSuccess: boolean;
+  message: string;
   data: T;
-  message?: string;
 }
 
 export interface LoginRequest {
