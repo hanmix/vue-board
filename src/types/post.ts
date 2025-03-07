@@ -1,3 +1,5 @@
+import type { PaginationInfo } from './pagination';
+
 export interface Post {
   id: string;
   title: string;
@@ -5,8 +7,8 @@ export interface Post {
   date: string;
   updatedAt?: string;
   view: number;
-  likes: number;
-  dislikes: number;
+  likes: Array<string>;
+  dislikes: Array<string>;
   user: {
     email: string;
     name: string;
@@ -15,7 +17,7 @@ export interface Post {
 
 export interface PostListResponse {
   posts: Post[];
-  total: number;
+  pagination: PaginationInfo;
 }
 
 export interface CreatePostRequest {

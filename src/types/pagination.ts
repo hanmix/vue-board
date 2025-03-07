@@ -1,11 +1,11 @@
 export interface PaginationParams {
   page: number;
   size: number;
-  type?: SearchType;
+  type: SearchType;
   keyword?: string;
 }
 
-export interface PageInfo {
+export interface PaginationInfo {
   total: number;
   size: number;
   page: number;

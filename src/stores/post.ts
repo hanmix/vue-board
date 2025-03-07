@@ -13,37 +13,33 @@ import {
   deletePostApi,
 } from '@/apis';
 import type { Post } from '@/types/post';
+import type { PaginationParams } from '@/types';
 
 export const usePostStore = defineStore('post', () => {
   // 상태 정의
   const posts = ref<Post[]>([]);
-  const totalPosts = ref(0);
+  const totalPosts = ref<number>(0);
+  const size = ref<number>(0);
+  const page = ref<number>(0);
+  const lastPage = ref<number>(0);
   const currentPost = ref<Post | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
   // 게시글 목록 조회 (검색, 필터, 페이징 적용)
-  const fetchPosts = async (
-    page: number,
-    size: number,
-    type: string,
-    keyword: string
-  ) => {
+  const fetchPosts = async (params: PaginationParams) => {
     loading.value = true;
     error.value = null;
     try {
-      const { isSuccess, data, message } = await getPostsApi(
-        page,
-        size,
-        type,
-        keyword
-      );
-      if (isSuccess) {
-        posts.value = data.posts;
-        totalPosts.value = data.total;
-      } else {
-        error.value = message || '게시글 목록을 불러오는데 실패했습니다.';
-      }
+      const { isSuccess, data } = await getPostsApi(params);
+      if (!isSuccess)
+        return new Error('게시글 목록을 불러오는데 실패했습니다.');
+
+      posts.value = data.posts;
+      totalPosts.value = data.pagination.total;
+      size.value = data.pagination.size;
+      page.value = data.pagination.page;
+      lastPage.value = data.pagination.lastPage;
     } catch (err: any) {
       error.value = err.message || '게시글 목록 조회 중 오류가 발생했습니다.';
     } finally {
@@ -69,7 +65,7 @@ export const usePostStore = defineStore('post', () => {
       );
       if (isSuccess) {
         posts.value = data.posts;
-        totalPosts.value = data.total;
+        // totalPosts.value = data.total;
       } else {
         error.value = message || '내 게시글 목록을 불러오는데 실패했습니다.';
       }
@@ -174,7 +170,7 @@ export const usePostStore = defineStore('post', () => {
     try {
       await likePostApi(postId);
       if (currentPost.value?.id === postId) {
-        currentPost.value.likes++;
+        // currentPost.value.likes++;
       }
     } catch (err: any) {
       console.error(err);
@@ -186,7 +182,7 @@ export const usePostStore = defineStore('post', () => {
     try {
       await dislikePostApi(postId);
       if (currentPost.value?.id === postId) {
-        currentPost.value.dislikes++;
+        // currentPost.value.dislikes++;
       }
     } catch (err: any) {
       console.error(err);
@@ -214,6 +210,9 @@ export const usePostStore = defineStore('post', () => {
   return {
     posts,
     totalPosts,
+    size,
+    page,
+    lastPage,
     currentPost,
     loading,
     error,

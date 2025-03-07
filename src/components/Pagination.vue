@@ -1,11 +1,8 @@
 <template>
   <div class="pagination">
-    <button @click="prevPage" :disabled="currentPage === 1">이전</button>
-    <span>페이지 {{ props.currentPage }} / {{ props.totalPages }}</span>
-    <button
-      @click="nextPage"
-      :disabled="props.currentPage === props.totalPages"
-    >
+    <button @click="prevPage" :disabled="props.currentPage === 1">이전</button>
+    <span>페이지 {{ props.currentPage }} / {{ props.totalPage }}</span>
+    <button @click="nextPage" :disabled="props.currentPage === props.totalPage">
       다음
     </button>
   </div>
@@ -14,7 +11,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   currentPage: number;
-  totalPages: number;
+  totalPage: number;
 }>();
 
 const emit = defineEmits<{

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ApiResponse } from '@/types'; // ApiResponse<T>는 auth 타입 정의 파일에 있음
+import type { ApiResponse, PaginationParams } from '@/types'; // ApiResponse<T>는 auth 타입 정의 파일에 있음
 import type {
   Post,
   PostListResponse,
@@ -11,16 +11,13 @@ import type {
 const API_HOST = import.meta.env.VITE_API_HOST;
 
 export const getPostsApi = async (
-  page: number,
-  size: number,
-  type: string,
-  keyword: string
+  params: PaginationParams
 ): Promise<ApiResponse<PostListResponse>> => {
   const token = localStorage.getItem('token');
   const response = await axios.get<ApiResponse<PostListResponse>>(
     `${API_HOST}/api/posts`,
     {
-      params: { page, size, type, keyword },
+      params: params,
       headers: {
         // 토큰이 있을 경우 Bearer 토큰 형식으로 전송
         Authorization: token ? `Bearer ${token}` : '',

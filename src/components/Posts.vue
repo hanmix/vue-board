@@ -47,16 +47,16 @@
 
     <!-- Pagination 컴포넌트 -->
     <Pagination
-      :currentPage="currentPage"
-      :totalPages="totalPages"
-      @prev-page="prevPage"
-      @next-page="nextPage"
+      :currentPage="postStore.page"
+      :totalPage="postStore.totalPosts"
+      @prevPage="prevPage"
+      @nextPage="nextPage"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onBeforeMount, onMounted, onUpdated } from 'vue';
 import { usePostStore, useUserStore } from '@/stores';
 import { formatDate } from '@/utils';
 import Pagination from '@/components/Pagination.vue';
@@ -65,46 +65,32 @@ const postStore = usePostStore();
 const userStore = useUserStore();
 
 // 페이징, 검색, 필터 상태
-const currentPage = ref(1);
-const pageSize = ref(10);
 const filterType = ref('title');
 const searchKeyword = ref('');
 
-// totalPages 계산: 게시글이 없더라도 최소 1페이지로 간주
-const totalPages = computed(() => {
-  const pages = Math.ceil(postStore.totalPosts / pageSize.value);
-  return pages > 0 ? pages : 1;
-});
-
-const loadPosts = () => {
-  postStore.fetchPosts(
-    currentPage.value,
-    pageSize.value,
-    filterType.value,
-    searchKeyword.value
-  );
-};
-
-const onSearch = () => {
-  currentPage.value = 1;
-  loadPosts();
-};
-
 const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-    loadPosts();
+  if (postStore.page > 1) {
+    postStore.page--;
   }
 };
 
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    loadPosts();
+  if (postStore.page < postStore.totalPosts) {
+    postStore.page++;
   }
 };
 
-onMounted(() => loadPosts());
+const loadPosts = async () => {
+  postStore.fetchPosts;
+};
+
+const onSearch = () => {
+  postStore.page = 1;
+  loadPosts();
+};
+
+// onBeforeMount(() => loadPosts());
+onMounted(() => loadPosts);
 </script>
 
 <style scoped>
