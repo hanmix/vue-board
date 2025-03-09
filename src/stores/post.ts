@@ -6,6 +6,8 @@ import { ref } from 'vue';
 export const usePostStore = defineStore('post', () => {
   // 상태 정의
   const postList = ref<Post[]>([]);
+  const filterType = ref('title');
+  const searchKeyword = ref('');
   const totalPosts = ref<number>(0);
   const size = ref<number>(10);
   const page = ref<number>(1);
@@ -42,6 +44,8 @@ export const usePostStore = defineStore('post', () => {
 
   return {
     postList,
+    filterType,
+    searchKeyword,
     totalPosts,
     size,
     page,

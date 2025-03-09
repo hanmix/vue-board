@@ -11,13 +11,17 @@
     <!-- 검색/필터 영역 -->
     <section class="search-section">
       <form @submit.prevent="onSearch" class="search-form">
-        <select v-model="filterType">
+        <select v-model="postStore.filterType">
           <option value="title">제목</option>
           <option value="content">내용</option>
           <option value="title_content">제목+내용</option>
           <option value="user">작성자</option>
         </select>
-        <input type="text" v-model="searchKeyword" placeholder="검색어 입력" />
+        <input
+          type="text"
+          v-model="postStore.searchKeyword"
+          placeholder="검색어 입력"
+        />
         <button type="submit">검색</button>
       </form>
     </section>
@@ -67,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { onBeforeMount } from 'vue';
 import { usePostStore } from '@/stores/post';
 import { useUserStore } from '@/stores/user';
 import Pagination from '@/components/Pagination.vue';
@@ -78,16 +82,13 @@ const postStore = usePostStore();
 const userStore = useUserStore();
 
 // 검색/필터 관련 상태
-const filterType = ref('title');
-const searchKeyword = ref('');
 
-// 서버 기본값을 사용하도록, 페이지 번호가 있을 때만 추가
 const fetchData = () => {
   const params: PaginationParams = {
     page: postStore.page,
     size: postStore.size,
-    type: filterType.value,
-    keyword: searchKeyword.value,
+    type: postStore.filterType,
+    keyword: postStore.searchKeyword,
   };
   postStore.fetchPosts(params);
 };
@@ -98,7 +99,6 @@ const onSearch = () => {
   fetchData();
 };
 
-// 이전 페이지 이동
 const prevPage = async (): Promise<void> => {
   if (postStore.page > 1) {
     postStore.page--;
@@ -106,7 +106,6 @@ const prevPage = async (): Promise<void> => {
   }
 };
 
-// 다음 페이지 이동 (현재 페이지가 마지막 페이지보다 작은 경우에만 호출)
 const nextPage = async (): Promise<void> => {
   if (postStore.page < postStore.lastPage) {
     postStore.page++;
@@ -116,12 +115,14 @@ const nextPage = async (): Promise<void> => {
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
-  // 초기 조회: 서버에서 기본 page와 size 값으로 응답
   fetchData();
 });
 </script>
 
 <style scoped>
+span {
+  padding-inline: 5px;
+}
 .board-container {
   max-width: 800px;
   margin: 0 auto;
