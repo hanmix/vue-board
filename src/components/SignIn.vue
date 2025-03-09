@@ -54,8 +54,6 @@ const handleLogin = async () => {
 .login-container {
   margin: 2rem auto;
   padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
 }
 .form-group {
   margin-bottom: 1rem;
