@@ -72,8 +72,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
-import { usePostStore } from '@/stores/post';
-import { useUserStore } from '@/stores/user';
+import { usePostStore, useUserStore } from '@/stores';
 import Pagination from '@/components/Pagination.vue';
 import { formatDate } from '@/utils';
 import { PaginationParams } from '@/types';
