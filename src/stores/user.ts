@@ -2,8 +2,10 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { loginApi, registerApi, checkIdApi } from '@/apis';
 import type { LoginRequest, RegisterRequest } from '@/types';
+import { useRouter } from 'vue-router';
 
 export const useUserStore = defineStore('auth', () => {
+  const router = useRouter();
   const token = ref<string | null>(localStorage.getItem('token'));
   const user = ref<{ email: string; name: string } | null>(null);
   const isAuthenticated = ref(!!token.value);
@@ -64,7 +66,8 @@ export const useUserStore = defineStore('auth', () => {
     token.value = null;
     user.value = null;
     isAuthenticated.value = false;
-    localStorage.removeItem('TOKEN');
+    localStorage.removeItem('token');
+    router.push('/');
   };
 
   return {
