@@ -8,7 +8,7 @@ export interface PaginationParams {
 export interface PaginationInfo {
   total: number;
   size: number;
-  page: number;
+  page: string;
   lastPage: number;
 }
 

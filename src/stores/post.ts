@@ -39,7 +39,7 @@ export const usePostStore = defineStore('post', () => {
       postList.value = posts;
       totalPosts.value = pagination.total;
       size.value = pagination.size;
-      page.value = pagination.page;
+      page.value = parseInt(pagination.page);
       lastPage.value = pagination.lastPage;
     } catch (err: any) {
       error.value = err.message || '게시글 목록 조회 중 오류가 발생했습니다.';
