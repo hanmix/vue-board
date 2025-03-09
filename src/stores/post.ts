@@ -17,9 +17,15 @@ export const usePostStore = defineStore('post', () => {
   const error = ref<string | null>(null);
 
   // 게시글 목록 조회 (검색, 필터, 페이징 적용)
-  const fetchPosts = async (params: PaginationParams): Promise<void> => {
+  const fetchPosts = async (): Promise<void> => {
     loading.value = true;
     error.value = null;
+    const params: PaginationParams = {
+      page: page.value,
+      size: size.value,
+      type: filterType.value,
+      keyword: searchKeyword.value,
+    };
     try {
       const {
         isSuccess,

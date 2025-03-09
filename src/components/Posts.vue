@@ -10,20 +10,7 @@
 
     <!-- 검색/필터 영역 -->
     <section class="search-section">
-      <form @submit.prevent="onSearch" class="search-form">
-        <select v-model="postStore.filterType">
-          <option value="title">제목</option>
-          <option value="content">내용</option>
-          <option value="title_content">제목+내용</option>
-          <option value="user">작성자</option>
-        </select>
-        <input
-          type="text"
-          v-model="postStore.searchKeyword"
-          placeholder="검색어 입력"
-        />
-        <button type="submit">검색</button>
-      </form>
+      <SearchFilter />
     </section>
 
     <!-- 게시글 리스트 영역 -->
@@ -73,9 +60,9 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
 import { usePostStore, useUserStore } from '@/stores';
-import Pagination from '@/components/Pagination.vue';
 import { formatDate } from '@/utils';
-import { PaginationParams } from '@/types';
+import Pagination from '@/components/Pagination.vue';
+import SearchFilter from '@/components/SearchFilter.vue';
 
 const postStore = usePostStore();
 const userStore = useUserStore();
@@ -83,19 +70,7 @@ const userStore = useUserStore();
 // 검색/필터 관련 상태
 
 const fetchData = () => {
-  const params: PaginationParams = {
-    page: postStore.page,
-    size: postStore.size,
-    type: postStore.filterType,
-    keyword: postStore.searchKeyword,
-  };
-  postStore.fetchPosts(params);
-};
-
-// 검색 시에는 첫 페이지부터 조회
-const onSearch = () => {
-  postStore.page = 1;
-  fetchData();
+  postStore.fetchPosts();
 };
 
 const prevPage = async (): Promise<void> => {
@@ -135,13 +110,6 @@ span {
 }
 .logout button {
   padding: 0.5rem 1rem;
-}
-.search-section {
-  margin-bottom: 1rem;
-}
-.search-form {
-  display: flex;
-  gap: 0.5rem;
 }
 .posts-section {
   margin-bottom: 1rem;
