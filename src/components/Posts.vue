@@ -1,115 +1,53 @@
 <template>
-  <div class="board-container">
-    <!-- 헤더 영역 -->
-    <header class="header">
-      <h1>게시글 목록</h1>
-      <div class="logout">
-        <button @click="userStore.logout">로그아웃</button>
-      </div>
-    </header>
-
-    <!-- 검색/필터 영역 -->
-    <section class="search-section">
-      <SearchFilter />
-    </section>
-
-    <!-- 게시글 리스트 영역 -->
-    <section class="posts-section">
-      <div v-if="postStore.loading" class="loading">로딩중...</div>
-      <div v-if="postStore.error" class="error">{{ postStore.error }}</div>
-      <ul
-        v-if="!postStore.loading && postStore.postList.length"
-        class="post-list"
-      >
-        <li v-for="post in postStore.postList" :key="post.id" class="post-item">
-          <div class="post-header">
-            <h2 class="post-title">{{ post.title }}</h2>
-            <div class="post-meta">
-              <span>작성자: {{ post.user.name }}</span>
-              <span>작성일: {{ formatDate(post.date) }}</span>
-            </div>
+  <!-- 게시글 리스트 영역 -->
+  <section class="posts-section">
+    <div v-if="postStore.loading" class="loading">로딩중...</div>
+    <div v-if="postStore.error" class="error">{{ postStore.error }}</div>
+    <ul
+      v-if="!postStore.loading && postStore.postList.length"
+      class="post-list"
+    >
+      <li v-for="post in postStore.postList" :key="post.id" class="post-item">
+        <div class="post-header">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <div class="post-meta">
+            <span>작성자: {{ post.user.name }}</span>
+            <span>작성일: {{ formatDate(post.date) }}</span>
           </div>
-          <p class="post-content">{{ post.content }}</p>
-          <div class="post-stats">
-            <span>조회수: {{ post.view }}</span>
-            <span>좋아요: {{ post.likes.length }}</span>
-            <span>싫어요: {{ post.dislikes.length }}</span>
-          </div>
-        </li>
-      </ul>
-      <div
-        v-else-if="!postStore.loading && !postStore.postList.length"
-        class="empty"
-      >
-        게시글이 없습니다.
-      </div>
-    </section>
-
-    <!-- 페이징 영역 -->
-    <section class="pagination-section">
-      <Pagination
-        :currentPage="postStore.page"
-        :totalPage="postStore.lastPage"
-        @prevPage="prevPage"
-        @nextPage="nextPage"
-      />
-    </section>
-  </div>
+        </div>
+        <p class="post-content">{{ post.content }}</p>
+        <div class="post-stats">
+          <span>조회수: {{ post.view }}</span>
+          <span>좋아요: {{ post.likes.length }}</span>
+          <span>싫어요: {{ post.dislikes.length }}</span>
+        </div>
+      </li>
+    </ul>
+    <div
+      v-else-if="!postStore.loading && !postStore.postList.length"
+      class="empty"
+    >
+      게시글이 없습니다.
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
-import { usePostStore, useUserStore } from '@/stores';
+import { usePostStore } from '@/stores';
 import { formatDate } from '@/utils';
-import Pagination from '@/components/Pagination.vue';
-import SearchFilter from '@/components/SearchFilter.vue';
 
 const postStore = usePostStore();
-const userStore = useUserStore();
-
-// 검색/필터 관련 상태
-
-const fetchData = () => {
-  postStore.fetchPosts();
-};
-
-const prevPage = async (): Promise<void> => {
-  if (postStore.page > 1) {
-    postStore.page--;
-    fetchData();
-  }
-};
-
-const nextPage = async (): Promise<void> => {
-  if (postStore.page < postStore.lastPage) {
-    postStore.page++;
-    fetchData();
-  }
-};
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
-  fetchData();
+  postStore.fetchPosts();
 });
 </script>
 
 <style scoped>
-span {
+.post-item span {
   padding-inline: 5px;
-}
-.board-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.logout button {
-  padding: 0.5rem 1rem;
 }
 .posts-section {
   margin-bottom: 1rem;
@@ -132,9 +70,5 @@ span {
 .empty {
   text-align: center;
   margin: 1rem 0;
-}
-.pagination-section {
-  display: flex;
-  justify-content: center;
 }
 </style>
