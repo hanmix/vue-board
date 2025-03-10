@@ -45,27 +45,23 @@ const { logout } = userStore;
 const { loading, error, postList, page, lastPage } = storeToRefs(postStore);
 const { fetchPosts } = postStore;
 
-const fetchData = async () => {
-  await fetchPosts();
-};
-
 const prevPage = async (): Promise<void> => {
   if (page.value > 1) {
     page.value--;
-    fetchData();
+    fetchPosts();
   }
 };
 
 const nextPage = async (): Promise<void> => {
-  if (page < lastPage) {
+  if (page.value < lastPage.value) {
     page.value++;
-    fetchData();
+    fetchPosts();
   }
 };
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
-  fetchData();
+  fetchPosts();
 });
 </script>
 
