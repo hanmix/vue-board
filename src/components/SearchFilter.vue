@@ -1,10 +1,13 @@
 <template>
   <form @submit.prevent="onSearch" class="search-form">
     <select v-model="searchType">
-      <option value="title">제목</option>
-      <option value="content">내용</option>
-      <option value="title_content">제목+내용</option>
-      <option value="user">작성자</option>
+      <option
+        v-for="searchOption in searchOptions"
+        :key="searchOption.value"
+        :value="searchOption.value"
+      >
+        {{ searchOption.label }}
+      </option>
     </select>
     <input type="text" v-model="searchKeyword" placeholder="검색어 입력" />
     <button type="submit">검색</button>
@@ -14,7 +17,7 @@
 <script setup lang="ts">
 import { usePagination } from '@/composables';
 
-const { searchKeyword, searchType, onSearch } = usePagination();
+const { searchKeyword, searchType, searchOptions, onSearch } = usePagination();
 </script>
 
 <style scoped>
