@@ -11,7 +11,7 @@ export const usePagination = () => {
     lastPage,
     totalPosts,
     searchKeyword,
-    filterType,
+    searchType,
   } = storeToRefs(postStore);
   const { fetchPosts } = postStore;
 
@@ -42,7 +42,7 @@ export const usePagination = () => {
     lastPage,
     totalPosts,
     searchKeyword,
-    filterType,
+    searchType,
     prevPage,
     nextPage,
     onSearch,
