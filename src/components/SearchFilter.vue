@@ -12,18 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import { usePostStore } from '@/stores';
-import { storeToRefs } from 'pinia';
+import { usePagination } from '@/composables';
 
-const postStore = usePostStore();
-const { page, searchKeyword, filterType } = storeToRefs(postStore);
-const { fetchPosts } = postStore;
-
-// 검색 시에는 첫 페이지부터 조회
-const onSearch = () => {
-  page.value = 1;
-  fetchPosts();
-};
+const { searchKeyword, filterType, onSearch } = usePagination();
 </script>
 
 <style scoped>

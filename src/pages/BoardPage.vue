@@ -33,33 +33,26 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useUserStore, usePostStore } from '@/stores';
+import { useUserStore } from '@/stores';
+import { onBeforeMount } from 'vue';
+import { usePagination } from '@/composables';
 import Posts from '@/components/Posts.vue';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
-import { onBeforeMount } from 'vue';
-import { storeToRefs } from 'pinia';
 
+const {
+  loading,
+  error,
+  postList,
+  page,
+  lastPage,
+  totalPosts,
+  prevPage,
+  nextPage,
+  fetchPosts,
+} = usePagination();
 const userStore = useUserStore();
-const postStore = usePostStore();
 const { logout } = userStore;
-const { loading, error, postList, page, lastPage, totalPosts } =
-  storeToRefs(postStore);
-const { fetchPosts } = postStore;
-
-const prevPage = async (): Promise<void> => {
-  if (page.value > 1) {
-    page.value--;
-    fetchPosts();
-  }
-};
-
-const nextPage = async (): Promise<void> => {
-  if (page.value < lastPage.value) {
-    page.value++;
-    fetchPosts();
-  }
-};
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
