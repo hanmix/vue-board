@@ -1,10 +1,8 @@
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
+import { useUser } from '@/composables';
 
 export const useAuth = () => {
-  const name = ref<string>('');
-  const email = ref<string>('');
-  const password = ref<string>('');
-  const doubleCheckPassword = ref<string>('');
+  const { name, email, password, doubleCheckPassword } = useUser();
 
   const isCheckEmptyName = computed<boolean>(() => name.value.trim() === '');
   const isCheckEmptyEmail = computed<boolean>(() => email.value.trim() === '');
@@ -12,7 +10,7 @@ export const useAuth = () => {
     () => password.value.trim() === ''
   );
   const isPasswordMatch = computed<boolean>(
-    () => password.value !== doubleCheckPassword.value
+    () => password !== doubleCheckPassword
   );
 
   return {

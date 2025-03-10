@@ -10,8 +10,8 @@
         <label for="password">비밀번호</label>
         <input id="password" type="password" v-model="password" required />
       </div>
-      <button type="submit" :disabled="userStore.loading">로그인</button>
-      <p v-if="userStore.error" class="error">{{ userStore.error }}</p>
+      <button type="submit" :disabled="loading">로그인</button>
+      <p v-if="error" class="error">{{ error }}</p>
     </form>
     <div>
       <p>아직 아이디가 없으신가요?</p>
@@ -21,30 +21,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useUserStore } from '@/stores';
 import { useRouter } from 'vue-router';
-import { useModal } from '@/composables';
+import { useAuth, useModal, useUser } from '@/composables';
 
-const { showAlert } = useModal();
-
-const email = ref('');
-const password = ref('');
-
-const userStore = useUserStore();
 const router = useRouter();
+const { showAlert } = useModal();
+const { email, password } = useAuth();
+const { loading, error, isAuthenticated, login } = useUser();
 
 const handleLogin = async () => {
   try {
-    await userStore.login(email.value, password.value);
-    if (userStore.isAuthenticated) {
+    await login(email.value, password.value);
+    if (isAuthenticated) {
       showAlert('로그인 되었습니다.');
       router.push('/board');
     } else {
       showAlert('아이디 또는 비밀번호가 틀렸습니다.');
     }
   } catch (error) {
-    console.error('Error during sign-in:', error);
     showAlert('로그인 중 오류가 발생했습니다.');
   }
 };
