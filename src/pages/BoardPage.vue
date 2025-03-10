@@ -23,6 +23,7 @@
 
     <section class="pagination-section">
       <Pagination
+        v-if="totalPosts > 0"
         :currentPage="page"
         :totalPage="lastPage"
         @prevPage="prevPage"
@@ -42,7 +43,8 @@ import { storeToRefs } from 'pinia';
 const userStore = useUserStore();
 const postStore = usePostStore();
 const { logout } = userStore;
-const { loading, error, postList, page, lastPage } = storeToRefs(postStore);
+const { loading, error, postList, page, lastPage, totalPosts } =
+  storeToRefs(postStore);
 const { fetchPosts } = postStore;
 
 const prevPage = async (): Promise<void> => {
