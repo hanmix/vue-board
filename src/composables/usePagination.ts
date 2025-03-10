@@ -1,28 +1,16 @@
-import { usePostStore } from '@/stores';
-import { storeToRefs } from 'pinia';
+import { usePost } from '@/composables';
 
 export const usePagination = () => {
-  const postStore = usePostStore();
-  const {
-    loading,
-    error,
-    postList,
-    page,
-    lastPage,
-    totalPosts,
-    searchKeyword,
-    searchType,
-  } = storeToRefs(postStore);
-  const { fetchPosts } = postStore;
+  const { page, lastPage, searchKeyword, searchType, fetchPosts } = usePost();
 
-  const prevPage = async (): Promise<void> => {
+  const prevPage = () => {
     if (page.value > 1) {
       page.value--;
       fetchPosts();
     }
   };
 
-  const nextPage = async (): Promise<void> => {
+  const nextPage = () => {
     if (page.value < lastPage.value) {
       page.value++;
       fetchPosts();
@@ -35,12 +23,6 @@ export const usePagination = () => {
   };
 
   return {
-    loading,
-    error,
-    postList,
-    page,
-    lastPage,
-    totalPosts,
     searchKeyword,
     searchType,
     prevPage,

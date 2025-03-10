@@ -39,18 +39,10 @@ import Posts from '@/components/Posts.vue';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 
-const {
-  loading,
-  error,
-  postList,
-  page,
-  lastPage,
-  totalPosts,
-  prevPage,
-  nextPage,
-} = usePagination();
+const { prevPage, nextPage } = usePagination();
 const { logout } = useUser();
-const { fetchPosts } = usePost();
+const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
+  usePost();
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
