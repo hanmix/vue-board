@@ -1,33 +1,28 @@
 <template>
   <form @submit.prevent="onSearch" class="search-form">
-    <select v-model="postStore.filterType">
+    <select v-model="filterType">
       <option value="title">제목</option>
       <option value="content">내용</option>
       <option value="title_content">제목+내용</option>
       <option value="user">작성자</option>
     </select>
-    <input
-      type="text"
-      v-model="postStore.searchKeyword"
-      placeholder="검색어 입력"
-    />
+    <input type="text" v-model="searchKeyword" placeholder="검색어 입력" />
     <button type="submit">검색</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { usePostStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 
 const postStore = usePostStore();
-
-const fetchData = () => {
-  postStore.fetchPosts();
-};
+const { page, searchKeyword, filterType } = storeToRefs(postStore);
+const { fetchPosts } = postStore;
 
 // 검색 시에는 첫 페이지부터 조회
 const onSearch = () => {
-  postStore.page = 1;
-  fetchData();
+  page.value = 1;
+  fetchPosts();
 };
 </script>
 

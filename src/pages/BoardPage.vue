@@ -3,7 +3,7 @@
     <header class="header">
       <h1>게시글 목록</h1>
       <div class="logout">
-        <button @click="userStore.logout">로그아웃</button>
+        <button @click="logout">로그아웃</button>
       </div>
     </header>
 
@@ -12,26 +12,19 @@
     </section>
 
     <section class="posts-section">
-      <div v-if="postStore.loading" class="loading">로딩중...</div>
+      <div v-if="loading" class="loading">로딩중...</div>
 
-      <div v-else-if="postStore.error" class="error">{{ postStore.error }}</div>
+      <div v-else-if="error" class="error">{{ error }}</div>
 
-      <div v-else-if="!postStore.postList.length" class="empty">
-        게시글이 없습니다.
-      </div>
+      <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
-      <Posts
-        v-else
-        v-for="post in postStore.postList"
-        :key="post.id"
-        :post="post"
-      />
+      <Posts v-else v-for="post in postList" :key="post.id" :post="post" />
     </section>
 
     <section class="pagination-section">
       <Pagination
-        :currentPage="postStore.page"
-        :totalPage="postStore.lastPage"
+        :currentPage="page"
+        :totalPage="lastPage"
         @prevPage="prevPage"
         @nextPage="nextPage"
       />
@@ -44,24 +37,28 @@ import Posts from '@/components/Posts.vue';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import { onBeforeMount } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
 const postStore = usePostStore();
+const { logout } = userStore;
+const { loading, error, postList, page, lastPage } = storeToRefs(postStore);
+const { fetchPosts } = postStore;
 
 const fetchData = async () => {
-  await postStore.fetchPosts();
+  await fetchPosts();
 };
 
 const prevPage = async (): Promise<void> => {
-  if (postStore.page > 1) {
-    postStore.page--;
+  if (page.value > 1) {
+    page.value--;
     fetchData();
   }
 };
 
 const nextPage = async (): Promise<void> => {
-  if (postStore.page < postStore.lastPage) {
-    postStore.page++;
+  if (page < lastPage) {
+    page.value++;
     fetchData();
   }
 };
