@@ -38,11 +38,9 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores';
-import { useModal, useAuth } from '@/composables';
+import { useModal, useAuth, useUser } from '@/composables';
 
 const router = useRouter();
-const userStore = useUserStore();
 const { showAlert } = useModal();
 const {
   name,
@@ -54,7 +52,9 @@ const {
   isCheckEmptyPassword,
   isPasswordMatch,
 } = useAuth();
+const { isAuthenticated, register } = useUser();
 
+// TODO: 이메일 중복 확인 API 수정 시 삭제
 const checkedEmail = async () => {
   if (isCheckEmptyEmail.value) {
     showAlert('이메일을 입력해주세요.');
@@ -90,8 +90,8 @@ const handleSignUp = async () => {
   }
 
   try {
-    await userStore.register(name.value, email.value, password.value);
-    if (userStore.isAuthenticated) {
+    await register(name.value, email.value, password.value);
+    if (isAuthenticated) {
       showAlert('회원가입이 완료되었습니다.');
       router.push('/signIn');
     }
