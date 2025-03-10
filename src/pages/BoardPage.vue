@@ -33,9 +33,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useUserStore } from '@/stores';
 import { onBeforeMount } from 'vue';
-import { usePagination } from '@/composables';
+import { usePagination, useUser } from '@/composables';
 import Posts from '@/components/Posts.vue';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -51,8 +50,7 @@ const {
   nextPage,
   fetchPosts,
 } = usePagination();
-const userStore = useUserStore();
-const { logout } = userStore;
+const { logout } = useUser();
 
 // NOTE: Life Cycle
 onBeforeMount(() => {
