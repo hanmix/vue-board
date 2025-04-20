@@ -18,24 +18,8 @@
     <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
     <div v-else>
-      <ul class="post-list">
-        <li class="post-item" v-for="post in postList" :key="post.id">
-          <div class="post-header">
-            <router-link :to="{ name: 'board-detail' }" class="post-title">{{
-              post.title
-            }}</router-link>
-            <div class="post-meta">
-              <span>{{ post.user.name }}</span>
-              <span>작성일: {{ formatDate(post.date) }}</span>
-            </div>
-          </div>
-          <p class="post-content">{{ post.content }}</p>
-          <div class="post-stats">
-            <span>조회수: {{ post.view }}</span>
-            <span>좋아요: {{ post.likes.length }}</span>
-            <span>싫어요: {{ post.dislikes.length }}</span>
-          </div>
-        </li>
+      <ul class="post-list" v-for="post in postList" :key="post.id">
+        <PostItem :post="post" />
       </ul>
     </div>
   </section>
@@ -46,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatDate } from '@/utils';
 import { onBeforeMount, watch } from 'vue';
 import { useUser, usePost } from '@/composables';
 import SearchFilter from '@/components/SearchFilter.vue';
@@ -64,6 +47,7 @@ watch(
   },
   { immediate: true }
 );
+
 // NOTE: Life Cycle
 onBeforeMount(async () => {
   await fetchPosts();
