@@ -23,7 +23,7 @@
 
     <section class="pagination-section">
       <Pagination
-        v-if="totalPosts > 0"
+        v-if="totalPosts"
         :currentPage="page"
         :totalPage="lastPage"
         @prevPage="prevPage"

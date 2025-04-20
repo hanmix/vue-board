@@ -22,10 +22,9 @@
 import { formatDate } from '@/utils';
 import { Post } from '@/types';
 
-const props = defineProps<{
+const { post } = defineProps<{
   post: Post;
 }>();
-const post = props.post;
 </script>
 
 <style scoped>
