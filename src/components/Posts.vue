@@ -17,7 +17,7 @@
 
     <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
-    <div v-else v-for="post in postList" :key="post.id">
+    <div v-else>
       <ul class="post-list">
         <li class="post-item" v-for="post in postList" :key="post.id">
           <div class="post-header">
