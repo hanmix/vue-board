@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, watch } from 'vue';
+import { watch } from 'vue';
 import { useUser, usePost } from '@/composables';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -48,11 +48,6 @@ watch(
   },
   { immediate: true }
 );
-
-// NOTE: Life Cycle
-onBeforeMount(async () => {
-  await fetchPosts();
-});
 </script>
 
 <style scoped>

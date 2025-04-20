@@ -2,9 +2,11 @@
   <ul class="post-list">
     <li class="post-item">
       <div class="post-header">
-        <router-link :to="{ name: 'board-detail' }" class="post-title">{{
-          post.title
-        }}</router-link>
+        <router-link
+          :to="{ name: 'board-detail', params: { id: post.id } }"
+          class="post-title"
+          >{{ post.title }}</router-link
+        >
         <div class="post-meta">
           <span>{{ post.user.name }}</span>
           <span>작성일: {{ formatDate(post.date) }}</span>

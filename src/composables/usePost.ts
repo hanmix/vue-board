@@ -7,23 +7,26 @@ export const usePost = () => {
     loading,
     error,
     postList,
+    currentPost,
     page,
     lastPage,
     totalPosts,
     searchKeyword,
     searchType,
   } = storeToRefs(postStore);
-  const { fetchPosts } = postStore;
+  const { fetchPosts, fetchPostById } = postStore;
 
   return {
     loading,
     error,
     postList,
+    currentPost,
     page,
     lastPage,
     totalPosts,
     searchKeyword,
     searchType,
     fetchPosts,
+    fetchPostById,
   };
 };

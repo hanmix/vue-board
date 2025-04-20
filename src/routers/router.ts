@@ -4,8 +4,8 @@ import BoardPage from '@/pages/BoardPage.vue';
 import SignIn from '@/components/SignIn.vue';
 import SignUp from '@/components/SignUp.vue';
 import { useUserStore } from '@/stores/user';
-import BoardDetailPage from '@/pages/BoardDetailPage.vue';
 import Posts from '@/components/Posts.vue';
+import PostDetail from '@/components/PostDetail.vue';
 
 export const routes = [
   {
@@ -35,9 +35,10 @@ export const routes = [
         component: Posts,
       },
       {
-        path: 'detail',
+        path: 'detail/:id',
         name: 'board-detail',
-        component: BoardDetailPage,
+        component: PostDetail,
+        props: true,
       },
     ],
   },

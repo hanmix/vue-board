@@ -1,4 +1,4 @@
-import { getPostsApi } from '@/apis';
+import { getPostByIdApi, getPostsApi } from '@/apis';
 import type { SearchType, PaginationParams, Post } from '@/types';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
@@ -11,7 +11,7 @@ export const usePostStore = defineStore('post', () => {
   const size = ref<number>(10);
   const page = ref<number>(1);
   const lastPage = ref<number>(0);
-  const currentPost = ref<Post | null>(null);
+  const currentPost = ref<Post>();
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
 
@@ -45,6 +45,22 @@ export const usePostStore = defineStore('post', () => {
     }
   };
 
+  const fetchPostById = async (id: string): Promise<void> => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const { data, isSuccess } = await getPostByIdApi(id);
+      if (!isSuccess)
+        throw (error.value = '게시글 상세 조회 중 오류가 발생했습니다.');
+
+      currentPost.value = data.post;
+    } catch {
+      error.value = '게시글 상세 조회 중 오류가 발생했습니다.';
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     postList,
     searchType,
@@ -57,5 +73,6 @@ export const usePostStore = defineStore('post', () => {
     loading,
     error,
     fetchPosts,
+    fetchPostById,
   };
 });

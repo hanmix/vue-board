@@ -5,7 +5,6 @@ export interface Post {
   title: string;
   content: string;
   date: string;
-  updatedAt?: string;
   view: number;
   likes: Array<string>;
   dislikes: Array<string>;
@@ -20,6 +19,12 @@ export interface Post {
 export interface PostListResponse {
   posts: Post[];
   pagination: PaginationInfo;
+}
+
+export interface PostDetailResponse {
+  prev: number | null;
+  post: Post;
+  next: number | null;
 }
 
 export interface CreatePostRequest {
