@@ -34,6 +34,7 @@ import { onBeforeMount, watch } from 'vue';
 import { useUser, usePost } from '@/composables';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
+import PostItem from './PostItem.vue';
 
 const { logout } = useUser();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
