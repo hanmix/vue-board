@@ -5,6 +5,7 @@ import SignIn from '@/components/SignIn.vue';
 import SignUp from '@/components/SignUp.vue';
 import { useUserStore } from '@/stores/user';
 import BoardDetailPage from '@/pages/BoardDetailPage.vue';
+import Posts from '@/components/Posts.vue';
 
 export const routes = [
   {
@@ -28,6 +29,11 @@ export const routes = [
     meta: { requiresAuth: true },
     component: BoardPage,
     children: [
+      {
+        path: '',
+        name: 'board-list',
+        component: Posts,
+      },
       {
         path: 'detail',
         name: 'board-detail',

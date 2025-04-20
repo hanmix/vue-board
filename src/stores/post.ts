@@ -19,8 +19,8 @@ export const usePostStore = defineStore('post', () => {
     loading.value = true;
     error.value = null;
     const params: PaginationParams = {
-      page: page.value,
-      size: size.value,
+      page: page.value ?? 1,
+      size: size.value ?? 10,
       type: searchType.value,
       keyword: searchKeyword.value,
     };

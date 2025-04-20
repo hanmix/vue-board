@@ -1,33 +1,103 @@
 <template>
-  <ul class="post-list">
-    <li class="post-item">
-      <div class="post-header">
-        <h2 class="post-title">{{ post.title }}</h2>
-        <div class="post-meta">
-          <span>작성자: {{ post.user.name }}</span>
-          <span>작성일: {{ formatDate(post.date) }}</span>
-        </div>
-      </div>
-      <p class="post-content">{{ post.content }}</p>
-      <div class="post-stats">
-        <span>조회수: {{ post.view }}</span>
-        <span>좋아요: {{ post.likes.length }}</span>
-        <span>싫어요: {{ post.dislikes.length }}</span>
-      </div>
-    </li>
-  </ul>
+  <header class="header">
+    <h1>게시글 목록</h1>
+    <div class="logout">
+      <button @click="logout">로그아웃</button>
+    </div>
+  </header>
+
+  <section class="search-section">
+    <SearchFilter />
+  </section>
+
+  <section class="posts-section">
+    <div v-if="loading" class="loading">로딩중...</div>
+
+    <div v-else-if="error" class="error">{{ error }}</div>
+
+    <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
+
+    <div v-else v-for="post in postList" :key="post.id">
+      <ul class="post-list">
+        <li class="post-item" v-for="post in postList" :key="post.id">
+          <div class="post-header">
+            <router-link :to="{ name: 'board-detail' }" class="post-title">{{
+              post.title
+            }}</router-link>
+            <div class="post-meta">
+              <span>{{ post.user.name }}</span>
+              <span>작성일: {{ formatDate(post.date) }}</span>
+            </div>
+          </div>
+          <p class="post-content">{{ post.content }}</p>
+          <div class="post-stats">
+            <span>조회수: {{ post.view }}</span>
+            <span>좋아요: {{ post.likes.length }}</span>
+            <span>싫어요: {{ post.dislikes.length }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pagination-section">
+    <Pagination v-if="totalPosts" :currentPage="page" :totalPage="lastPage" />
+  </section>
 </template>
 
 <script setup lang="ts">
 import { formatDate } from '@/utils';
-import { Post } from '@/types';
+import { onBeforeMount, watch } from 'vue';
+import { useUser, usePost } from '@/composables';
+import SearchFilter from '@/components/SearchFilter.vue';
+import Pagination from '@/components/Pagination.vue';
 
-const { post } = defineProps<{
-  post: Post;
-}>();
+const { logout } = useUser();
+const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
+  usePost();
+
+/* NOTE: watch  */
+watch(
+  page,
+  async () => {
+    await fetchPosts();
+  },
+  { immediate: true }
+);
+// NOTE: Life Cycle
+onBeforeMount(async () => {
+  await fetchPosts();
+});
 </script>
 
 <style scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.logout button {
+  padding: 0.5rem 1rem;
+}
+.posts-section {
+  margin-bottom: 1rem;
+}
+.pagination-section {
+  display: flex;
+  justify-content: center;
+}
+.loading,
+.error,
+.empty {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: 1rem 0;
+  height: 200px;
+  font-size: 18px;
+}
 .post-item span {
   padding-inline: 5px;
 }

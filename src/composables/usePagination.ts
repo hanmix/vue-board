@@ -14,20 +14,17 @@ export const usePagination = () => {
   const prevPage = () => {
     if (page.value > 1) {
       page.value--;
-      fetchPosts();
     }
   };
 
   const nextPage = () => {
     if (page.value < lastPage.value) {
       page.value++;
-      fetchPosts();
     }
   };
 
   const onSearch = () => {
     page.value = 1;
-    fetchPosts();
   };
 
   return {

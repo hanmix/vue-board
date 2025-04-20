@@ -1,26 +1,20 @@
 <template>
   <div class="pagination">
-    <button @click="emitPrev" :disabled="props.currentPage <= 1">이전</button>
-    <span>페이지 {{ props.currentPage }} / {{ props.totalPage }}</span>
-    <button @click="emitNext" :disabled="props.currentPage >= props.totalPage">
-      다음
-    </button>
+    <button @click="prevPage" :disabled="currentPage <= 1">이전</button>
+    <span>페이지 {{ currentPage }} / {{ totalPage }}</span>
+    <button @click="nextPage" :disabled="currentPage >= totalPage">다음</button>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+import { usePagination } from '@/composables';
+
+const { prevPage, nextPage } = usePagination();
+
+const { currentPage, totalPage } = defineProps<{
   currentPage: number;
   totalPage: number;
 }>();
-
-const emit = defineEmits<{
-  (e: 'prevPage'): void;
-  (e: 'nextPage'): void;
-}>();
-
-const emitPrev = () => emit('prevPage');
-const emitNext = () => emit('nextPage');
 </script>
 
 <style scoped>
