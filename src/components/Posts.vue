@@ -17,10 +17,8 @@
 
     <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
-    <div v-else>
-      <ul class="post-list" v-for="post in postList" :key="post.id">
-        <PostItem :post="post" />
-      </ul>
+    <div v-else v-for="post in postList" :key="post.id">
+      <PostItem :post="post" />
     </div>
   </section>
 
@@ -40,7 +38,9 @@ const { logout } = useUser();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
 
-/* NOTE: watch  */
+/**
+ * 페이지 변경 시 게시글 목록 조회
+ */
 watch(
   page,
   async () => {
@@ -82,22 +82,5 @@ onBeforeMount(async () => {
   margin: 1rem 0;
   height: 200px;
   font-size: 18px;
-}
-.post-item span {
-  padding-inline: 5px;
-}
-.post-list {
-  width: 100vw;
-  list-style: none;
-  padding: 0;
-}
-.post-item {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-.post-meta {
-  font-size: 0.9rem;
-  color: #555;
 }
 </style>
