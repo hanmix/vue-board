@@ -32,6 +32,7 @@ const { post } = defineProps<{
   padding-inline: 5px;
 }
 .post-list {
+  width: 100vw;
   list-style: none;
   padding: 0;
 }
