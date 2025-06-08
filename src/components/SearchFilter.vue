@@ -29,7 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import { usePagination } from '@/composables';
+import { usePagination, usePost } from '@/composables';
 
-const { searchKeyword, searchType, searchOptions, onSearch } = usePagination();
+const { searchOptions, onSearch } = usePagination();
+const { searchKeyword, searchType } = usePost();
 </script>

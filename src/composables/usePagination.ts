@@ -1,8 +1,12 @@
 import { usePost } from '@/composables';
 import type { SearchType } from '@/types';
+import { usePostStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 
 export const usePagination = () => {
-  const { page, lastPage, searchKeyword, searchType, fetchPosts } = usePost();
+  const postStore = usePostStore();
+  const { page, lastPage } = storeToRefs(postStore);
+  const { fetchPosts } = usePost();
 
   const searchOptions: { value: SearchType; label: string }[] = [
     { value: 'title', label: '제목' },
@@ -25,15 +29,13 @@ export const usePagination = () => {
 
   const onSearch = () => {
     page.value = 1;
+    fetchPosts();
   };
 
   return {
-    searchKeyword,
-    searchType,
     searchOptions,
     prevPage,
     nextPage,
     onSearch,
-    fetchPosts,
   };
 };
