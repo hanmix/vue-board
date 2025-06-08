@@ -16,15 +16,3 @@ const { currentPage, totalPage } = defineProps<{
   totalPage: number;
 }>();
 </script>
-
-<style scoped>
-.pagination {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-</style>

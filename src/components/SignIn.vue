@@ -43,39 +43,3 @@ const handleLogin = async () => {
   }
 };
 </script>
-
-<style scoped>
-.login-container {
-  margin: 2rem auto;
-  padding: 1rem;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-button:disabled {
-  background-color: #95a5a6;
-}
-.error {
-  color: red;
-  margin-top: 0.5rem;
-}
-</style>

@@ -1,14 +1,18 @@
 <template>
-  <div v-if="currentPost">
-    <div>제목: {{ currentPost.title }}</div>
-    <div>작성자: {{ currentPost.user.name }}</div>
-    <div>작성일: {{ formatDate(currentPost.date) }}</div>
-    <div>내용: {{ currentPost.content }}</div>
-    <div>조회수: {{ currentPost.view }}</div>
-    <div>좋아요: {{ currentPost.likes.length }}</div>
-    <div>싫어요: {{ currentPost.dislikes.length }}</div>
+  <div v-if="currentPost" class="post-container">
+    <h1 class="post-title">{{ currentPost.title }}</h1>
+    <div class="post-meta">
+      <span>작성자: {{ currentPost.user.name }}</span>
+      <span>작성일: {{ formatDate(currentPost.date) }}</span>
+    </div>
+    <div class="post-content">{{ currentPost.content }}</div>
+    <div class="post-stats">
+      <span>조회수: {{ currentPost.view }}</span>
+      <span>좋아요: {{ currentPost.likes.length }}</span>
+      <span>싫어요: {{ currentPost.dislikes.length }}</span>
+    </div>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else class="loading">Loading...</div>
 </template>
 
 <script setup lang="ts">

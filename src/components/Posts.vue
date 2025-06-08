@@ -49,33 +49,3 @@ watch(
   { immediate: true }
 );
 </script>
-
-<style scoped>
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.logout button {
-  padding: 0.5rem 1rem;
-}
-.posts-section {
-  margin-bottom: 1rem;
-}
-.pagination-section {
-  display: flex;
-  justify-content: center;
-}
-.loading,
-.error,
-.empty {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  margin: 1rem 0;
-  height: 200px;
-  font-size: 18px;
-}
-</style>
