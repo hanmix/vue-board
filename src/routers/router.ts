@@ -1,59 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import MainPage from '@/pages/MainPage.vue';
-import BoardPage from '@/pages/BoardPage.vue';
-import SignIn from '@/components/SignIn.vue';
-import SignUp from '@/components/SignUp.vue';
-import { useUserStore } from '@/stores/user';
-import Posts from '@/components/Posts.vue';
-import PostDetail from '@/components/PostDetail.vue';
+import { useUserStore } from '@/stores';
+import { routes } from '@/routers';
+import { useModal } from '@/composables';
+import { storeToRefs } from 'pinia';
 
-export const routes = [
-  {
-    path: '/',
-    name: 'main',
-    component: MainPage,
-  },
-  {
-    path: '/signIn',
-    name: 'signIn',
-    component: SignIn,
-  },
-  {
-    path: '/signUp',
-    name: 'signUp',
-    component: SignUp,
-  },
-  {
-    path: '/board',
-    name: 'board',
-    meta: { requiresAuth: true },
-    component: BoardPage,
-    children: [
-      {
-        path: '',
-        name: 'board-list',
-        component: Posts,
-      },
-      {
-        path: 'detail/:id',
-        name: 'board-detail',
-        component: PostDetail,
-        props: true,
-      },
-    ],
-  },
-];
+const { showAlert } = useModal();
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = useUserStore();
+router.beforeEach((to, _, next) => {
+  const userStore = useUserStore();
+  const { isAuthenticated } = storeToRefs(userStore);
   const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (isRequiresAuth && !isAuthenticated) return next({ name: 'signIn' });
+  if (to.path === '/') {
+    if (isAuthenticated.value) return next({ name: 'board', replace: true });
+    else return next({ name: 'signIn', replace: true });
+  }
+
+  if (isRequiresAuth && !isAuthenticated.value) {
+    showAlert('로그인이 필요한 페이지 입니다.');
+    return next({ name: 'signIn', replace: true });
+  }
   next();
 });
 
