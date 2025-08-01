@@ -1,8 +1,8 @@
 <template>
   <header class="header">
     <h1>게시글 목록</h1>
-    <div class="logout">
-      <button @click="logout">로그아웃</button>
+    <div>
+      <button @click="goToMyPage">마이페이지</button>
     </div>
   </header>
 
@@ -18,7 +18,7 @@
     <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
     <div v-else v-for="post in postList" :key="post.id">
-      <PostItem :post="post" />
+      <PostItem v-if="post.type === 'post'" :post="post" />
     </div>
   </section>
 
@@ -29,16 +29,21 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
-import { useUser, usePost } from '@/composables';
+import { usePost } from '@/composables';
 import { useRoute } from 'vue-router';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
-const route = useRoute();
+import router from '@/routers/router';
 
-const { logout } = useUser();
+const route = useRoute();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
+
+function goToMyPage() {
+  router.push('/mypage');
+  console.log('goToMyPage');
+}
 
 /**
  * 페이지 변경 시 게시글 목록 조회

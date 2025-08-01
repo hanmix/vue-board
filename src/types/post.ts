@@ -2,6 +2,7 @@ import type { PaginationInfo } from './pagination';
 
 export interface Post {
   id: string;
+  type: string;
   title: string;
   content: string;
   date: string;
