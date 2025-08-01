@@ -1,4 +1,4 @@
-import { getPostByIdApi, getPostsApi } from '@/apis';
+import { getMyPostsApi, getPostByIdApi, getPostsApi } from '@/apis';
 import { usePostStore } from '@/stores';
 import type { PaginationParams } from '@/types';
 import { storeToRefs } from 'pinia';
@@ -48,6 +48,32 @@ export const usePost = () => {
     }
   };
 
+  const fetchMyPosts = async (): Promise<void> => {
+    loading.value = true;
+    error.value = null;
+    const params: PaginationParams = {
+      page: page.value ?? 1,
+      size: size.value ?? 10,
+    };
+    try {
+      const {
+        data: { posts, pagination },
+        isSuccess,
+      } = await getMyPostsApi(params);
+      if (!isSuccess)
+        throw (error.value = '내 게시글 조회 중 오류가 발생했습니다.');
+      postList.value = posts;
+      totalPosts.value = pagination.total;
+      size.value = pagination.size;
+      page.value = Number(pagination.page) ?? 1;
+      lastPage.value = pagination.lastPage;
+    } catch (error) {
+      console.error('내 게시글 조회 중 오류가 발생했습니다.', error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const fetchPostById = async (id: string): Promise<void> => {
     loading.value = true;
     error.value = null;
@@ -75,6 +101,7 @@ export const usePost = () => {
     searchKeyword,
     searchType,
     fetchPosts,
+    fetchMyPosts,
     fetchPostById,
   };
 };
