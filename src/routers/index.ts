@@ -5,6 +5,7 @@ import SignUp from '@/components/SignUp.vue';
 import Posts from '@/components/Posts.vue';
 import PostDetail from '@/components/PostDetail.vue';
 import type { RouteRecordRaw } from 'vue-router';
+import Mypage from '@/components/Mypage.vue';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -40,5 +41,11 @@ export const routes: RouteRecordRaw[] = [
         props: true,
       },
     ],
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    meta: { requiresAuth: true },
+    component: Mypage,
   },
 ] as RouteRecordRaw[];
