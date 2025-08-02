@@ -16,11 +16,6 @@ router.beforeEach((to, _, next) => {
   const { isAuthenticated } = storeToRefs(userStore);
   const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (to.path === '/') {
-    if (isAuthenticated.value) return next({ name: 'board', replace: true });
-    else return next({ name: 'signIn', replace: true });
-  }
-
   if (isRequiresAuth && !isAuthenticated.value) {
     showAlert('로그인이 필요한 페이지 입니다.');
     return next({ name: 'signIn', replace: true });
