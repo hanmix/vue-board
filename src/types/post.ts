@@ -33,6 +33,10 @@ export interface CreatePostRequest {
   content: string;
 }
 
+export interface CreatePostResponse {
+  post: Post;
+}
+
 export interface UpdatePostRequest {
   title: string;
   content: string;

@@ -6,6 +6,7 @@ import Posts from '@/components/Posts.vue';
 import PostDetail from '@/components/PostDetail.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import Mypage from '@/components/Mypage.vue';
+import NewPost from '@/components/NewPost.vue';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -41,6 +42,12 @@ export const routes: RouteRecordRaw[] = [
         props: true,
       },
     ],
+  },
+  {
+    path: '/newpost',
+    name: 'newpost',
+    meta: { requiresAuth: true },
+    component: NewPost,
   },
   {
     path: '/mypage',

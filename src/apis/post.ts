@@ -1,10 +1,12 @@
 import type {
   ApiResponse,
+  CreatePostRequest,
+  CreatePostResponse,
   PaginationParams,
   PostDetailResponse,
   PostListResponse,
 } from '@/types';
-import axios from 'axios';
+import { axiosInstance } from './axios';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
@@ -22,7 +24,7 @@ export const getPostsApi = async (
   }
 
   try {
-    const { data } = await axios.get<ApiResponse<PostListResponse>>(
+    const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
       `${API_HOST}/api/posts`,
       { params, headers }
     );
@@ -47,7 +49,7 @@ export const getMyPostsApi = async (
   }
 
   try {
-    const { data } = await axios.get<ApiResponse<PostListResponse>>(
+    const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
       `${API_HOST}/api/posts/my`,
       { params, headers }
     );
@@ -72,13 +74,29 @@ export const getPostByIdApi = async (
   }
 
   try {
-    const { data } = await axios.get<ApiResponse<PostDetailResponse>>(
+    const { data } = await axiosInstance.get<ApiResponse<PostDetailResponse>>(
       `${API_HOST}/api/posts/${id}`,
       { headers }
     );
     return data;
   } catch (error: any) {
     console.error('API 호출 에러:', error);
+    throw error;
+  }
+};
+
+// 게시글 생성
+export const createPostApi = async (
+  payload: CreatePostRequest
+): Promise<ApiResponse<CreatePostResponse>> => {
+  try {
+    const response = await axiosInstance.post<ApiResponse<CreatePostResponse>>(
+      `${API_HOST}/api/posts`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.error('게시글 생성 에러', error);
     throw error;
   }
 };

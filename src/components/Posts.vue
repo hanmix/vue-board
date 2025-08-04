@@ -1,8 +1,9 @@
 <template>
   <header class="header">
     <h1>게시글 목록</h1>
-    <div>
-      <button @click="goToMyPage">마이페이지</button>
+    <div style="display: flex; gap: 10px">
+      <RouterLink to="/newpost">글쓰기</RouterLink>
+      <RouterLink to="/mypage">마이페이지</RouterLink>
     </div>
   </header>
 
@@ -34,16 +35,10 @@ import { useRoute } from 'vue-router';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
-import router from '@/routers/router';
 
 const route = useRoute();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
-
-function goToMyPage() {
-  router.push('/mypage');
-  console.log('goToMyPage');
-}
 
 /**
  * 페이지 변경 시 게시글 목록 조회

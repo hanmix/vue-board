@@ -1,4 +1,9 @@
-import { getMyPostsApi, getPostByIdApi, getPostsApi } from '@/apis';
+import {
+  createPostApi,
+  getMyPostsApi,
+  getPostByIdApi,
+  getPostsApi,
+} from '@/apis';
 import { usePostStore } from '@/stores';
 import type { PaginationParams } from '@/types';
 import { storeToRefs } from 'pinia';
@@ -90,6 +95,23 @@ export const usePost = () => {
     }
   };
 
+  const createNewPost = async (title: string, content: string) => {
+    loading.value = true;
+    error.value = null;
+
+    const payload = { title, content };
+
+    try {
+      const { data, isSuccess } = await createPostApi(payload);
+      if (!isSuccess) return;
+      postList.value.unshift(data.post);
+    } catch {
+      error.value = '게시글 생성 중 오류가 발생했습니다.';
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     error,
@@ -103,5 +125,6 @@ export const usePost = () => {
     fetchPosts,
     fetchMyPosts,
     fetchPostById,
+    createNewPost,
   };
 };
