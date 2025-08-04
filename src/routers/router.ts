@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useUserStore } from '@/stores';
 import { routes } from '@/routers';
-import { useModal } from '@/composables';
-import { storeToRefs } from 'pinia';
+import { useModal, useUser } from '@/composables';
 
 const { showAlert } = useModal();
 
@@ -12,8 +10,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  const userStore = useUserStore();
-  const { isAuthenticated } = storeToRefs(userStore);
+  const { isAuthenticated } = useUser();
   const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (isRequiresAuth && !isAuthenticated.value) {
