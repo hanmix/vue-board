@@ -1,34 +1,39 @@
 <template>
-  <h1>게시글 생성하기</h1>
-  <form
-    @submit.prevent="handleCreate"
-    style="display: flex; flex-direction: column; gap: 10px"
-  >
-    <label for="title">제목</label>
-    <input
-      id="title"
-      v-model="title"
-      type="text"
-      placeholder="제목을 입력하세요."
-      required
-      @compositionstart="handleComposition(true)"
-      @compositionend="handleComposition(false)"
-      @input="handleTitleInput"
-    />
+  <teleport to="body">
+    <dialog v-if="props.isModalOpen" open class="modal">
+      <h1>게시글 생성하기</h1>
+      <form
+        @submit.prevent="handleCreate"
+        style="display: flex; flex-direction: column; gap: 10px"
+      >
+        <label for="title">제목</label>
+        <input
+          id="title"
+          v-model="title"
+          type="text"
+          placeholder="제목을 입력하세요."
+          required
+          @compositionstart="handleComposition(true)"
+          @compositionend="handleComposition(false)"
+          @input="handleTitleInput"
+        />
 
-    <label for="content">내용</label>
-    <textarea
-      id="content"
-      v-model="content"
-      placeholder="내용을 입력하세요."
-      required
-      @compositionstart="handleComposition(true)"
-      @compositionend="handleComposition(false)"
-      @input="handleContentInput"
-    />
+        <label for="content">내용</label>
+        <textarea
+          id="content"
+          v-model="content"
+          placeholder="내용을 입력하세요."
+          required
+          @compositionstart="handleComposition(true)"
+          @compositionend="handleComposition(false)"
+          @input="handleContentInput"
+        />
 
-    <button type="submit" :disabled="isEmptyValue">생성하기</button>
-  </form>
+        <button type="submit" :disabled="isEmptyValue">생성하기</button>
+        <button type="button" @click="emit('onClose')">닫기</button>
+      </form>
+    </dialog>
+  </teleport>
 </template>
 
 <script setup lang="ts">
@@ -44,9 +49,13 @@ const isEmptyValue = computed(
   () => title.value.trim().length === 0 || content.value.trim().length === 0
 );
 
-const router = useRouter();
 const { showAlert } = useModal();
 const { createNewPost } = usePost();
+
+const props = defineProps<{
+  isModalOpen: boolean;
+}>();
+const emit = defineEmits(['onClose', 'onCreated']);
 
 async function handleCreate() {
   if (isEmptyValue.value) {
@@ -56,8 +65,12 @@ async function handleCreate() {
 
   try {
     await createNewPost(title.value, content.value);
-    showAlert('게시글이 생성되었습니다.');
-    router.push('/board');
+    nextTick(() => {
+      title.value = '';
+      content.value = '';
+    });
+    // showAlert('게시글이 생성되었습니다.');
+    emit('onCreated');
   } catch (error) {
     console.error('게시글 생성 실패:', error);
     showAlert('게시글 생성 중 오류가 발생했습니다.');
@@ -83,3 +96,24 @@ const handleComposition = (value: boolean) => {
   isComposing.value = value;
 };
 </script>
+
+<style scoped>
+dialog.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #302f2f;
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  width: 400px;
+  max-width: 90%;
+}
+
+::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>
