@@ -15,6 +15,14 @@ export const usePagination = () => {
     { value: 'user', label: '작성자' },
   ];
 
+  const moveToFirstPage = () => {
+    page.value = 1;
+  };
+
+  const moveToLastPage = () => {
+    page.value = lastPage.value;
+  };
+
   const prevPage = () => {
     if (page.value > 1) {
       page.value--;
@@ -34,6 +42,9 @@ export const usePagination = () => {
 
   return {
     searchOptions,
+
+    moveToFirstPage,
+    moveToLastPage,
     prevPage,
     nextPage,
     onSearch,
