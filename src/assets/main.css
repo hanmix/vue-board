@@ -48,6 +48,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 모달 */
+body.modal-open {
+  overflow: hidden; /* 모달 열렸을 때 스크롤 방지 */
+  touch-action: none; /* 터치 스크롤 방지 */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* ✅ dim 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #373535;
+  padding: 2rem;
+  border-radius: 0.8rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+textarea {
+  resize: none;
+  min-height: 20rem;
+}
+
 /* 링크 */
 a {
   font-weight: 500;
@@ -168,6 +200,7 @@ label {
   max-width: clamp(720px, 100vw, 1600px);
   padding: 0 var(--spacing-md);
   margin: 0 auto;
+  min-height: 100vh;
 }
 
 .container {
@@ -267,9 +300,11 @@ label {
 
 /* 로그인 */
 .login-container {
-  margin: var(--spacing-xl) auto;
-  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 #submit {
@@ -306,4 +341,9 @@ label {
   height: 20rem;
   font-size: 1.8rem;
   margin: var(--spacing-xl) 0;
+}
+
+/* 모달 */
+.modal-open {
+  overflow: hidden;
 }

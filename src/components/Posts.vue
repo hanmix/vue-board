@@ -4,10 +4,11 @@
     <div style="display: flex; gap: 10px">
       <!-- <RouterLink to="/newpost">글쓰기</RouterLink> -->
       <button @click="isModalOpen = true">글쓰기</button>
-      <NewPost
+      <NewPostModal
         :isModalOpen="isModalOpen"
-        @onClose="setIsModalOpen(false)"
-        @onCreated="handleCreated"
+        @onClose="hideModal"
+        @onCreate="handleCreate"
+        @onUpdate="handleUpdate"
       />
       <RouterLink to="/mypage">마이페이지</RouterLink>
     </div>
@@ -39,28 +40,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { usePost } from '@/composables';
+import { watch } from 'vue';
+import { usePost, useModal } from '@/composables';
 import { useRoute } from 'vue-router';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
-import NewPost from './NewPost.vue';
+import NewPostModal from './NewPostModal.vue';
 
 const route = useRoute();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
+const { isModalOpen, showModal, hideModal } = useModal();
 
-defineEmits(['onClose', 'onCreated']);
+defineEmits(['onClose', 'onCreate', 'onUpdate']);
 
-const isModalOpen = ref(false);
-const setIsModalOpen = (value: boolean) => {
-  isModalOpen.value = value;
-};
+async function handleCreate() {
+  showModal();
+}
 
-async function handleCreated() {
-  isModalOpen.value = false;
-  await fetchPosts();
+function handleUpdate() {
+  fetchPosts();
+  hideModal();
 }
 
 /**
