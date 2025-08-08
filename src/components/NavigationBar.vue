@@ -1,18 +1,17 @@
 <template>
-  <div style="display: flex; justify-content: space-between">
+  <header class="header">
     <h1>싱글벙글 게시판</h1>
-    <div style="display: flex; gap: 10px; align-items: center">
+    <div class="nav-buttons">
       <button @click="moveToHome">홈</button>
-
       <div v-if="route.name === 'mypage'">
         <button @click="handleLogout">로그아웃</button>
       </div>
-      <div v-else style="display: flex; gap: 10px">
+      <div v-else>
         <button @click="setIsModalOpen(true)">글쓰기</button>
         <button @click="moveToMyPage">마이페이지</button>
       </div>
     </div>
-  </div>
+  </header>
 
   <NewPostModal
     :isModalOpen="isModalOpen"

@@ -1,7 +1,5 @@
 <template>
-  <header class="header">
-    <h1>게시글 목록</h1>
-  </header>
+  <h1>게시글 목록</h1>
 
   <section class="search-section">
     <SearchFilter />
