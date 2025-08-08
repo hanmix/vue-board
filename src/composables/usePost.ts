@@ -104,6 +104,9 @@ export const usePost = () => {
     try {
       const { data, isSuccess } = await createPostApi(payload);
       if (!isSuccess) return;
+      if (!data.post.id)
+        throw (error.value = '게시글 생성 중 오류가 발생했습니다.');
+
       postList.value.unshift(data.post);
     } catch {
       error.value = '게시글 생성 중 오류가 발생했습니다.';

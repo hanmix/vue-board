@@ -23,12 +23,12 @@
 
 <script setup lang="ts">
 import NewPostModal from './NewPostModal.vue';
-import { useModal, usePost, useUser } from '@/composables';
+import { useModal, usePost, useAuth } from '@/composables';
 import { useRouter, useRoute } from 'vue-router';
 
 const { isModalOpen, setIsModalOpen, showModal, hideModal } = useModal();
 const { fetchPosts } = usePost();
-const { logout } = useUser();
+const { logout } = useAuth();
 const router = useRouter();
 const route = useRoute();
 

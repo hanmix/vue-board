@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { routes } from '@/routers';
-import { useModal, useUser } from '@/composables';
+import { useModal, useAuth } from '@/composables';
 
 const { showAlert } = useModal();
 
@@ -10,7 +10,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated } = useAuth();
   const isRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (isRequiresAuth && !isAuthenticated.value) {

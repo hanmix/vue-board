@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useModal, useAuth, useUser } from '@/composables';
+import { useModal, useAuth } from '@/composables';
 
 const router = useRouter();
 const { showAlert } = useModal();
@@ -71,16 +71,18 @@ const {
   email,
   password,
   doubleCheckPassword,
-  isCheckEmptyName,
-  isCheckEmptyEmail,
-  isCheckEmptyPassword,
+  isEmptyName,
+  isEmptyEmail,
+  isEmptyPassword,
+  isEmptyDoubleCheckPassword,
   isPasswordMatch,
+  isAuthenticated,
 } = useAuth();
-const { isAuthenticated, register } = useUser();
+const { register } = useAuth();
 
 // TODO: 이메일 중복 확인 API 수정 시 삭제
 const checkedEmail = async () => {
-  if (isCheckEmptyEmail.value) return;
+  if (isEmptyEmail.value) return;
 
   // try {
   //   await userStore.emailChecker(email.value);
@@ -96,16 +98,16 @@ const checkedEmail = async () => {
 
 const handleSignUp = async () => {
   switch (true) {
-    case isCheckEmptyName.value:
+    case isEmptyName.value:
       showAlert('이름을 입력해주세요.');
       return;
-    case isCheckEmptyEmail.value:
+    case isEmptyEmail.value:
       showAlert('이메일을 입력해주세요.');
       return;
-    case isCheckEmptyPassword.value:
+    case isEmptyPassword.value:
       showAlert('비밀번호를 입력해주세요.');
       return;
-    case isPasswordMatch.value:
+    case isEmptyDoubleCheckPassword.value:
       showAlert('비밀번호를 다시 확인해주세요.');
       return;
   }

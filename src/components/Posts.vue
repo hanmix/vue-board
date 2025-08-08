@@ -29,12 +29,10 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 import { usePost } from '@/composables';
-import { useRoute } from 'vue-router';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
 
-const route = useRoute();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
 
@@ -50,14 +48,4 @@ watch(
   },
   { immediate: true }
 );
-
-// watch(
-//   () => route.fullPath,
-//   (newVal, oldVal) => {
-//     // 경로가 완전히 똑같아도 강제로 fetch 호출
-//     if (newVal === oldVal) {
-//       fetchPosts();
-//     }
-//   }
-// );
 </script>

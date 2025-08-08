@@ -24,12 +24,11 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { useAuth, useModal, useUser } from '@/composables';
+import { useAuth, useModal } from '@/composables';
 
 const router = useRouter();
 const { showAlert } = useModal();
-const { email, password } = useAuth();
-const { loading, error, isAuthenticated, login } = useUser();
+const { email, password, loading, error, isAuthenticated, login } = useAuth();
 
 const handleLogin = async () => {
   try {
