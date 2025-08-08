@@ -28,8 +28,7 @@ export const useUser = () => {
       const { isSuccess, message, data } = await loginApi(payload);
       if (!isSuccess) throw (error.value = message || '로그인에 실패했습니다.');
 
-      token.value = data.token;
-      setToken(token.value);
+      setToken(data.token);
     } catch {
       error.value = '로그인 중 오류가 발생했습니다.';
     } finally {
@@ -50,8 +49,7 @@ export const useUser = () => {
       if (!isSuccess)
         throw (error.value = message || '회원가입에 실패했습니다.');
 
-      token.value = data.token;
-      localStorage.setItem('token', token.value);
+      setToken(data.token);
     } catch {
       error.value = '회원가입 중 오류가 발생했습니다.';
     } finally {

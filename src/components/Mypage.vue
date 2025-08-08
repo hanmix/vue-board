@@ -1,36 +1,36 @@
 <template>
-  <div class="board-container">
-    <div class="header">
-      <div>
-        <h1>마이페이지</h1>
-        <select v-model="selectedOption">
-          <option
-            v-for="option in options"
-            :key="option.value"
-            :value="option.value"
-          >
-            {{ option.label }}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <section class="posts-section">
-      <div v-if="loading" class="loading">로딩중...</div>
-
-      <div v-else-if="error" class="error">{{ error }}</div>
-
-      <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
-
-      <div v-else v-for="post in filteredPosts" :key="post.id">
-        <PostItem v-if="post.type === selectedOption" :post="post" />
-      </div>
-    </section>
-
-    <section class="pagination-section">
-      <Pagination v-if="totalPosts" :currentPage="page" :totalPage="lastPage" />
-    </section>
+  <div class="header">
+    <h1>마이페이지</h1>
+    <select v-model="selectedOption" class="form-element">
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+      >
+        {{ option.label }}
+      </option>
+    </select>
   </div>
+
+  <section class="posts-section">
+    <div v-if="loading" class="loading">로딩중...</div>
+
+    <div v-else-if="error" class="error">{{ error }}</div>
+
+    <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
+
+    <div v-else v-for="post in filteredPosts" :key="post.id">
+      <PostItem v-if="post.type === selectedOption" :post="post" />
+    </div>
+  </section>
+
+  <section class="pagination-section">
+    <Pagination
+      v-if="totalPosts && !loading && !error"
+      :currentPage="page"
+      :totalPage="lastPage"
+    />
+  </section>
 </template>
 <script setup lang="ts">
 import { usePost } from '@/composables';

@@ -128,17 +128,17 @@ input[type='text'] {
   color: var(--color-text);
 }
 
+.search-section {
+  display: flex;
+  align-items: center;
+}
+
 /* 검색 폼 */
 .search-form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: 1rem;
-  width: 100%;
-  padding-left: 1rem;
-  box-sizing: border-box;
-  align-self: flex-start;
 }
 
 .search-form select,

@@ -13,7 +13,9 @@
       <button type="submit" :disabled="loading">로그인</button>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
-    <div>
+    <div
+      style="display: flex; align-items: center; gap: 10px; padding-top: 20px"
+    >
       <p>아직 아이디가 없으신가요?</p>
       <router-link to="/signUp">회원가입</router-link>
     </div>

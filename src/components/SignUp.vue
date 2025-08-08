@@ -1,38 +1,62 @@
 <template>
-  <div class="container">
+  <div class="login-container">
     <h1>회원가입</h1>
-    <input
-      id="name"
-      class="inputbox"
-      type="text"
-      placeholder="이름을 입력해주세요."
-      v-model="name"
-    />
-    <div>
-      <input
-        id="email"
-        class="inputbox"
-        type="text"
-        placeholder="이메일을 입력해주세요."
-        v-model="email"
-      />
-      <button @click="checkedEmail">이메일 중복확인</button>
+    <form @submit.prevent="handleSignUp">
+      <div class="form-group">
+        <div style="padding: 10px">
+          <label for="name">이름</label>
+          <input
+            id="name"
+            class="inputbox"
+            type="text"
+            placeholder="이름을 입력해주세요."
+            v-model="name"
+          />
+        </div>
+        <div style="padding: 10px">
+          <label for="email">이메일</label>
+          <div style="display: flex; gap: 10px">
+            <input
+              id="email"
+              class="inputbox"
+              type="text"
+              placeholder="이메일을 입력해주세요."
+              v-model="email"
+            />
+            <button @click="checkedEmail">이메일 중복확인</button>
+          </div>
+        </div>
+        <div style="padding: 10px">
+          <label for="password">비밀번호</label>
+          <input
+            id="password"
+            class="inputbox"
+            type="password"
+            placeholder="비밀번호 입력해주세요."
+            v-model="password"
+          />
+        </div>
+        <div style="padding: 10px">
+          <label for="doublePassword">비밀번호 확인</label>
+          <input
+            id="doublePassword"
+            class="inputbox"
+            type="password"
+            placeholder="비밀번호 다시 입력해주세요."
+            v-model="doubleCheckPassword"
+          />
+        </div>
+        <div style="padding: 10px">
+          <button type="submit">회원가입 하기</button>
+        </div>
+      </div>
+    </form>
+    <div
+      style="display: flex; align-items: center; gap: 10px; padding-top: 20px"
+    >
+      <p>이미 아이디가 있으신가요?</p>
+      <router-link to="/signIn">로그인</router-link>
     </div>
-    <input
-      id="password"
-      class="inputbox"
-      type="password"
-      placeholder="비밀번호 입력해주세요."
-      v-model="password"
-    />
-    <input
-      id="doublePassword"
-      class="inputbox"
-      type="password"
-      placeholder="비밀번호 다시 입력해주세요."
-      v-model="doubleCheckPassword"
-    />
-    <button id="submit" @click="handleSignUp">회원가입 하기</button>
   </div>
 </template>
 

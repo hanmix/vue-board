@@ -1,10 +1,10 @@
 <template>
-  <h1>게시글 목록</h1>
-
-  <section class="search-section">
+  <header class="header">
+    <h1>게시글 목록</h1>
     <SearchFilter />
-  </section>
-
+    <!-- <section class="search-section">
+    </section> -->
+  </header>
   <section class="posts-section">
     <div v-if="loading" class="loading">로딩중...</div>
 
@@ -18,7 +18,11 @@
   </section>
 
   <section class="pagination-section">
-    <Pagination v-if="totalPosts" :currentPage="page" :totalPage="lastPage" />
+    <Pagination
+      v-if="totalPosts && !loading && !error"
+      :currentPage="page"
+      :totalPage="lastPage"
+    />
   </section>
 </template>
 
@@ -47,13 +51,13 @@ watch(
   { immediate: true }
 );
 
-watch(
-  () => route.fullPath,
-  (newVal, oldVal) => {
-    // 경로가 완전히 똑같아도 강제로 fetch 호출
-    if (newVal === oldVal) {
-      fetchPosts();
-    }
-  }
-);
+// watch(
+//   () => route.fullPath,
+//   (newVal, oldVal) => {
+//     // 경로가 완전히 똑같아도 강제로 fetch 호출
+//     if (newVal === oldVal) {
+//       fetchPosts();
+//     }
+//   }
+// );
 </script>
