@@ -13,9 +13,6 @@
           </option>
         </select>
       </div>
-      <div class="logout">
-        <button @click="logout">로그아웃</button>
-      </div>
     </div>
 
     <section class="posts-section">
@@ -36,15 +33,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { usePost, useUser } from '@/composables';
-
+import { usePost } from '@/composables';
 import { computed, ref, watch } from 'vue';
 import PostItem from './PostItem.vue';
 import Pagination from './Pagination.vue';
 
 const { totalPosts, page, lastPage, postList, loading, error, fetchMyPosts } =
   usePost();
-const { logout } = useUser();
 
 const filteredPosts = computed(() =>
   postList.value.filter(post => post.type === selectedOption.value)
@@ -54,7 +49,7 @@ type selectOptions = { label: string; value: string };
 const selectedOption = ref('post');
 const options: selectOptions[] = [
   { label: '내가 작성한 게시글', value: 'post' },
-  { label: '내가 작성한 댓글', value: 'reply' },
+  { label: '내가 작성한 답글', value: 'reply' },
 ];
 
 watch(

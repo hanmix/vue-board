@@ -1,0 +1,60 @@
+<template>
+  <div style="display: flex; justify-content: space-between">
+    <h1>싱글벙글 게시판</h1>
+    <div style="display: flex; gap: 10px; align-items: center">
+      <button @click="moveToHome">홈</button>
+
+      <div v-if="route.name === 'mypage'">
+        <button @click="handleLogout">로그아웃</button>
+      </div>
+      <div v-else style="display: flex; gap: 10px">
+        <button @click="setIsModalOpen(true)">글쓰기</button>
+        <button @click="moveToMyPage">마이페이지</button>
+      </div>
+    </div>
+  </div>
+
+  <NewPostModal
+    :isModalOpen="isModalOpen"
+    @onClose="hideModal"
+    @onCreate="handleCreate"
+    @onUpdate="handleUpdate"
+  />
+</template>
+
+<script setup lang="ts">
+import NewPostModal from './NewPostModal.vue';
+import { useModal, usePost, useUser } from '@/composables';
+import { useRouter, useRoute } from 'vue-router';
+
+const { isModalOpen, setIsModalOpen, showModal, hideModal } = useModal();
+const { fetchPosts } = usePost();
+const { logout } = useUser();
+const router = useRouter();
+const route = useRoute();
+
+async function handleCreate() {
+  showModal();
+}
+
+function handleUpdate() {
+  fetchPosts();
+  hideModal();
+}
+
+function handleLogout() {
+  const confirmed = confirm('정말 로그아웃 하시겠습니까?');
+  if (!confirmed) return;
+  logout();
+}
+
+function moveToHome() {
+  router.push('/board');
+}
+
+function moveToMyPage() {
+  router.push('/mypage');
+}
+</script>
+
+<style scoped></style>

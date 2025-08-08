@@ -40,12 +40,12 @@ export const routes: RouteRecordRaw[] = [
         component: PostDetail,
         props: true,
       },
+      {
+        path: '/mypage',
+        name: 'mypage',
+        meta: { requiresAuth: true },
+        component: Mypage,
+      },
     ],
-  },
-  {
-    path: '/mypage',
-    name: 'mypage',
-    meta: { requiresAuth: true },
-    component: Mypage,
   },
 ] as RouteRecordRaw[];

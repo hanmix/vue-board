@@ -1,17 +1,6 @@
 <template>
   <header class="header">
     <h1>게시글 목록</h1>
-    <div style="display: flex; gap: 10px">
-      <!-- <RouterLink to="/newpost">글쓰기</RouterLink> -->
-      <button @click="isModalOpen = true">글쓰기</button>
-      <NewPostModal
-        :isModalOpen="isModalOpen"
-        @onClose="hideModal"
-        @onCreate="handleCreate"
-        @onUpdate="handleUpdate"
-      />
-      <RouterLink to="/mypage">마이페이지</RouterLink>
-    </div>
   </header>
 
   <section class="search-section">
@@ -25,12 +14,8 @@
 
     <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
 
-    <div
-      v-else
-      v-for="post in postList.filter(p => p && p.id !== undefined)"
-      :key="post.id"
-    >
-      <PostItem v-if="post.type === 'post'" :post="post" />
+    <div v-else v-for="post in postList" :key="post.id">
+      <PostItem :post="post" />
     </div>
   </section>
 
@@ -41,28 +26,17 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
-import { usePost, useModal } from '@/composables';
+import { usePost } from '@/composables';
 import { useRoute } from 'vue-router';
 import SearchFilter from '@/components/SearchFilter.vue';
 import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
-import NewPostModal from './NewPostModal.vue';
 
 const route = useRoute();
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
-const { isModalOpen, showModal, hideModal } = useModal();
 
 defineEmits(['onClose', 'onCreate', 'onUpdate']);
-
-async function handleCreate() {
-  showModal();
-}
-
-function handleUpdate() {
-  fetchPosts();
-  hideModal();
-}
 
 /**
  * 페이지 변경 시 게시글 목록 조회
