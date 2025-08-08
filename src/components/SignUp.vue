@@ -80,10 +80,7 @@ const { isAuthenticated, register } = useUser();
 
 // TODO: 이메일 중복 확인 API 수정 시 삭제
 const checkedEmail = async () => {
-  if (isCheckEmptyEmail.value) {
-    showAlert('이메일을 입력해주세요.');
-    return;
-  }
+  if (isCheckEmptyEmail.value) return;
 
   // try {
   //   await userStore.emailChecker(email.value);
@@ -114,7 +111,7 @@ const handleSignUp = async () => {
   }
 
   try {
-    await register(name.value, email.value, password.value);
+    await register(email.value, password.value, name.value);
     if (isAuthenticated) {
       showAlert('회원가입이 완료되었습니다.');
       router.push('/signIn');
