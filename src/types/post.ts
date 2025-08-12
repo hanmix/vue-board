@@ -5,10 +5,14 @@ export interface Post {
   type: string;
   title: string;
   content: string;
-  date: string;
+  userId: string;
+  parentId: string;
+  likes: [];
+  dislikes: [];
+  replies: string[];
   view: number;
-  likes: Array<string>;
-  dislikes: Array<string>;
+  date: string;
+  comment: null;
   user: {
     id: string;
     email: string;
