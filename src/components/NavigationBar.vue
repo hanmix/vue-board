@@ -7,7 +7,12 @@
         <button @click="handleLogout">로그아웃</button>
       </div>
       <div v-else>
-        <button @click="setIsModalOpen(true)">글쓰기</button>
+        <button
+          v-if="route.name === 'board-list'"
+          @click="setIsModalOpen(true)"
+        >
+          글쓰기
+        </button>
         <button @click="moveToMyPage">마이페이지</button>
       </div>
     </div>
