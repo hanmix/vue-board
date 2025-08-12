@@ -1,10 +1,6 @@
 <template>
   <teleport to="body">
-    <dialog
-      v-if="isModalOpen"
-      class="modal-overlay"
-      @click.self="emit('onClose')"
-    >
+    <dialog v-if="isVisible" class="modal-overlay">
       <div class="modal-content">
         <h1>게시글 작성하기</h1>
         <form
@@ -20,7 +16,6 @@
             required
             @compositionstart="handleComposition(true)"
             @compositionend="handleComposition(false)"
-            @input="handleTitleInput"
           />
 
           <label for="content">내용</label>
@@ -31,7 +26,6 @@
             required
             @compositionstart="handleComposition(true)"
             @compositionend="handleComposition(false)"
-            @input="handleContentInput"
           />
 
           <button type="submit" :disabled="isEmptyValue">생성하기</button>
@@ -43,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
 import { useModal, usePost } from '@/composables';
 
 const title = ref('');
@@ -57,8 +51,8 @@ const isEmptyValue = computed(
 const { showAlert } = useModal();
 const { createNewPost } = usePost();
 
-defineProps<{
-  isModalOpen: boolean;
+const { isVisible } = defineProps<{
+  isVisible: boolean;
 }>();
 const emit = defineEmits(['onClose', 'onCreate', 'onUpdate']);
 
@@ -82,20 +76,6 @@ async function handleCreate() {
   }
 }
 
-/** input 입력 핸들러 */
-async function handleTitleInput(event: Event) {
-  const target = event.target as HTMLInputElement;
-  await nextTick();
-  title.value = target.value;
-}
-
-/** textarea 입력 핸들러 */
-async function handleContentInput(event: Event) {
-  const target = event.target as HTMLTextAreaElement;
-  await nextTick();
-  content.value = target.value;
-}
-
 /** 문자 조합 핸들러 */
 const handleComposition = (value: boolean) => {
   isComposing.value = value;
@@ -106,6 +86,21 @@ const handleKeydown = (e: KeyboardEvent) => {
     emit('onClose');
   }
 };
+
+/** 모달 오픈 시 입력창 초기화 및 제목 입력창 포커스 */
+watch(
+  () => isVisible,
+  async visible => {
+    if (visible) {
+      await nextTick(() => {
+        title.value = '';
+        content.value = '';
+      });
+      const titleInput = document.getElementById('title') as HTMLInputElement;
+      titleInput?.focus();
+    }
+  }
+);
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
