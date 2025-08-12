@@ -14,7 +14,7 @@
   </header>
 
   <NewPostModal
-    :isModalOpen="isModalOpen"
+    :isVisible="isVisible"
     @onClose="hideModal"
     @onCreate="handleCreate"
     @onUpdate="handleUpdate"
@@ -26,13 +26,13 @@ import NewPostModal from './NewPostModal.vue';
 import { useModal, usePost, useAuth } from '@/composables';
 import { useRouter, useRoute } from 'vue-router';
 
-const { isModalOpen, setIsModalOpen, showModal, hideModal } = useModal();
+const { isVisible, setIsModalOpen, showModal, hideModal } = useModal();
 const { fetchPosts } = usePost();
 const { logout } = useAuth();
 const router = useRouter();
 const route = useRoute();
 
-async function handleCreate() {
+function handleCreate() {
   showModal();
 }
 
