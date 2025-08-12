@@ -1,11 +1,11 @@
 <template>
   <div class="pagination">
-    <button @click="moveToFirstPage" :disabled="currentPage <= 1">맨 앞</button>
+    <button @click="moveToFirstPage" :disabled="currentPage <= 1">처음</button>
     <button @click="prevPage" :disabled="currentPage <= 1">이전</button>
     <span>페이지 {{ currentPage }} / {{ totalPage }}</span>
     <button @click="nextPage" :disabled="currentPage >= totalPage">다음</button>
     <button @click="moveToLastPage" :disabled="currentPage >= totalPage">
-      맨 뒤
+      마지막
     </button>
   </div>
 </template>
