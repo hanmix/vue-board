@@ -3,6 +3,7 @@ import type {
   CreatePostRequest,
   CreatePostResponse,
   PaginationParams,
+  Post,
   PostDetailResponse,
   PostListResponse,
 } from '@/types';
@@ -97,6 +98,25 @@ export const createPostApi = async (
     return response.data;
   } catch (error) {
     console.error('게시글 생성 에러', error);
+    throw error;
+  }
+};
+
+// 답글 생성
+export const createReplyApi = async (
+  postId: string,
+  title: string,
+  content: string
+): Promise<ApiResponse<Post>> => {
+  const payload = { title, content };
+  try {
+    const resposnse = await axiosInstance.post<ApiResponse<Post>>(
+      `${API_HOST}/api/posts/${postId}/reply`,
+      payload
+    );
+    return resposnse.data;
+  } catch (error) {
+    console.error('답글 생성 에러', error);
     throw error;
   }
 };

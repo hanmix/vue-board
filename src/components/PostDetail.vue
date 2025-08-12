@@ -1,6 +1,11 @@
 <template>
   <div v-if="currentPost" class="post-container">
-    <h1 class="post-title">{{ currentPost.title }}</h1>
+    <div style="display: flex; justify-content: space-between">
+      <h1 class="post-title">{{ currentPost.title }}</h1>
+      <button v-if="currentPost.type === 'post'" @click="handleModal">
+        답글 쓰기
+      </button>
+    </div>
     <div class="post-meta">
       <span>작성자: {{ currentPost.user.name }}</span>
       <span>작성일: {{ formatDate(currentPost.date) }}</span>
@@ -18,13 +23,17 @@
 <script setup lang="ts">
 import { usePost } from '@/composables';
 import { formatDate } from '@/utils';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+const { createNewReply } = usePost();
 
 const { id } = defineProps<{
   id: string;
 }>();
+const emit = defineEmits(['onUpdate']);
 
 const { currentPost, fetchPostById } = usePost();
+const router = useRouter();
 
 const handleFetchPostById = async () => {
   try {
@@ -34,6 +43,20 @@ const handleFetchPostById = async () => {
     console.error('handleFetchPostById 호출 에러:', error);
     throw error;
   }
+};
+
+const title = ref('답글 테스트 중 ... 제목 입니다.');
+const content = ref('답글 테스트 중 ... 내용 입니다.');
+
+const handleModal = async () => {
+  title.value = `${currentPost.value?.title}에 대한 ${title.value}`;
+  const data = await createNewReply(
+    currentPost.value?.id ?? '',
+    title.value,
+    content.value
+  );
+  if (!data) return;
+  router.push(`/board/detail/${data?.id}`);
 };
 
 onMounted(async () => {
