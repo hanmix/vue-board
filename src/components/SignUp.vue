@@ -110,6 +110,9 @@ const handleSignUp = async () => {
     case isEmptyDoubleCheckPassword.value:
       showAlert('비밀번호를 다시 확인해주세요.');
       return;
+    case !isPasswordMatch.value:
+      showAlert('비밀번호가 맞지 않습니다.');
+      return;
   }
 
   try {
