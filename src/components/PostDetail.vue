@@ -2,9 +2,13 @@
   <div v-if="currentPost" class="post-container">
     <div style="display: flex; justify-content: space-between">
       <h1 class="post-title">{{ currentPost.title }}</h1>
-      <button v-if="currentPost.type === 'post'" @click="handleModal">
-        답글 쓰기
-      </button>
+      <div>
+        <button @click="handleUpdate">수정</button>
+        <button @click="handleDelete">삭제</button>
+        <button v-if="currentPost.type === 'post'" @click="handleModal">
+          답글 쓰기
+        </button>
+      </div>
     </div>
     <div class="post-meta">
       <span>작성자: {{ currentPost.user.name }}</span>
@@ -25,7 +29,7 @@ import { usePost } from '@/composables';
 import { formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { createNewReply } = usePost();
+const { createNewReply, updatePost } = usePost();
 
 const { id } = defineProps<{
   id: string;
@@ -58,6 +62,14 @@ const handleModal = async () => {
   if (!data) return;
   router.push(`/board/detail/${data?.id}`);
 };
+
+const handleUpdate = async () => {
+  title.value = '게시글 수정 테스트 중 -- 제목';
+  content.value = '게시글 수정 테스트 중 -- 내용';
+  await updatePost(currentPost.value?.id ?? '', title.value, content.value);
+};
+
+const handleDelete = async () => {};
 
 onMounted(async () => {
   await handleFetchPostById();

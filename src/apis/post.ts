@@ -102,6 +102,25 @@ export const createPostApi = async (
   }
 };
 
+// 게시글 수정
+export const updatePostApi = async (
+  postId: string,
+  title: string,
+  content: string
+): Promise<ApiResponse<Post>> => {
+  const payload = { title, content };
+  try {
+    const response = await axiosInstance.put<ApiResponse<Post>>(
+      `${API_HOST}/api/posts/${postId}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.error('게시글 수정 에러', error);
+    throw error;
+  }
+};
+
 // 답글 생성
 export const createReplyApi = async (
   postId: string,

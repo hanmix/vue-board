@@ -4,9 +4,10 @@ import {
   getMyPostsApi,
   getPostByIdApi,
   getPostsApi,
+  updatePostApi,
 } from '@/apis';
 import { usePostStore } from '@/stores';
-import type { PaginationParams } from '@/types';
+import type { PaginationParams, Post } from '@/types';
 import { storeToRefs } from 'pinia';
 
 export const usePost = () => {
@@ -116,6 +117,33 @@ export const usePost = () => {
     }
   };
 
+  const updatePost = async (
+    postId: string,
+    title: string,
+    content: string
+  ): Promise<void> => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const { data, isSuccess } = await updatePostApi(postId, title, content);
+      if (!isSuccess)
+        throw (error.value = '게시글 수정 중 오류가 발생했습니다.');
+
+      const postIdx = postList.value.findIndex(post => post.id === postId);
+      if (postIdx !== -1) {
+        postList.value.splice(postIdx, 1, data);
+      }
+
+      if (currentPost.value?.id === postId) {
+        currentPost.value = data;
+      }
+    } catch {
+      error.value = '게시글 수정 중 오류가 발생했습니다.';
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const createNewReply = async (
     postId: string,
     title: string,
@@ -185,6 +213,7 @@ export const usePost = () => {
     fetchMyPosts,
     fetchPostById,
     createNewPost,
+    updatePost,
     createNewReply,
   };
 };
