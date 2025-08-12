@@ -121,6 +121,21 @@ export const updatePostApi = async (
   }
 };
 
+// 게시글 삭제
+export const deletePostApi = async (
+  postId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await axiosInstance.delete<ApiResponse<void>>(
+      `${API_HOST}/api/posts/${postId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('게시글 삭제 에러', error);
+    throw error;
+  }
+};
+
 // 답글 생성
 export const createReplyApi = async (
   postId: string,

@@ -1,13 +1,14 @@
 import {
   createPostApi,
   createReplyApi,
+  deletePostApi,
   getMyPostsApi,
   getPostByIdApi,
   getPostsApi,
   updatePostApi,
 } from '@/apis';
 import { usePostStore } from '@/stores';
-import type { PaginationParams, Post } from '@/types';
+import type { PaginationParams } from '@/types';
 import { storeToRefs } from 'pinia';
 
 export const usePost = () => {
@@ -144,6 +145,25 @@ export const usePost = () => {
     }
   };
 
+  const deletePost = async (postId: string): Promise<void> => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const { isSuccess } = await deletePostApi(postId);
+      if (!isSuccess)
+        throw (error.value = '게시글 삭제 중 오류가 발생했습니다.');
+      const postIdx = postList.value.findIndex(post => post.id === postId);
+
+      if (postIdx === -1) {
+        postList.value.splice(postIdx, 1);
+      }
+    } catch {
+      error.value = '게시글 삭제 중 오류가 발생했습니다.';
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const createNewReply = async (
     postId: string,
     title: string,
@@ -214,6 +234,7 @@ export const usePost = () => {
     fetchPostById,
     createNewPost,
     updatePost,
+    deletePost,
     createNewReply,
   };
 };

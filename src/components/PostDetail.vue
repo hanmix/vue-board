@@ -25,11 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { usePost } from '@/composables';
+import { usePost, useModal } from '@/composables';
 import { formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { createNewReply, updatePost } = usePost();
+const { createNewReply, updatePost, deletePost } = usePost();
+const { showAlert } = useModal();
 
 const { id } = defineProps<{
   id: string;
@@ -53,23 +54,33 @@ const title = ref('답글 테스트 중 ... 제목 입니다.');
 const content = ref('답글 테스트 중 ... 내용 입니다.');
 
 const handleModal = async () => {
-  title.value = `${currentPost.value?.title}에 대한 ${title.value}`;
-  const data = await createNewReply(
-    currentPost.value?.id ?? '',
-    title.value,
-    content.value
-  );
-  if (!data) return;
-  router.push(`/board/detail/${data?.id}`);
+  if (typeof currentPost.value?.id === 'string') {
+    title.value = `${currentPost.value.title}에 대한 ${title.value}`;
+    const data = await createNewReply(
+      currentPost.value.id,
+      title.value,
+      content.value
+    );
+    if (!data) return;
+    router.push(`/board/detail/${data.id}`);
+  }
 };
 
 const handleUpdate = async () => {
-  title.value = '게시글 수정 테스트 중 -- 제목';
-  content.value = '게시글 수정 테스트 중 -- 내용';
-  await updatePost(currentPost.value?.id ?? '', title.value, content.value);
+  if (typeof currentPost.value?.id === 'string') {
+    title.value = '게시글 수정 테스트 중 -- 제목';
+    content.value = '게시글 수정 테스트 중 -- 내용';
+    await updatePost(currentPost.value.id, title.value, content.value);
+  }
 };
 
-const handleDelete = async () => {};
+const handleDelete = async () => {
+  if (typeof currentPost.value?.id === 'string') {
+    await deletePost(currentPost.value.id);
+    showAlert('게시글이 삭제 되었습니다.');
+    router.push('/board');
+  }
+};
 
 onMounted(async () => {
   await handleFetchPostById();
