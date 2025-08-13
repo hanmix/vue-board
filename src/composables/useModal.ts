@@ -1,9 +1,13 @@
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
+import { useModalStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import type { ModalPayload, ModalType } from '@/types';
 
 export const useModal = () => {
-  const isModalOpen = ref(false);
+  const modalStore = useModalStore();
+  const { type, payload, isVisible } = storeToRefs(modalStore);
   const setIsModalOpen = (value: boolean) => {
-    isModalOpen.value = value;
+    isVisible.value = value;
   };
 
   const showAlert = (message: string) => {
@@ -15,14 +19,26 @@ export const useModal = () => {
   };
 
   const showModal = () => {
-    isModalOpen.value = true;
+    isVisible.value = true;
   };
 
   const hideModal = () => {
-    isModalOpen.value = false;
+    isVisible.value = false;
   };
 
-  watch(isModalOpen, newValue => {
+  function open(modalType: ModalType, data: ModalPayload) {
+    type.value = modalType;
+    payload.value = data;
+    isVisible.value = true;
+  }
+
+  function close() {
+    isVisible.value = false;
+    type.value = null;
+    payload.value = {};
+  }
+
+  watch(isVisible, newValue => {
     if (newValue) {
       document.body.classList.add('modal-open');
     } else {
@@ -31,12 +47,14 @@ export const useModal = () => {
   });
 
   return {
-    isModalOpen,
+    isVisible,
 
     setIsModalOpen,
     showAlert,
     showConfirm,
     showModal,
     hideModal,
+    open,
+    close,
   };
 };
