@@ -2,9 +2,13 @@
   <div v-if="currentPost" class="post-container">
     <div style="display: flex; justify-content: space-between">
       <h1 class="post-title">{{ currentPost.title }}</h1>
-      <div>
-        <button @click="handleUpdate">수정</button>
-        <button @click="handleDelete">삭제</button>
+      <div style="display: flex; gap: 10px">
+        <button v-if="currentPost.userId === userId" @click="handleUpdate">
+          수정
+        </button>
+        <button v-if="currentPost.userId === userId" @click="handleDelete">
+          삭제
+        </button>
         <button v-if="currentPost.type === 'post'" @click="handleModal">
           답글 쓰기
         </button>
@@ -25,11 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import { usePost, useModal } from '@/composables';
+import { usePost, useModal, useUser } from '@/composables';
 import { formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const { createNewReply, updatePost, deletePost } = usePost();
+const { userId } = useUser();
 const { showAlert } = useModal();
 
 const { id } = defineProps<{

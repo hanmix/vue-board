@@ -1,6 +1,12 @@
 <template>
   <div class="header">
     <h1>마이페이지</h1>
+    <div>
+      내 정보
+      <li>id: {{ currentUser?.id }}</li>
+      <li>email: {{ currentUser?.email }}</li>
+      <li>name: {{ currentUser?.name }}</li>
+    </div>
     <select v-model="selectedOption" class="form-element">
       <option
         v-for="option in options"
@@ -33,13 +39,14 @@
   </section>
 </template>
 <script setup lang="ts">
-import { usePost } from '@/composables';
-import { computed, ref, watch } from 'vue';
+import { usePost, useUser } from '@/composables';
+import { computed, onMounted, ref, watch } from 'vue';
 import PostItem from './PostItem.vue';
 import Pagination from './Pagination.vue';
 
 const { totalPosts, page, lastPage, postList, loading, error, fetchMyPosts } =
   usePost();
+const { currentUser, userId, getUserById } = useUser();
 
 const filteredPosts = computed(() =>
   postList.value.filter(post => post.type === selectedOption.value)
@@ -61,4 +68,8 @@ watch(
     immediate: true,
   }
 );
+
+onMounted(async () => {
+  await getUserById(userId.value ?? '');
+});
 </script>

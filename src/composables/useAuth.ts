@@ -1,5 +1,6 @@
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores';
+import { useUser } from '@/composables';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import type { LoginRequest, RegisterRequest } from '@/types';
@@ -7,6 +8,7 @@ import { checkIdApi, loginApi, registerApi } from '@/apis';
 
 export const useAuth = () => {
   const authStore = useAuthStore();
+  const { setUserInfo } = useUser();
 
   const isEmptyName = computed<boolean>(() => name.value.trim() === '');
   const isEmptyEmail = computed<boolean>(() => email.value.trim() === '');
@@ -30,6 +32,7 @@ export const useAuth = () => {
     user,
   } = storeToRefs(authStore);
   const { setToken } = authStore;
+
   const router = useRouter();
 
   const login = async (email: string, password: string): Promise<void> => {
@@ -41,6 +44,7 @@ export const useAuth = () => {
       if (!isSuccess) throw (error.value = message || '로그인에 실패했습니다.');
 
       setToken(data.token);
+      setUserInfo(data.user.id);
     } catch {
       error.value = '로그인 중 오류가 발생했습니다.';
     } finally {
