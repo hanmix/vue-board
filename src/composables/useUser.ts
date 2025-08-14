@@ -10,14 +10,6 @@ export const useUser = () => {
 
   const userIds = computed(() => allUsers.value.map(user => user.id));
 
-  const setUserInfo = (id: string) => {
-    sessionStorage.setItem('userId', id);
-  };
-
-  const clearUserInfo = () => {
-    sessionStorage.removeItem('userId');
-  };
-
   const getAllUsers = async (): Promise<void> => {
     loading.value = true;
     error.value = null;
@@ -35,12 +27,13 @@ export const useUser = () => {
     }
   };
 
-  const getUserById = async (userId: string): Promise<void> => {
+  const getUserById = async (): Promise<void> => {
     loading.value = true;
     error.value = null;
 
     try {
-      const { data, isSuccess } = await getUserByIdApi(userId);
+      const { data, isSuccess } = await getUserByIdApi(userId.value ?? '');
+
       if (!isSuccess)
         throw (error.value = '유저 정보를 불러오는데 실패했습니다.');
 
@@ -60,7 +53,5 @@ export const useUser = () => {
 
     getAllUsers,
     getUserById,
-    setUserInfo,
-    clearUserInfo,
   };
 };
