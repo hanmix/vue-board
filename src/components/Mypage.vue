@@ -46,7 +46,7 @@ import Pagination from './Pagination.vue';
 
 const { totalPosts, page, lastPage, postList, loading, error, fetchMyPosts } =
   usePost();
-const { currentUser, userId, getUserById } = useUser();
+const { currentUser, getUserById } = useUser();
 
 const filteredPosts = computed(() =>
   postList.value.filter(post => post.type === selectedOption.value)
@@ -70,6 +70,6 @@ watch(
 );
 
 onMounted(async () => {
-  await getUserById(userId.value ?? '');
+  await getUserById();
 });
 </script>
