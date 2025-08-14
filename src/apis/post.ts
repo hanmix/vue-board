@@ -15,19 +15,10 @@ const API_HOST = import.meta.env.VITE_API_HOST;
 export const getPostsApi = async (
   params: PaginationParams
 ): Promise<ApiResponse<PostListResponse>> => {
-  const token = localStorage.getItem('token');
-  const headers: Record<string, string> = {
-    'Cache-Control': 'no-cache',
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
   try {
     const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
       `${API_HOST}/api/posts`,
-      { params, headers }
+      { params }
     );
     return data;
   } catch (error: any) {
@@ -40,19 +31,10 @@ export const getPostsApi = async (
 export const getMyPostsApi = async (
   params: PaginationParams
 ): Promise<ApiResponse<PostListResponse>> => {
-  const token = localStorage.getItem('token');
-  const headers: Record<string, string> = {
-    'Cache-Control': 'no-cache',
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
   try {
     const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
       `${API_HOST}/api/posts/my`,
-      { params, headers }
+      { params }
     );
     return data;
   } catch (error: any) {
@@ -65,22 +47,12 @@ export const getMyPostsApi = async (
 export const getPostByIdApi = async (
   id: string
 ): Promise<ApiResponse<PostDetailResponse>> => {
-  const token = localStorage.getItem('token');
-  const headers: Record<string, string> = {
-    'Cache-Control': 'no-cache',
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
   try {
     const { data } = await axiosInstance.get<ApiResponse<PostDetailResponse>>(
-      `${API_HOST}/api/posts/${id}`,
-      { headers }
+      `${API_HOST}/api/posts/${id}`
     );
     return data;
-  } catch (error: any) {
+  } catch (error) {
     console.error('API 호출 에러:', error);
     throw error;
   }

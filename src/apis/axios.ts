@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance } from 'axios';
+import { useAuth } from '@/composables';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 export const axiosInstance: AxiosInstance = axios.create({
@@ -7,9 +8,12 @@ export const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token');
+    const { token } = useAuth();
 
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token.value) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token.value}`;
+    }
 
     return config;
   },
