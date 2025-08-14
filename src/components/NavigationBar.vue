@@ -50,6 +50,7 @@ function handleLogout() {
   const confirmed = confirm('정말 로그아웃 하시겠습니까?');
   if (!confirmed) return;
   logout();
+  router.push('/signIn');
 }
 
 function moveToHome() {
