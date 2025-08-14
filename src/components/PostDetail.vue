@@ -67,6 +67,7 @@ const handleModal = async () => {
       content.value
     );
     if (!data) return;
+    showAlert('답글이 생성되었습니다.');
     router.push(`/board/detail/${data.id}`);
   }
 };
@@ -76,6 +77,7 @@ const handleUpdate = async () => {
     title.value = '게시글 수정 테스트 중 -- 제목';
     content.value = '게시글 수정 테스트 중 -- 내용';
     await updatePost(currentPost.value.id, title.value, content.value);
+    showAlert('게시글이 수정되었습니다.');
   }
 };
 
