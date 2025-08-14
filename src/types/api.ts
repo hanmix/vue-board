@@ -1,5 +1,3 @@
-import type { User } from './user';
-
 export interface ApiResponse<T> {
   isSuccess: boolean;
   message: string;
@@ -13,7 +11,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: User;
 }
 
 export interface RegisterRequest {
