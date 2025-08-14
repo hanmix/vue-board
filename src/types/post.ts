@@ -19,6 +19,7 @@ export interface Post {
     name: string;
     role: string;
   };
+  isDeleted: boolean;
 }
 
 export interface PostListResponse {
