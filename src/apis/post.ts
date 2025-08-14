@@ -11,13 +11,29 @@ import { axiosInstance } from './axios';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
-// 게시글 전체 조회
+// 전체 게시글 조회
 export const getPostsApi = async (
   params: PaginationParams
 ): Promise<ApiResponse<PostListResponse>> => {
   try {
     const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
       `${API_HOST}/api/posts`,
+      { params }
+    );
+    return data;
+  } catch (error: any) {
+    console.error('API 호출 에러:', error);
+    throw error;
+  }
+};
+
+// 전체 게시글 최신순 조회
+export const getPostsByLatestApi = async (
+  params: PaginationParams
+): Promise<ApiResponse<PostListResponse>> => {
+  try {
+    const { data } = await axiosInstance.get<ApiResponse<PostListResponse>>(
+      `${API_HOST}/api/posts/latest`,
       { params }
     );
     return data;
