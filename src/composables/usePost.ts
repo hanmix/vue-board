@@ -17,14 +17,20 @@ export const usePost = () => {
     loading,
     error,
     postList,
+    prevPost,
     currentPost,
+    nextPost,
+    parentPost,
     page,
     size,
     lastPage,
     totalPosts,
     searchKeyword,
     searchType,
+    isMypage,
   } = storeToRefs(postStore);
+
+  const { setIsMypage } = postStore;
 
   const fetchPosts = async (): Promise<void> => {
     loading.value = true;
@@ -86,11 +92,35 @@ export const usePost = () => {
     loading.value = true;
     error.value = null;
     try {
-      const { data, isSuccess } = await getPostByIdApi(id);
+      const {
+        data: { prev, post, next },
+        isSuccess,
+      } = await getPostByIdApi(id);
       if (!isSuccess)
         throw (error.value = '게시글 상세 조회 중 오류가 발생했습니다.');
 
-      currentPost.value = data.post;
+      prevPost.value = prev;
+      currentPost.value = post;
+      nextPost.value = next;
+    } catch {
+      error.value = '게시글 상세 조회 중 오류가 발생했습니다.';
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const fetchParentPostById = async (parentId: string): Promise<void> => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const {
+        data: { prev, post, next },
+        isSuccess,
+      } = await getPostByIdApi(parentId);
+      if (!isSuccess)
+        throw (error.value = '게시글 상세 조회 중 오류가 발생했습니다.');
+      if (!post) return;
+      parentPost.value = post;
     } catch {
       error.value = '게시글 상세 조회 중 오류가 발생했습니다.';
     } finally {
@@ -222,19 +252,25 @@ export const usePost = () => {
     loading,
     error,
     postList,
+    prevPost,
     currentPost,
+    nextPost,
+    parentPost,
     page,
     lastPage,
     totalPosts,
     searchKeyword,
     searchType,
+    isMypage,
 
     fetchPosts,
     fetchMyPosts,
     fetchPostById,
+    fetchParentPostById,
     createNewPost,
     updatePost,
     deletePost,
     createNewReply,
+    setIsMypage,
   };
 };

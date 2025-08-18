@@ -10,9 +10,16 @@ export const usePostStore = defineStore('post', () => {
   const size = ref<number>(10);
   const page = ref<number>(1);
   const lastPage = ref<number>(0);
-  const currentPost = ref<Post>();
+  const prevPost = ref<Post | null>(null);
+  const currentPost = ref<Post | null>(null);
+  const nextPost = ref<Post | null>(null);
+  const parentPost = ref<Post | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
+  const isMypage = ref<boolean>(true);
+  const setIsMypage = (value: boolean) => {
+    isMypage.value = value;
+  };
 
   return {
     postList,
@@ -22,8 +29,14 @@ export const usePostStore = defineStore('post', () => {
     size,
     page,
     lastPage,
+    prevPost,
     currentPost,
+    nextPost,
+    parentPost,
     loading,
     error,
+    isMypage,
+
+    setIsMypage,
   };
 });

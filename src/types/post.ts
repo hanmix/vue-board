@@ -28,9 +28,9 @@ export interface PostListResponse {
 }
 
 export interface PostDetailResponse {
-  prev: number | null;
+  prev: Post;
   post: Post;
-  next: number | null;
+  next: Post;
 }
 
 export interface CreatePostRequest {

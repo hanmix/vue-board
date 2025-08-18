@@ -1,7 +1,14 @@
 <template>
   <div class="post-item">
     <div class="post-header">
+      postId: {{ post.id }} /// parentId: {{ post.parentId ?? 'null' }}
       <div class="post-title">
+        <div
+          v-if="!isParentPostExist && post.type === 'reply' && !isMypage"
+          style="font-size: 1.5rem; color: grey"
+        >
+          {{ '원글이 삭제된 답글입니다.' }}
+        </div>
         <div>
           <router-link
             :to="{ name: 'board-detail', params: { id: post.id } }"
@@ -27,8 +34,14 @@
 <script setup lang="ts">
 import { Post } from '@/types';
 import { formatDate } from '@/utils';
+import { usePost } from '@/composables';
 
-const { post } = defineProps<{
+const { postList } = usePost();
+const { post, isMypage } = defineProps<{
   post: Post;
+  isMypage?: boolean;
 }>();
+
+const parentPostIdx = postList.value.findIndex(p => p.id === post.parentId);
+const isParentPostExist = parentPostIdx !== -1;
 </script>

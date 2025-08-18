@@ -43,7 +43,6 @@ export const routes: RouteRecordRaw[] = [
       {
         path: '/mypage',
         name: 'mypage',
-        meta: { requiresAuth: true },
         component: Mypage,
       },
     ],
