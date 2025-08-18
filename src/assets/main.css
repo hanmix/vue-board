@@ -269,6 +269,11 @@ label {
   padding-top: var(--spacing-md);
 }
 
+.post-reply {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
 .post-list {
   list-style: none;
   padding: 0;

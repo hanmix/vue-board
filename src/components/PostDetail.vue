@@ -30,9 +30,9 @@
       <span>좋아요: {{ currentPost.likes.length }}</span>
       <span>싫어요: {{ currentPost.dislikes.length }}</span>
     </div>
-    <div>
-      <button @click="moveToPost('prev')">이전 글</button>
-      <button @click="moveToPost('next')">다음 글</button>
+    <div class="post-reply">
+      <button v-if="prevPost?.id" @click="moveToPost('prev')">이전 글</button>
+      <button v-if="nextPost?.id" @click="moveToPost('next')">다음 글</button>
     </div>
   </div>
   <div v-else class="loading">Loading...</div>
