@@ -2,6 +2,12 @@
   <div v-if="currentPost" class="post-container">
     <div style="display: flex; justify-content: space-between">
       <h1 class="post-title">{{ currentPost.title }}</h1>
+      <p
+        v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
+        style="color: grey; font-size: 1.5rem"
+      >
+        {{ '원글이 삭제된 답글' }}
+      </p>
       <div style="display: flex; gap: 10px">
         <button v-if="currentPost.userId === userId" @click="handleUpdate">
           수정
@@ -24,6 +30,10 @@
       <span>좋아요: {{ currentPost.likes.length }}</span>
       <span>싫어요: {{ currentPost.dislikes.length }}</span>
     </div>
+    <div>
+      <button @click="moveToPost('prev')">이전 글</button>
+      <button @click="moveToPost('next')">다음 글</button>
+    </div>
   </div>
   <div v-else class="loading">Loading...</div>
 </template>
@@ -33,7 +43,17 @@ import { usePost, useModal, useUser } from '@/composables';
 import { formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { createNewReply, updatePost, deletePost } = usePost();
+const {
+  prevPost,
+  currentPost,
+  nextPost,
+  parentPost,
+  fetchParentPostById,
+  fetchPostById,
+  createNewReply,
+  updatePost,
+  deletePost,
+} = usePost();
 const { userId } = useUser();
 const { showAlert } = useModal();
 
@@ -41,8 +61,6 @@ const { id } = defineProps<{
   id: string;
 }>();
 const emit = defineEmits(['onUpdate']);
-
-const { currentPost, fetchPostById } = usePost();
 const router = useRouter();
 
 const handleFetchPostById = async () => {
@@ -51,6 +69,19 @@ const handleFetchPostById = async () => {
     await fetchPostById(id);
   } catch (error) {
     console.error('handleFetchPostById 호출 에러:', error);
+    throw error;
+  }
+};
+
+const handleFetchParentPostById = async () => {
+  try {
+    if (currentPost.value?.parentId) {
+      await fetchParentPostById(currentPost.value.parentId);
+    } else {
+      return;
+    }
+  } catch (error) {
+    console.error('handleFetchParentPostById 호출 에러:', error);
     throw error;
   }
 };
@@ -89,7 +120,27 @@ const handleDelete = async () => {
   }
 };
 
+const moveToPost = (type: 'prev' | 'next') => {
+  if (type === 'prev' && prevPost.value) {
+    router.push(`/board/detail/${prevPost.value.id}`);
+  } else if (type === 'next' && nextPost.value) {
+    router.push(`/board/detail/${nextPost.value.id}`);
+  }
+};
+
+const setData = async () => {
+  try {
+    await handleFetchPostById();
+    await handleFetchParentPostById();
+  } catch (error) {
+    console.error('setData 호출 에러:', error);
+    showAlert('게시글을 불러오는 중 오류가 발생했습니다.');
+  }
+};
+
 onMounted(async () => {
-  await handleFetchPostById();
+  await setData();
+  console.log('parentPost', parentPost.value);
+  console.log('currentPost', currentPost.value);
 });
 </script>
