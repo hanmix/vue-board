@@ -357,3 +357,38 @@ label {
 .modal-open {
   overflow: hidden;
 }
+
+/* 플로팅 버튼 */
+.floating-container {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 1000;
+}
+
+.floating-button {
+  border: none;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: #305aba;
+  box-shadow: 0 4px 12px rgba(57, 61, 168, 0.3);
+  transition: transform 0.2s;
+
+  /*버튼 안 텍스트 중앙정렬*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+  font-family: 'Gothic A1', sans-serif;
+  font-size: 20px;
+}
+
+.floating-button:hover {
+  transform: scale(1.1);
+  background-color: #3d61b4;
+}
