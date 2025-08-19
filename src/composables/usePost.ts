@@ -113,14 +113,11 @@ export const usePost = () => {
     loading.value = true;
     error.value = null;
     try {
-      const {
-        data: { prev, post, next },
-        isSuccess,
-      } = await getPostByIdApi(parentId);
+      const { data, isSuccess } = await getPostByIdApi(parentId);
       if (!isSuccess)
         throw (error.value = '게시글 상세 조회 중 오류가 발생했습니다.');
-      if (!post) return;
-      parentPost.value = post;
+      if (!data.post) return;
+      parentPost.value = data.post;
     } catch {
       error.value = '게시글 상세 조회 중 오류가 발생했습니다.';
     } finally {
@@ -220,25 +217,15 @@ export const usePost = () => {
         // postList.value[postIdx].replies.push(data.id);
         const targetPost = postList.value[postIdx];
 
-        // replies가 배열인지 보장 (없으면 빈 배열로 초기화)
         const replies = Array.isArray(targetPost.replies)
           ? targetPost.replies
           : [];
 
-        // 객체 교체 방식으로 반응성 100% 보장
         postList.value[postIdx] = {
           ...targetPost,
           replies: [...replies, data.id],
         };
-        console.log(replies);
-        console.log(postList.value[postIdx]);
-        console.log(postList.value);
       }
-
-      console.log(postIdx);
-      console.log(data.id);
-      console.log(postId);
-      console.log('postList.value >>>', postList.value);
 
       return data;
     } catch (error) {
