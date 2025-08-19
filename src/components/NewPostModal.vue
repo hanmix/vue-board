@@ -1,43 +1,47 @@
 <template>
-  <teleport to="body">
-    <dialog
-      v-if="isVisible"
-      class="modal-overlay"
-      @click.self="emit('onClose')"
-    >
-      <div class="modal-content">
-        <h1>게시글 작성하기</h1>
-        <form
-          @submit.prevent="handleCreate"
-          style="display: flex; flex-direction: column; gap: 10px"
-        >
-          <label for="title">제목</label>
-          <input
-            id="title"
-            v-model="title"
-            type="text"
-            placeholder="제목을 입력하세요."
-            required
-            @compositionstart="handleComposition(true)"
-            @compositionend="handleComposition(false)"
-          />
+  <transition name="fade">
+    <teleport to="body">
+      <dialog
+        v-if="isVisible"
+        class="modal-overlay"
+        @click.self="emit('onClose')"
+      >
+        <div class="modal-content">
+          <button type="button" class="modal-close" @click="emit('onClose')">
+            x
+          </button>
+          <h1>게시글 작성하기</h1>
+          <form
+            @submit.prevent="handleCreate"
+            style="display: flex; flex-direction: column; gap: 10px"
+          >
+            <label for="title">제목</label>
+            <input
+              id="title"
+              v-model="title"
+              type="text"
+              placeholder="제목을 입력하세요."
+              required
+              @compositionstart="handleComposition(true)"
+              @compositionend="handleComposition(false)"
+            />
 
-          <label for="content">내용</label>
-          <textarea
-            id="content"
-            v-model="content"
-            placeholder="내용을 입력하세요."
-            required
-            @compositionstart="handleComposition(true)"
-            @compositionend="handleComposition(false)"
-          />
+            <label for="content">내용</label>
+            <textarea
+              id="content"
+              v-model="content"
+              placeholder="내용을 입력하세요."
+              required
+              @compositionstart="handleComposition(true)"
+              @compositionend="handleComposition(false)"
+            />
 
-          <button type="submit" :disabled="isEmptyValue">생성하기</button>
-          <button type="button" @click="emit('onClose')">닫기</button>
-        </form>
-      </div>
-    </dialog>
-  </teleport>
+            <button type="submit" :disabled="isEmptyValue">생성하기</button>
+          </form>
+        </div>
+      </dialog>
+    </teleport>
+  </transition>
 </template>
 
 <script setup lang="ts">
