@@ -31,7 +31,7 @@
 </template>
 <script setup lang="ts">
 import { usePost, useUser } from '@/composables';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import PostItem from './PostItem.vue';
 import Pagination from './Pagination.vue';
 
