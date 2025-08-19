@@ -24,7 +24,7 @@
       placeholder="검색어 입력"
     />
 
-    <button type="submit" class="form-element search-button">검색</button>
+    <button type="submit" class="form-element search-button">🔍</button>
   </form>
 </template>
 

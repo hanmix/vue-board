@@ -5,7 +5,7 @@
       @click="setIsModalOpen(true)"
       class="floating-button"
     >
-      +
+      ✍️
     </button>
   </div>
 </template>
