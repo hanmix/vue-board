@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { usePost, useModal, useUser } from '@/composables';
 import { formatDate } from '@/utils';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 const {
   prevPost,
@@ -137,6 +137,16 @@ const setData = async () => {
     showAlert('게시글을 불러오는 중 오류가 발생했습니다.');
   }
 };
+
+watch(
+  () => id,
+  async newId => {
+    if (newId) {
+      await setData();
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(async () => {
   await setData();
