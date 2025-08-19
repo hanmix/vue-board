@@ -1,22 +1,35 @@
 :root {
   font-size: 62.5%; /* 1rem = 10px */
 
-  /* 색상 변수 */
-  --color-text: #f5f5f5;
-  --color-text-muted: #bbbbbb;
-  --color-text-dark: #dddddd;
-
-  --color-border: #ccc;
-  --color-border-light: #eee;
-
-  --color-link: #6ca0ff;
-  --color-link-hover: #85b2ff;
-
-  --color-primary: #3498db;
-  --color-primary-disabled: #95a5a6;
   --color-bg: #242424;
+  --color-bg-light: #2e2e2e;
+  --color-bg-lighter: #373737;
 
-  /* 여백 변수 */
+  /* 텍스트 */
+  --color-text: #f5f5f5; /* 본문 */
+  --color-text-muted: #b0b0b0; /* 보조 */
+  --color-text-strong: #ffffff; /* 강조 */
+
+  /* Primary */
+  --color-primary: #2d9cdb;
+  --color-primary-hover: #56ccf2;
+  --color-primary-disabled: #6c757d;
+
+  /* Secondary */
+  --color-secondary: #1f618d; /* 딥 블루 */
+  --color-secondary-hover: #2874a6; /* hover 시 살짝 밝게 */
+  --color-secondary-disabled: #5d6d7e; /* 비활성화 시 연한 회색 */
+
+  /* Accent / 상태 */
+  --color-success: #27ae60;
+  --color-error: #e74c3c;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+
+  /* 구분선 */
+  --color-border: #555555;
+  --color-border-light: #777777;
+
   --spacing-xs: 0.5rem;
   --spacing-sm: 0.8rem;
   --spacing-md: 1.2rem;
@@ -83,12 +96,12 @@ textarea {
 /* 링크 */
 a {
   font-weight: 500;
-  color: var(--color-link);
+  color: var(--color-primary);
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: var(--color-link-hover);
+  color: var(--color-primary-hover);
   outline: none;
 }
 
@@ -353,11 +366,6 @@ label {
   margin: var(--spacing-xl) 0;
 }
 
-/* 모달 */
-.modal-open {
-  overflow: hidden;
-}
-
 /* 플로팅 버튼 */
 .floating-container {
   position: fixed;
@@ -371,8 +379,8 @@ label {
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background-color: #305aba;
-  box-shadow: 0 4px 12px rgba(57, 61, 168, 0.3);
+  background-color: var(--color-secondary);
+  box-shadow: 0 4px 8px rgba(116, 116, 116, 0.3);
   transition: transform 0.2s;
 
   /*버튼 안 텍스트 중앙정렬*/
@@ -390,5 +398,97 @@ label {
 
 .floating-button:hover {
   transform: scale(1.1);
-  background-color: #3d61b4;
+  background-color: var(--color-secondary-hover);
+}
+
+/* 모달 dim + 컨텐츠 페이드 인/아웃 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #373535;
+  padding: 2.5rem;
+  border-radius: 0.8rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: var(--color-text);
+  cursor: pointer;
+  line-height: 1;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  color: var(--color-text-muted);
+  background: transparent;
+}
+
+/* Fade + Scale Transition */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-enter-active {
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+}
+
+.fade-leave-active {
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+
+.tabs {
+  display: flex;
+  background-color: var(--color-bg);
+}
+
+.tab {
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-text-muted); /* 비활성 탭 텍스트 색상 */
+  text-decoration: none;
+  border-bottom: 2px solid transparent; /* 선택 전 밑줄 없음 */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--color-text); /* hover 시 강조 */
+}
+
+.tab.active {
+  color: var(--color-primary); /* 선택된 탭 강조 색상 */
+  font-weight: 600;
 }
