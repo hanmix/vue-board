@@ -8,7 +8,7 @@ import {
   updatePostApi,
 } from '@/apis';
 import { usePostStore } from '@/stores';
-import type { PaginationParams } from '@/types';
+import type { PaginationParams, BoardType } from '@/types';
 import { storeToRefs } from 'pinia';
 
 export const usePost = () => {
@@ -32,10 +32,11 @@ export const usePost = () => {
 
   const { setIsMypage } = postStore;
 
-  const fetchPosts = async (): Promise<void> => {
+  const fetchPosts = async (board: BoardType): Promise<void> => {
     loading.value = true;
     error.value = null;
     const params: PaginationParams = {
+      board,
       page: page.value ?? 1,
       size: size.value ?? 10,
       type: searchType.value,

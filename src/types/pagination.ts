@@ -1,4 +1,5 @@
 export interface PaginationParams {
+  board?: BoardType;
   page: number;
   size: number;
   type?: string;
@@ -13,3 +14,8 @@ export interface PaginationInfo {
 }
 
 export type SearchType = 'title' | 'content' | 'title_content' | 'user';
+export enum BoardType {
+  ALL = '',
+  NOTICE = 'notice',
+  FREE = 'free',
+}

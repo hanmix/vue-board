@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1>공지게시판</h1>
-    <SearchFilter />
+    <SearchFilter :boardType="boardType" />
   </header>
   <section class="posts-section">
     <div v-if="loading" class="loading">로딩중...</div>
@@ -30,14 +30,17 @@ import Pagination from './Pagination.vue';
 import PostItem from './PostItem.vue';
 import { usePost } from '@/composables';
 import { watch } from 'vue';
+import { BoardType } from '@/types';
 
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
 
+const boardType = BoardType.NOTICE;
+
 watch(
   page,
   () => {
-    fetchPosts();
+    fetchPosts(BoardType.NOTICE);
   },
   {
     immediate: true,

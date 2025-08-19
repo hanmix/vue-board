@@ -5,6 +5,7 @@ export interface Post {
   type: string;
   title: string;
   content: string;
+  board: string;
   userId: string;
   parentId: string;
   likes: [];

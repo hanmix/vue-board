@@ -1,5 +1,5 @@
 <template>
-  <form class="search-form" @submit.prevent="onSearch">
+  <form class="search-form" @submit.prevent="handleSearch">
     <select
       id="search-type"
       name="searchType"
@@ -30,7 +30,16 @@
 
 <script setup lang="ts">
 import { usePagination, usePost } from '@/composables';
+import { BoardType } from '@/types';
 
 const { searchOptions, onSearch } = usePagination();
 const { searchKeyword, searchType } = usePost();
+
+const { boardType } = defineProps<{
+  boardType: BoardType;
+}>();
+
+const handleSearch = () => {
+  onSearch(boardType);
+};
 </script>

@@ -1,5 +1,5 @@
 import { usePost } from '@/composables';
-import type { SearchType } from '@/types';
+import { BoardType, type SearchType } from '@/types';
 import { usePostStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
@@ -35,9 +35,9 @@ export const usePagination = () => {
     }
   };
 
-  const onSearch = () => {
+  const onSearch = (boardType: BoardType) => {
     page.value = 1;
-    fetchPosts();
+    fetchPosts(boardType);
   };
 
   return {

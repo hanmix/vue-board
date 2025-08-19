@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1>자유게시판</h1>
-    <SearchFilter />
+    <SearchFilter :boardType="boardType" />
   </header>
   <section class="posts-section">
     <div v-if="loading" class="loading">로딩중...</div>
@@ -41,6 +41,7 @@ import Pagination from '@/components/Pagination.vue';
 import PostItem from './PostItem.vue';
 import NewPostModal from './NewPostModal.vue';
 import FloatingButton from './FloatingButton.vue';
+import { BoardType } from '@/types';
 
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
@@ -48,12 +49,14 @@ const { isVisible, showModal, hideModal } = useModal();
 
 defineEmits(['onClose', 'onCreate', 'onUpdate']);
 
+const boardType = BoardType.FREE;
+
 function handleCreate() {
   showModal();
 }
 
 function handleUpdate() {
-  fetchPosts();
+  fetchPosts(BoardType.FREE);
   hideModal();
 }
 
@@ -63,7 +66,7 @@ function handleUpdate() {
 watch(
   page,
   () => {
-    fetchPosts();
+    fetchPosts(BoardType.FREE);
   },
   { immediate: true }
 );
