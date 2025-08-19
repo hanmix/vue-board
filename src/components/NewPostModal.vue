@@ -1,6 +1,10 @@
 <template>
   <teleport to="body">
-    <dialog v-if="isVisible" class="modal-overlay">
+    <dialog
+      v-if="isVisible"
+      class="modal-overlay"
+      @click.self="emit('onClose')"
+    >
       <div class="modal-content">
         <h1>게시글 작성하기</h1>
         <form
