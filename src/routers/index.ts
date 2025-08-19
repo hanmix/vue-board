@@ -6,6 +6,7 @@ import Posts from '@/components/Posts.vue';
 import PostDetail from '@/components/PostDetail.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import Mypage from '@/components/Mypage.vue';
+import NoticeBoard from '@/components/NoticeBoard.vue';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -28,10 +29,16 @@ export const routes: RouteRecordRaw[] = [
     name: 'board',
     meta: { requiresAuth: true },
     component: BoardPage,
+    redirect: { name: 'free' },
     children: [
       {
-        path: '',
-        name: 'board-list',
+        path: 'notice',
+        name: 'notice',
+        component: NoticeBoard,
+      },
+      {
+        path: 'free',
+        name: 'free',
         component: Posts,
       },
       {

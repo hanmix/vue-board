@@ -2,63 +2,50 @@
   <header class="header">
     <h1>싱글벙글 게시판</h1>
     <div class="nav-buttons">
-      <button @click="moveToHome">홈</button>
-      <div v-if="route.name === 'mypage'">
-        <button @click="handleLogout">로그아웃</button>
-      </div>
-      <div v-else>
-        <button
-          v-if="route.name === 'board-list'"
-          @click="setIsModalOpen(true)"
-        >
-          글쓰기
-        </button>
-        <button @click="moveToMyPage">마이페이지</button>
-      </div>
+      <Tabs :tabs="tabs" v-model="selected" />
+      <button v-if="route.name === 'mypage'" @click="handleLogout">
+        로그아웃
+      </button>
     </div>
   </header>
-
-  <NewPostModal
-    :isVisible="isVisible"
-    @onClose="hideModal"
-    @onCreate="handleCreate"
-    @onUpdate="handleUpdate"
-  />
 </template>
 
 <script setup lang="ts">
-import NewPostModal from './NewPostModal.vue';
-import { useModal, usePost, useAuth } from '@/composables';
+import { useAuth } from '@/composables';
+import { TabInfo, TabName } from '@/types/tab';
 import { useRouter, useRoute } from 'vue-router';
+import Tabs from './common/Tabs.vue';
+import { ref } from 'vue';
 
-const { isVisible, setIsModalOpen, showModal, hideModal } = useModal();
-const { fetchPosts } = usePost();
 const { logout } = useAuth();
 const router = useRouter();
 const route = useRoute();
 
-function handleCreate() {
-  showModal();
-}
+const tabs: TabInfo[] = [
+  {
+    id: TabName.NOTICE,
+    label: '공지게시판',
+    to: `/board/${TabName.NOTICE}`,
+  },
+  {
+    id: TabName.FREE,
+    label: '자유게시판',
+    to: `/board/${TabName.FREE}`,
+  },
+  {
+    id: TabName.MY,
+    label: '마이페이지',
+    to: '/mypage',
+  },
+];
 
-function handleUpdate() {
-  fetchPosts();
-  hideModal();
-}
+const selected = ref(tabs[1].id);
 
 function handleLogout() {
   const confirmed = confirm('정말 로그아웃 하시겠습니까?');
   if (!confirmed) return;
   logout();
   router.push('/signIn');
-}
-
-function moveToHome() {
-  router.push('/board');
-}
-
-function moveToMyPage() {
-  router.push('/mypage');
 }
 </script>
 
