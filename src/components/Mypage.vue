@@ -1,15 +1,23 @@
 <template>
   <div class="header">
     <h1>마이페이지</h1>
-    <div v-if="currentUser">
-      내 정보
-      <li>id: {{ currentUser.id }}</li>
-      <li>email: {{ currentUser.email }}</li>
-      <li>name: {{ currentUser.name }}</li>
-    </div>
   </div>
 
+  <section class="userInfo-section">
+    <div v-if="currentUser">
+      <h2>내 정보</h2>
+      <ul>
+        <li>id: {{ currentUser.id }}</li>
+        <li>email: {{ currentUser.email }}</li>
+        <li>name: {{ currentUser.name }}</li>
+      </ul>
+    </div>
+  </section>
+
   <section class="posts-section">
+    <header class="header">
+      <h2>내 게시글</h2>
+    </header>
     <div v-if="loading" class="loading">로딩중...</div>
 
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -51,10 +59,15 @@ const filteredPosts = computed(() =>
   postList.value.filter(post => !post.isDeleted)
 );
 
+const setData = async () => {
+  await fetchMyPosts();
+  await getUserById();
+};
+
 watch(
   page,
-  () => {
-    fetchMyPosts();
+  async () => {
+    await fetchMyPosts();
   },
   {
     immediate: true,
@@ -62,6 +75,6 @@ watch(
 );
 
 onMounted(async () => {
-  await getUserById();
+  await setData();
 });
 </script>
