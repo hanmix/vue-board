@@ -25,7 +25,6 @@ button:hover {
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
   color: var(--color-text-strong);
-  transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
 }
 
@@ -35,7 +34,6 @@ button:focus {
 }
 
 button:active {
-  transform: translateY(0);
   transition-duration: 0.1s;
 }
 
@@ -141,15 +139,17 @@ select {
 .search-button {
   background: var(--color-primary);
   border: 1px solid var(--color-primary);
-  border-radius: var(--border-radius-md);
-  width: 3.6rem;
-  height: 3.6rem;
+  border-radius: var(--border-radius-lg);
+  width: var(--touch-target);
+  height: var(--touch-target); /* 다른 요소와 동일한 높이 */
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-normal);
   color: white;
+  padding: 0; /* 전역 button 패딩 제거 */
+  box-sizing: border-box;
 }
 
 .search-button:hover:not(:disabled) {
@@ -261,7 +261,6 @@ select {
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
   color: var(--color-text-strong);
-  transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
 }
 

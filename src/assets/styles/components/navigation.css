@@ -110,6 +110,7 @@
 
   .header-content {
     gap: var(--spacing-sm);
+    padding: 0;
   }
 }
 
