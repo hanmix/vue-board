@@ -22,7 +22,8 @@
   gap: var(--spacing-md);
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
+  align-items: stretch;
 }
 
 /* Search Select */
@@ -30,11 +31,11 @@
   background: var(--color-bg-light);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 0 var(--spacing-lg);
   color: var(--color-text);
-  font-size: 1.4rem; /* 본문 */
+  font-size: 1.4rem;
   font-weight: 500;
-  min-height: var(--touch-target);
+  height: var(--touch-target);
   cursor: pointer;
   transition: all var(--transition-normal);
   appearance: none;
@@ -45,12 +46,15 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-select:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-light);
   outline: none;
+  background: var(--color-bg-hover);
 }
 
 /* Search Input Wrapper */
@@ -60,6 +64,9 @@
   width: 100%;
   max-width: 100%;
   gap: var(--spacing-sm);
+  height: var(--touch-target);
+  position: relative;
+  overflow: visible;
 }
 
 /* Search Input */
@@ -68,11 +75,11 @@
   background: var(--color-bg-light);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 0 var(--spacing-lg);
   flex: 1;
   color: var(--color-text);
-  font-size: 1.4rem; /* 본문 */
-  min-height: var(--touch-target);
+  font-size: 1.4rem;
+  height: var(--touch-target);
   transition: all var(--transition-normal);
   box-sizing: border-box;
 }
@@ -94,29 +101,31 @@
   flex-shrink: 0;
 }
 
-/* 태블릿 이상에서 가로 배치 */
+/* 태블릿 이상에서 가로 배치 - 인라인 스타일 최적화 */
 @media (min-width: 768px) {
   .search-input-group {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     gap: var(--spacing-lg);
-  }
-
-  .search-select {
-    width: 160px;
-    flex-shrink: 0;
-    min-width: 160px;
-    max-width: 160px;
+    height: var(--touch-target);
   }
 
   .search-input-wrapper {
     flex: 1;
-    max-width: 320px;
-    min-width: 200px;
+    max-width: 500px;
+    min-width: 300px;
+    height: var(--touch-target);
   }
 
-  .search-input {
-    width: 100%;
+  .search-type-label {
+    padding: 0 var(--spacing-lg);
+    font-size: 1.4rem;
+    min-width: auto;
+  }
+
+  .inline-search-input {
+    padding: 0 var(--spacing-lg);
+    min-width: 250px; /* 플레이스홀더 텍스트를 위한 최소 너비 */
   }
 }
 
@@ -125,26 +134,38 @@
   .search-input-wrapper {
     max-width: 400px;
   }
+
+  .inline-search-input {
+    min-width: 280px; /* 데스크탑에서 더 넉넉한 최소 너비 */
+  }
 }
 
-/* 모바일 최적화 - 작은 화면 */
+/* 모바일 최적화 - 인라인 스타일 */
 @media (max-width: 767px) {
   .search-input-group {
     flex-direction: row;
     align-items: stretch;
     gap: var(--spacing-sm);
-  }
-
-  .search-select {
-    flex: 0 0 auto;
-    min-width: 6rem;
-    max-width: 7rem;
-    font-size: 1.4rem; /* 본문 */
+    height: var(--touch-target);
   }
 
   .search-input-wrapper {
     flex: 1;
     min-width: 0;
+    height: var(--touch-target);
+  }
+
+  .search-type-label {
+    padding: 0 var(--spacing-sm);
+    font-size: 1.3rem;
+    min-width: fit-content;
+  }
+
+  .inline-search-input {
+    padding: 0 var(--spacing-md);
+    font-size: 1.4rem;
+    min-width: 100px; /* 모바일에서 작은 최소 너비 */
+    flex: 1 1 auto; /* 유동적 크기 조정 */
   }
 }
 
@@ -154,58 +175,168 @@
     gap: var(--spacing-sm);
     flex-direction: row;
     align-items: stretch;
-  }
-
-  .search-select {
-    flex: 0 0 auto;
-    min-width: 8rem;
-    font-size: 1.4rem; /* 본문 */
-    padding: var(--spacing-sm) var(--spacing-md);
-    min-height: 4rem;
-  }
-
-  .search-input {
-    flex: 1;
-    min-width: 0;
+    height: var(--touch-target);
   }
 
   .search-input-wrapper {
     flex: 1;
     min-width: 0;
+    height: var(--touch-target);
   }
+}
+
+/* Inline Search Container - 인라인 라벨 스타일 */
+.inline-search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  height: var(--touch-target);
+  flex: 1;
+  transition: all var(--transition-normal);
+  gap: var(--spacing-xs);
+  min-width: 0; /* 컨테이너 축소 허용 */
+}
+
+.inline-search-container:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  background: var(--color-bg-hover);
+}
+
+/* Search Type Label - 클릭 가능한 라벨 */
+.search-type-label {
+  background: none;
+  border: none;
+  padding: 0 var(--spacing-md);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+  height: 100%;
+  min-width: fit-content;
+}
+
+.search-type-label:hover {
+  color: var(--color-primary);
+}
+
+.search-type-label.active {
+  color: var(--color-primary);
+}
+
+/* Dropdown Arrow */
+.dropdown-arrow {
+  transition: transform var(--transition-normal);
+  opacity: 0.7;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* Search Type Dropdown Portal - body 레벨에서 표시 */
+.search-type-dropdown-portal {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 99999;
+  overflow: hidden;
+  min-width: 200px;
+
+  /* 애니메이션 */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: all var(--transition-normal);
+}
+
+.dropdown-option {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1.4rem;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: 400;
+}
+
+.dropdown-option:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-primary);
+}
+
+.dropdown-option.selected {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.inline-search-input {
+  flex: 1 1 auto;
+  background: none;
+  border: none;
+  padding: 0 var(--spacing-md);
+  font-size: 1.4rem;
+  color: var(--color-text);
+  height: 100%;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  min-width: 230px; /* 검색 버튼 공간 확보를 위한 최소 너비 */
+}
+
+.inline-search-input::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 400;
 }
 
 /* 더 작은 모바일 화면 */
 @media (max-width: 480px) {
   .search-input-group {
     gap: var(--spacing-sm);
-  }
-
-  .search-select {
-    flex: 0 0 auto;
-    min-width: 5rem;
-    max-width: 6rem;
-    font-size: 1.2rem; /* 작은 텍스트 */
-    padding: var(--spacing-xs) var(--spacing-sm);
-    min-height: 3.6rem;
-  }
-
-  .search-input {
-    font-size: 1.4rem; /* 본문 */
-    min-height: 3.6rem;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    flex: 1;
-    min-width: 0;
+    height: var(--touch-target);
   }
 
   .search-input-wrapper {
     flex: 1;
     min-width: 0;
+    height: var(--touch-target);
+  }
+
+  .search-type-label {
+    padding: 0 var(--spacing-xs);
+    font-size: 1.2rem;
+    min-width: fit-content;
+  }
+
+  .inline-search-input {
+    padding: 0 var(--spacing-sm);
+    font-size: 1.3rem;
+    min-width: 80px; /* 모바일에서 더 작은 최소 너비 */
+    flex: 1 1 auto; /* 유동적 크기 조정 */
   }
 
   .search-button {
-    width: 2.8rem;
-    height: 2.8rem;
+    width: var(--touch-target);
+    height: var(--touch-target);
     flex: 0 0 auto;
+  }
+
+  .dropdown-option {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 1.3rem;
   }
 }
