@@ -55,19 +55,3 @@ onMounted(() => document.addEventListener('keydown', handleEsc));
 onBeforeUnmount(() => document.removeEventListener('keydown', handleEsc));
 </script>
 
-<style scoped>
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  min-width: 300px;
-}
-</style>

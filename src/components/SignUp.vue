@@ -3,7 +3,7 @@
     <h1>회원가입</h1>
     <form @submit.prevent="handleSignUp">
       <div class="form-group">
-        <div style="padding: 10px">
+        <div class="form-padding">
           <label for="name">이름</label>
           <input
             id="name"
@@ -13,9 +13,9 @@
             v-model="name"
           />
         </div>
-        <div style="padding: 10px">
+        <div class="form-padding">
           <label for="email">이메일</label>
-          <div style="display: flex; gap: 10px">
+          <div class="form-horizontal">
             <input
               id="email"
               class="inputbox"
@@ -26,7 +26,7 @@
             <button @click="checkedEmail">이메일 중복확인</button>
           </div>
         </div>
-        <div style="padding: 10px">
+        <div class="form-padding">
           <label for="password">비밀번호</label>
           <input
             id="password"
@@ -36,7 +36,7 @@
             v-model="password"
           />
         </div>
-        <div style="padding: 10px">
+        <div class="form-padding">
           <label for="doublePassword">비밀번호 확인</label>
           <input
             id="doublePassword"
@@ -46,13 +46,13 @@
             v-model="doubleCheckPassword"
           />
         </div>
-        <div style="padding: 10px">
+        <div class="form-padding">
           <button type="submit">회원가입 하기</button>
         </div>
       </div>
     </form>
     <div
-      style="display: flex; align-items: center; gap: 10px; padding-top: 20px"
+class="auth-footer"
     >
       <p>이미 아이디가 있으신가요?</p>
       <router-link to="/signIn">로그인</router-link>

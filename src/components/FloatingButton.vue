@@ -2,7 +2,7 @@
   <div class="floating-container">
     <button
       v-if="route.name === 'free'"
-      @click="setIsModalOpen(true)"
+      @click="showModal"
       class="floating-button"
     >
       ✍️
@@ -13,6 +13,6 @@
 <script setup lang="ts">
 import { useModal } from '@/composables';
 import { useRoute } from 'vue-router';
-const { setIsModalOpen } = useModal();
+const { showModal } = useModal();
 const route = useRoute();
 </script>

@@ -1,7 +1,11 @@
 <template>
   <header class="header">
-    <h1>공지게시판</h1>
-    <SearchFilter :boardType="boardType" />
+    <div class="header-content">
+      <h1>공지게시판</h1>
+      <div class="header-actions">
+        <SearchFilter :boardType="boardType" />
+      </div>
+    </div>
   </header>
   <section class="posts-section">
     <div v-if="loading" class="loading">로딩중...</div>

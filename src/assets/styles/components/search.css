@@ -1,0 +1,211 @@
+/* =================================================================
+   SEARCH COMPONENTS - 검색 및 필터 관련 스타일
+   ================================================================= */
+
+/* Search Filter Container */
+.search-filter-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* 검색 폼 - 모던 디자인 */
+.search-form {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.search-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Search Select */
+.search-select {
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-text);
+  font-size: 1.4rem; /* 본문 */
+  font-weight: 500;
+  min-height: var(--touch-target);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8L0 0H12L6 8Z" fill="%23a1a1aa"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.search-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  outline: none;
+}
+
+/* Search Input Wrapper */
+.search-input-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  gap: var(--spacing-sm);
+}
+
+/* Search Input */
+.search-input {
+  width: 100%;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  flex: 1;
+  color: var(--color-text);
+  font-size: 1.4rem; /* 본문 */
+  min-height: var(--touch-target);
+  transition: all var(--transition-normal);
+  box-sizing: border-box;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  outline: none;
+  background: var(--color-bg-hover);
+}
+
+/* Search Icon */
+.search-icon {
+  flex-shrink: 0;
+}
+
+/* 태블릿 이상에서 가로 배치 */
+@media (min-width: 768px) {
+  .search-input-group {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .search-select {
+    width: 160px;
+    flex-shrink: 0;
+    min-width: 160px;
+    max-width: 160px;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    max-width: 320px;
+    min-width: 200px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
+/* 더 큰 화면에서 검색 필드 크기 조정 */
+@media (min-width: 1024px) {
+  .search-input-wrapper {
+    max-width: 400px;
+  }
+}
+
+/* 모바일 최적화 - 작은 화면 */
+@media (max-width: 767px) {
+  .search-input-group {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+
+  .search-select {
+    flex: 0 0 auto;
+    min-width: 6rem;
+    max-width: 7rem;
+    font-size: 1.4rem; /* 본문 */
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* iPhone SE 최적화 */
+@media (max-width: 375px) {
+  .search-input-group {
+    gap: var(--spacing-sm);
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .search-select {
+    flex: 0 0 auto;
+    min-width: 8rem;
+    font-size: 1.4rem; /* 본문 */
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-height: 4rem;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* 더 작은 모바일 화면 */
+@media (max-width: 480px) {
+  .search-input-group {
+    gap: var(--spacing-sm);
+  }
+
+  .search-select {
+    flex: 0 0 auto;
+    min-width: 5rem;
+    max-width: 6rem;
+    font-size: 1.2rem; /* 작은 텍스트 */
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-height: 3.6rem;
+  }
+
+  .search-input {
+    font-size: 1.4rem; /* 본문 */
+    min-height: 3.6rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-button {
+    width: 2.8rem;
+    height: 2.8rem;
+    flex: 0 0 auto;
+  }
+}

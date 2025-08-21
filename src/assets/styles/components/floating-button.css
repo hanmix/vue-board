@@ -1,0 +1,130 @@
+/* =================================================================
+   FLOATING BUTTON COMPONENT - 플로팅 버튼 관련 스타일
+   ================================================================= */
+
+/* 플로팅 버튼 - 모바일 최적화 */
+.floating-container {
+  position: fixed;
+  right: var(--spacing-lg);
+  bottom: calc(var(--spacing-lg) + 20px); /* 페이지네이션과 충돌 방지 */
+  z-index: var(--z-fixed);
+}
+
+@media (min-width: 768px) {
+  .floating-container {
+    right: 50px;
+    bottom: 70px; /* 태블릿에서 더 여유있게 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .floating-container {
+    bottom: 80px; /* 데스크톱에서 충분한 여백 */
+  }
+}
+
+.floating-button {
+  border: 1px solid var(--color-primary);
+  width: 52px; /* 모바일에서 더 작게 */
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-fast), 
+              background-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-size: 20px; /* 모바일에서 더 작게 */
+
+  /* 모바일 터치 최적화 */
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* 접근성 개선 */
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+
+  /* 버튼임을 명확히 */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.floating-button:hover,
+.floating-button:focus {
+  transform: scale(1.05);
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-text-strong);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.floating-button:active {
+  transform: scale(1.05);
+}
+
+/* 태블릿 이상에서 플로팅 버튼 크기 증가 */
+@media (min-width: 768px) {
+  .floating-button {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+}
+
+/* 데스크톱에서 플로팅 버튼 더 크게 */
+@media (min-width: 1024px) {
+  .floating-button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .floating-button:hover {
+    transform: scale(1.15); /* 데스크톱에서 더 큰 호버 효과 */
+  }
+}
+
+/* 모션 감소 설정 사용자 고려 */
+@media (prefers-reduced-motion: reduce) {
+  .floating-button {
+    transition: background-color var(--transition-fast), 
+                box-shadow var(--transition-fast);
+  }
+
+  .floating-button:hover,
+  .floating-button:focus,
+  .floating-button:active {
+    transform: none;
+  }
+}
+
+/* 고대비 모드 대응 */
+@media (prefers-contrast: high) {
+  .floating-button {
+    border: 2px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  .floating-button:hover,
+  .floating-button:focus {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* 모바일 안전 영역 고려 */
+@supports (padding: max(0px)) {
+  .floating-container {
+    padding-left: max(var(--container-padding), env(safe-area-inset-left));
+    padding-right: max(var(--container-padding), env(safe-area-inset-right));
+    bottom: max(
+      calc(var(--spacing-lg) + 20px),
+      calc(env(safe-area-inset-bottom) + 20px)
+    );
+  }
+}

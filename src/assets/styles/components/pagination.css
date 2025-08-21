@@ -1,0 +1,112 @@
+/* =================================================================
+   PAGINATION COMPONENT - 페이지네이션 관련 스타일
+   ================================================================= */
+
+/* 페이지네이션 - 모던 디자인 */
+.pagination-section {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-2xl);
+  margin-bottom: calc(var(--spacing-xl) + 80px);
+  padding: 0 var(--spacing-md);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: var(--spacing-sm);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin: 0 var(--spacing-md);
+  font-weight: 600;
+  font-size: 1.4rem; /* 본문 */
+}
+
+.current-page {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.page-separator {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.total-page {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* 태블릿에서 여백 조정 */
+@media (min-width: 768px) {
+  .pagination-section {
+    margin-bottom: calc(var(--spacing-xl) + 60px); /* 태블릿에서 여백 조정 */
+  }
+}
+
+/* 데스크톱에서 여백 조정 */
+@media (min-width: 1024px) {
+  .pagination-section {
+    margin-bottom: calc(
+      var(--spacing-xl) + 40px
+    ); /* 데스크톱에서 적당한 여백 */
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 480px) {
+  .pagination {
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-xs);
+  }
+
+  .pagination .page-btn {
+    min-width: 3.5rem;
+    font-size: 1.2rem; /* 작은 텍스트 */
+  }
+
+  .pagination-info {
+    margin: 0 var(--spacing-sm);
+    font-size: 1.4rem;
+  }
+}

@@ -1,15 +1,16 @@
 <template>
-  <div class="header">
+  <div class="header mypage-header">
     <h1>마이페이지</h1>
+    <button @click="handleLogout" class="logout-btn">로그아웃</button>
   </div>
 
   <section class="userInfo-section">
-    <div v-if="currentUser">
+    <div v-if="currentUserFromAuth || currentUser">
       <h2>내 정보</h2>
       <ul>
-        <li>id: {{ currentUser.id }}</li>
-        <li>email: {{ currentUser.email }}</li>
-        <li>name: {{ currentUser.name }}</li>
+        <li>id: {{ currentUserFromAuth?.id || currentUser?.id }}</li>
+        <li v-if="currentUser?.email">email: {{ currentUser.email }}</li>
+        <li v-if="currentUser?.name">name: {{ currentUser.name }}</li>
       </ul>
     </div>
   </section>
@@ -38,8 +39,9 @@
   </section>
 </template>
 <script setup lang="ts">
-import { usePost, useUser } from '@/composables';
+import { usePost, useUser, useAuth } from '@/composables';
 import { computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import PostItem from './PostItem.vue';
 import Pagination from './Pagination.vue';
 
@@ -54,14 +56,20 @@ const {
   fetchMyPosts,
 } = usePost();
 const { currentUser, getUserById } = useUser();
+const { logout, getCurrentUser } = useAuth();
+const router = useRouter();
+
+const currentUserFromAuth = computed(() => getCurrentUser());
 
 const filteredPosts = computed(() =>
   postList.value.filter(post => !post.isDeleted)
 );
 
 const setData = async () => {
-  await fetchMyPosts();
-  await getUserById();
+  // JWT에서 기본 정보를 우선 사용하고, 추가 정보가 필요하면 API 호출
+  if (currentUserFromAuth.value?.id) {
+    await getUserById();
+  }
 };
 
 watch(
@@ -73,6 +81,13 @@ watch(
     immediate: true,
   }
 );
+
+function handleLogout() {
+  const confirmed = confirm('정말 로그아웃 하시겠습니까?');
+  if (!confirmed) return;
+  logout();
+  router.push('/signIn');
+}
 
 onMounted(async () => {
   await setData();

@@ -7,14 +7,9 @@
         @click.self="emit('onClose')"
       >
         <div class="modal-content">
-          <button type="button" class="modal-close" @click="emit('onClose')">
-            x
-          </button>
+          <button type="button" class="modal-close" @click="close">×</button>
           <h1>게시글 작성하기</h1>
-          <form
-            @submit.prevent="handleCreate"
-            style="display: flex; flex-direction: column; gap: 10px"
-          >
+          <form @submit.prevent="handleCreate" class="modal-form">
             <label for="title">제목</label>
             <input
               id="title"
@@ -56,12 +51,9 @@ const isEmptyValue = computed(
   () => title.value.trim().length === 0 || content.value.trim().length === 0
 );
 
-const { showAlert } = useModal();
+const { showAlert, isVisible, close } = useModal();
 const { createNewPost } = usePost();
 
-const { isVisible } = defineProps<{
-  isVisible: boolean;
-}>();
 const emit = defineEmits(['onClose', 'onCreate', 'onUpdate']);
 
 async function handleCreate() {
@@ -76,7 +68,6 @@ async function handleCreate() {
       title.value = '';
       content.value = '';
     });
-    // showAlert('게시글이 생성되었습니다.');
     emit('onUpdate');
   } catch (error) {
     console.error('게시글 생성 실패:', error);
@@ -91,27 +82,22 @@ const handleComposition = (value: boolean) => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') {
-    emit('onClose');
+    close();
   }
 };
 
-/** 모달 오픈 시 입력창 초기화 및 제목 입력창 포커스 */
-watch(
-  () => isVisible,
-  async visible => {
-    if (visible) {
-      await nextTick(() => {
-        title.value = '';
-        content.value = '';
-      });
-      const titleInput = document.getElementById('title') as HTMLInputElement;
-      titleInput?.focus();
-    }
-  }
-);
-
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
+
+  // lazy loading된 컴포넌트가 마운트될 때 이미 모달이 열려있다면 포커스 적용
+  if (isVisible.value) {
+    nextTick(() => {
+      title.value = '';
+      content.value = '';
+      const titleInput = document.getElementById('title') as HTMLInputElement;
+      titleInput?.focus();
+    });
+  }
 });
 
 onUnmounted(() => {

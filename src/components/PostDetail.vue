@@ -1,14 +1,14 @@
 <template>
   <div v-if="currentPost" class="post-container">
-    <div style="display: flex; justify-content: space-between">
+    <div class="post-detail-header">
       <h1 class="post-title">{{ currentPost.title }}</h1>
       <p
         v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
-        style="color: grey; font-size: 1.5rem"
+class="post-deleted-notice"
       >
         {{ '원글이 삭제된 답글' }}
       </p>
-      <div style="display: flex; gap: 10px">
+      <div class="post-detail-actions">
         <button v-if="currentPost.userId === userId" @click="handleUpdate">
           수정
         </button>

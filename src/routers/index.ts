@@ -1,12 +1,15 @@
+// 즉시 로드 - 첫 방문 시 필요한 컴포넌트들
 import MainPage from '@/pages/MainPage.vue';
 import BoardPage from '@/pages/BoardPage.vue';
 import SignIn from '@/components/SignIn.vue';
 import SignUp from '@/components/SignUp.vue';
-import Posts from '@/components/Posts.vue';
-import PostDetail from '@/components/PostDetail.vue';
 import type { RouteRecordRaw } from 'vue-router';
-import Mypage from '@/components/Mypage.vue';
-import NoticeBoard from '@/components/NoticeBoard.vue';
+
+// Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
+const Posts = () => import('@/components/Posts.vue');
+const PostDetail = () => import('@/components/PostDetail.vue');
+const Mypage = () => import('@/components/Mypage.vue');
+const NoticeBoard = () => import('@/components/NoticeBoard.vue');
 
 export const routes: RouteRecordRaw[] = [
   {
