@@ -3,3 +3,4 @@ export * from './useModal';
 export * from './usePagination';
 export * from './useUser';
 export * from './usePost';
+export * from './useBreakpoint';
