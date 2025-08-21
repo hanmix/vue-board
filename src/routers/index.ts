@@ -3,7 +3,7 @@ import MainPage from '@/pages/MainPage.vue';
 import BoardPage from '@/pages/BoardPage.vue';
 import SignIn from '@/components/SignIn.vue';
 import SignUp from '@/components/SignUp.vue';
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw, RouteRecordSingleView } from 'vue-router';
 
 // Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
 const Posts = () => import('@/components/Posts.vue');
