@@ -6,6 +6,7 @@
       :to="tab.to"
       class="tab"
       active-class="active"
+      @click="handleTabClick"
     >
       {{ tab.label }}
     </router-link>
@@ -13,7 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { TabInfo } from '@/types/tab';
+import type { TabInfo } from '@/types/tab';
+import { usePostStore } from '@/stores/post';
 
 const { tabs } = defineProps<{ tabs: TabInfo[] }>();
+const postStore = usePostStore();
+
+const handleTabClick = () => {
+  postStore.resetPagination();
+};
 </script>

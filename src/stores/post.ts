@@ -31,6 +31,12 @@ export const usePostStore = defineStore('post', () => {
     isMypage.value = value;
   };
 
+  const resetPagination = () => {
+    page.value = 1;
+    searchKeyword.value = '';
+    searchType.value = 'title';
+  };
+
   const fetchPosts = async (board: BoardType): Promise<void> => {
     loading.value = true;
     error.value = null;
@@ -157,7 +163,7 @@ export const usePostStore = defineStore('post', () => {
       if (!isSuccess)
         throw (error.value = '게시글 수정 중 오류가 발생했습니다.');
 
-      const postIdx = postList.value.findIndex(post => post.id === postId);
+      const postIdx = postList.value.findIndex((post: Post) => post.id === postId);
       if (postIdx !== -1) {
         postList.value.splice(postIdx, 1, data);
       }
@@ -179,7 +185,7 @@ export const usePostStore = defineStore('post', () => {
       const { isSuccess } = await deletePostApi(postId);
       if (!isSuccess)
         throw (error.value = '게시글 삭제 중 오류가 발생했습니다.');
-      const postIdx = postList.value.findIndex(post => post.id === postId);
+      const postIdx = postList.value.findIndex((post: Post) => post.id === postId);
 
       if (postIdx === -1) {
         postList.value.splice(postIdx, 1);
@@ -210,7 +216,7 @@ export const usePostStore = defineStore('post', () => {
         error.value = '답글 생성 중 오류가 발생했습니다.';
         throw new Error(error.value);
       }
-      const postIdx = postList.value.findIndex(post => post.id === postId);
+      const postIdx = postList.value.findIndex((post: Post) => post.id === postId);
 
       if (postIdx !== -1) {
         const targetPost = postList.value[postIdx];
@@ -250,6 +256,7 @@ export const usePostStore = defineStore('post', () => {
     isMypage,
 
     setIsMypage,
+    resetPagination,
     fetchPosts,
     fetchMyPosts,
     fetchPostById,
