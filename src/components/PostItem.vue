@@ -147,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { Post } from '@/types';
+import type { Post } from '@/types';
 import { formatDate } from '@/utils';
 import { usePost } from '@/composables';
 

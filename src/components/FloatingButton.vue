@@ -4,6 +4,7 @@
       v-if="route.name === 'free'"
       @click="showModal"
       class="floating-button"
+      aria-label="새 글 작성"
     >
       ✍️
     </button>

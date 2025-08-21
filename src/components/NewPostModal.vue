@@ -7,7 +7,7 @@
         @click.self="emit('onClose')"
       >
         <div class="modal-content">
-          <button type="button" class="modal-close" @click="close">×</button>
+          <button type="button" class="modal-close" @click="close" aria-label="모달 닫기">×</button>
           <h1>게시글 작성하기</h1>
           <form @submit.prevent="handleCreate" class="modal-form">
             <label for="title">제목</label>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
 import { useModal, usePost } from '@/composables';
 
 const title = ref('');

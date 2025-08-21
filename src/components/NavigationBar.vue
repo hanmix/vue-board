@@ -10,7 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { TabInfo, TabName } from '@/types/tab';
+import type { TabInfo } from '@/types/tab';
+import { TabName } from '@/types/tab';
 import Tabs from './common/Tabs.vue';
 import { ref } from 'vue';
 

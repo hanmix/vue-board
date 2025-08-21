@@ -32,12 +32,13 @@
 import SearchFilter from './SearchFilter.vue';
 import Pagination from './Pagination.vue';
 import PostItem from './PostItem.vue';
-import { usePost } from '@/composables';
-import { watch } from 'vue';
+import { usePost, usePagination } from '@/composables';
+import { onMounted, watch } from 'vue';
 import { BoardType } from '@/types';
 
 const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
   usePost();
+const {} = usePagination();
 
 const boardType = BoardType.NOTICE;
 

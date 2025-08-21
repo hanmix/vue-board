@@ -54,4 +54,3 @@ const handleEsc = (e: KeyboardEvent) => {
 onMounted(() => document.addEventListener('keydown', handleEsc));
 onBeforeUnmount(() => document.removeEventListener('keydown', handleEsc));
 </script>
-
