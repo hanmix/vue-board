@@ -59,8 +59,8 @@ body::-webkit-scrollbar {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     opacity: 0.3;
-    transition: background-color var(--transition-fast), 
-                opacity var(--transition-fast);
+    transition: background-color var(--transition-fast),
+      opacity var(--transition-fast);
   }
 
   body::-webkit-scrollbar-thumb:hover,
@@ -168,6 +168,10 @@ body::-webkit-scrollbar {
   align-items: center;
   gap: 10px;
   padding-top: 20px;
+}
+
+.auth-footer p {
+  margin: 0;
 }
 
 /* Submit Button */
