@@ -39,7 +39,7 @@
                   :key="option.value"
                   type="button"
                   class="dropdown-option"
-                  :class="{ selected: searchType === option.value }"
+                  :class="{ selected: _localType === option.value }"
                   @click="selectSearchType(option.value)"
                 >
                   {{ option.label }}
@@ -53,7 +53,7 @@
               name="searchKeyword"
               type="text"
               class="inline-search-input"
-              v-model="searchKeyword"
+              v-model="_localKeyword"
               :placeholder="searchPlaceholder"
             />
           </div>
@@ -80,17 +80,65 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
-import { usePagination, usePost, useBreakpoint } from '@/composables';
-import { BoardType } from '@/types';
+import { useBreakpoint } from '@/composables';
+import type { SearchType, BoardType } from '@/types';
 import { SPACING } from '@/utils';
 
-const { searchOptions, onSearch } = usePagination();
-const { searchKeyword, searchType } = usePost();
 const { isMobile, windowWidth } = useBreakpoint();
 
-const { boardType } = defineProps<{
+interface Props {
   boardType: BoardType;
-}>();
+  searchKeyword: string;
+  searchType: SearchType;
+  onSearch: (keyword: string, type: SearchType) => void;
+}
+
+const props = defineProps<Props>();
+
+// 검색 옵션들
+const searchOptions = [
+  { value: 'title', label: '제목' },
+  { value: 'content', label: '내용' },
+  { value: 'title_content', label: '제목+내용' },
+  { value: 'user', label: '작성자' },
+];
+
+// 검색 상태를 computed로 관리 (양방향 바인딩)
+const localSearchKeyword = computed({
+  get: () => props.searchKeyword,
+  set: value => {
+    // 입력 시점에는 즉시 반영하지 않고, 검색 실행 시에만 반영
+    _localKeyword.value = value;
+  },
+});
+
+const localSearchType = computed({
+  get: () => props.searchType,
+  set: value => {
+    _localType.value = value;
+  },
+});
+
+// 내부 임시 상태
+const _localKeyword = ref(props.searchKeyword);
+const _localType = ref(props.searchType);
+
+// props 변경 시 내부 상태 동기화
+watch(
+  () => props.searchKeyword,
+  newValue => {
+    _localKeyword.value = newValue;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.searchType,
+  newValue => {
+    _localType.value = newValue;
+  },
+  { immediate: true }
+);
 
 // 드롭다운 상태 관리
 const showDropdown = ref(false);
@@ -101,8 +149,8 @@ const dropdownPositionKey = ref(0);
 
 // 현재 선택된 검색 타입의 라벨
 const currentSearchLabel = computed(() => {
-  const option = searchOptions.find(opt => opt.value === searchType.value);
-  return option ? option.label : '게시글 제목';
+  const option = searchOptions.find(opt => opt.value === _localType.value);
+  return option ? option.label : '제목';
 });
 
 // 검색 플레이스홀더 동적 생성
@@ -148,7 +196,7 @@ const toggleSearchTypeDropdown = () => {
 
 // 검색 타입 선택
 const selectSearchType = (value: string) => {
-  searchType.value = value as any;
+  _localType.value = value as SearchType;
   showDropdown.value = false;
 };
 
@@ -176,7 +224,7 @@ const handleScroll = () => {
     if (showDropdown.value) {
       // 옵션 1: 스크롤 시 드롭다운 닫기 (모바일 친화적)
       showDropdown.value = false;
-      
+
       // 옵션 2: 스크롤 시 위치 실시간 업데이트 (데스크탑 친화적)
       // 아래 주석을 해제하고 위 라인을 주석하면 실시간 업데이트 모드
       // updateDropdownPosition();
@@ -187,7 +235,7 @@ const handleScroll = () => {
 
 // 검색 실행
 const handleSearch = () => {
-  onSearch(boardType);
+  props.onSearch(_localKeyword.value, _localType.value);
 };
 
 // 드롭다운 위치 업데이트 함수
@@ -225,7 +273,7 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', updateDropdownPosition);
   document.removeEventListener('scroll', handleScroll, true);
-  
+
   // 스크롤 타이머 정리
   if (scrollTimer) {
     clearTimeout(scrollTimer);

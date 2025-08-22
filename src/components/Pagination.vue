@@ -83,12 +83,33 @@
 </template>
 
 <script setup lang="ts">
-import { usePagination } from '@/composables';
-
-const { moveToFirstPage, moveToLastPage, prevPage, nextPage } = usePagination();
-
-const { currentPage, totalPage } = defineProps<{
+const { currentPage, totalPage, onPageChange } = defineProps<{
   currentPage: number;
   totalPage: number;
+  onPageChange?: (page: number) => void;
 }>();
+
+const moveToFirstPage = () => {
+  if (currentPage > 1 && onPageChange) {
+    onPageChange(1);
+  }
+};
+
+const moveToLastPage = () => {
+  if (currentPage < totalPage && onPageChange) {
+    onPageChange(totalPage);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage > 1 && onPageChange) {
+    onPageChange(currentPage - 1);
+  }
+};
+
+const nextPage = () => {
+  if (currentPage < totalPage && onPageChange) {
+    onPageChange(currentPage + 1);
+  }
+};
 </script>
