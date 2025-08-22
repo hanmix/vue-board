@@ -4,7 +4,7 @@
       <h1 class="post-title">{{ currentPost.title }}</h1>
       <p
         v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
-class="post-deleted-notice"
+        class="post-deleted-notice"
       >
         {{ '원글이 삭제된 답글' }}
       </p>
@@ -41,7 +41,7 @@ class="post-deleted-notice"
 <script setup lang="ts">
 import { usePost, useModal, useUser } from '@/composables';
 import { formatDate } from '@/utils';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const {
   prevPost,
@@ -138,19 +138,7 @@ const setData = async () => {
   }
 };
 
-watch(
-  () => id,
-  async newId => {
-    if (newId) {
-      await setData();
-    }
-  },
-  { immediate: true }
-);
-
 onMounted(async () => {
   await setData();
-  console.log('parentPost', parentPost.value);
-  console.log('currentPost', currentPost.value);
 });
 </script>

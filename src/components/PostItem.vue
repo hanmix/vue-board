@@ -11,7 +11,7 @@
 
     <!-- Deleted Notice -->
     <div
-      v-if="!isParentPostExist && post.type === 'reply' && !isMypage"
+      v-if="post.type === 'reply' && post.parentId && post.isParentDeleted"
       class="post-deleted-notice"
     >
       <svg
@@ -147,18 +147,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Post } from '@/types';
+import { type ProcessedPost } from '@/types';
 import { formatDate } from '@/utils';
-import { usePost } from '@/composables';
 
-const { postList } = usePost();
-const { post, isMypage } = defineProps<{
-  post: Post;
+const { post } = defineProps<{
+  post: ProcessedPost;
   isMypage?: boolean;
 }>();
-
-const parentPostIdx = postList.value.findIndex(p => p.id === post.parentId);
-const isParentPostExist = parentPostIdx !== -1;
 
 // 게시글 내용 미리보기 생성
 const getContentPreview = (content: string): string => {
