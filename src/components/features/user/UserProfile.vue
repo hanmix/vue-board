@@ -1,6 +1,5 @@
 <template>
   <div class="header mypage-header">
-    <h1>마이페이지</h1>
     <button @click="handleLogout" class="logout-btn">로그아웃</button>
   </div>
 
@@ -28,10 +27,7 @@
     </div>
 
     <div v-else v-for="post in filteredPosts" :key="post.id">
-      <BoardItem
-        :post="post"
-        :isMypage="isMypage"
-      />
+      <BoardItem :post="post" :isMypage="isMypage" />
     </div>
   </section>
 

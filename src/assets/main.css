@@ -14,6 +14,7 @@
 @import './styles/components/modal.css';
 @import './styles/components/navigation.css';
 @import './styles/components/posts.css';
+@import './styles/components/post-detail.css';
 @import './styles/components/search.css';
 @import './styles/components/pagination.css';
 @import './styles/components/floating-button.css';

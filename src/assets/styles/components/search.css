@@ -2,11 +2,13 @@
    SEARCH COMPONENTS - 검색 및 필터 관련 스타일
    ================================================================= */
 
-/* Search Filter Container */
+/* Search Filter Container - 컴팩트하게 수정 */
 .search-filter-container {
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible; /* 드롭다운을 위해 visible로 변경 */
+  position: relative;
+  z-index: 1;
 }
 
 /* 검색 폼 - 모던 디자인 */
@@ -24,6 +26,8 @@
   max-width: 100%;
   overflow: visible;
   align-items: stretch;
+  position: relative;
+  z-index: 10;
 }
 
 /* Search Select */
@@ -52,7 +56,6 @@
 
 .search-select:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
   outline: none;
   background: var(--color-bg-hover);
 }
@@ -67,6 +70,7 @@
   height: var(--touch-target);
   position: relative;
   overflow: visible;
+  z-index: 20;
 }
 
 /* Search Input */
@@ -91,7 +95,6 @@
 
 .search-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
   outline: none;
   background: var(--color-bg-hover);
 }
@@ -185,51 +188,61 @@
   }
 }
 
-/* Inline Search Container - 인라인 라벨 스타일 */
+/* Inline Search Container - 배경색 겹침 수정 */
 .inline-search-container {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
   border-radius: var(--border-radius-lg);
   height: var(--touch-target);
   flex: 1;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-fast);
   gap: var(--spacing-xs);
-  min-width: 0; /* 컨테이너 축소 허용 */
+  min-width: 0;
+  z-index: 30;
 }
 
 .inline-search-container:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
-  background: var(--color-bg-hover);
+  background: linear-gradient(
+    135deg,
+    rgba(96, 165, 250, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 100%
+  );
+  /* transform 제거하여 잘림 현상 방지 */
 }
 
-/* Search Type Label - 클릭 가능한 라벨 */
+/* Search Type Label - 소셜미디어 스타일 */
 .search-type-label {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-md);
   padding: 0 var(--spacing-md);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  transition: all var(--transition-normal);
+  transition: all var(--transition-fast);
   white-space: nowrap;
-  height: 100%;
+  height: calc(100% - var(--spacing-xs));
+  margin: calc(var(--spacing-xs) / 2);
   min-width: fit-content;
 }
 
 .search-type-label:hover {
-  color: var(--color-primary);
+  color: var(--color-text-strong);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  /* transform 제거하여 잘림 방지 */
 }
 
 .search-type-label.active {
-  color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
 }
 
 /* Dropdown Arrow */
@@ -242,44 +255,52 @@
   transform: rotate(180deg);
 }
 
-/* Search Type Dropdown Portal - body 레벨에서 표시 */
+/* Search Type Dropdown Portal - z-index와 그림자 개선 */
 .search-type-dropdown-portal {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
+  background: linear-gradient(
+    135deg,
+    rgba(39, 39, 42, 0.95) 0%,
+    rgba(63, 63, 70, 0.9) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg);
-  z-index: 99999;
+  z-index: 999999; /* 더 높은 z-index */
   overflow: hidden;
   min-width: 200px;
 
-  /* 애니메이션 */
+  /* 애니메이션 - transform 제거 */
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
-  transition: all var(--transition-normal);
+  transition: all var(--transition-fast);
 }
 
 .dropdown-option {
   display: block;
   width: 100%;
   padding: var(--spacing-md) var(--spacing-lg);
-  background: none;
+  background: transparent;
   border: none;
   text-align: left;
   font-size: 1.4rem;
-  color: var(--color-text);
+  color: var(--color-text-strong);
   cursor: pointer;
   transition: all var(--transition-fast);
   font-weight: 400;
+  position: relative;
 }
 
 .dropdown-option:hover {
-  background: var(--color-bg-hover);
+  background: rgba(96, 165, 250, 0.1);
   color: var(--color-primary);
 }
 
 .dropdown-option.selected {
-  background: var(--color-primary-light);
+  background: linear-gradient(
+    135deg,
+    rgba(96, 165, 250, 0.2) 0%,
+    rgba(139, 92, 246, 0.2) 100%
+  );
   color: var(--color-primary);
   font-weight: 600;
 }
@@ -301,6 +322,49 @@
 .inline-search-input::placeholder {
   color: var(--color-text-muted);
   font-weight: 400;
+}
+
+/* Search Button - 소셜미디어 스타일 */
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  border: none;
+  border-radius: var(--border-radius-lg);
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.search-button:hover {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-primary) 100%
+  );
+  /* transform 제거하여 잘림 현상 방지 */
+}
+
+.search-button:active {
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+.search-button .search-icon {
+  opacity: 0.9;
+  transition: opacity var(--transition-fast);
+}
+
+.search-button:hover .search-icon {
+  opacity: 1;
 }
 
 /* 더 작은 모바일 화면 */

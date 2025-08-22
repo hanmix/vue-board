@@ -1,47 +1,205 @@
 <template>
-  <div v-if="currentPost" class="post-container">
-    <div class="post-detail-header">
-      <h1 class="post-title">{{ currentPost.title }}</h1>
-      <p
-        v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
-        class="post-deleted-notice"
-      >
-        {{ '원글이 삭제된 답글' }}
-      </p>
-      <div class="post-detail-actions">
-        <button v-if="currentPost.userId === userId" @click="handleUpdate">
-          수정
-        </button>
-        <button v-if="currentPost.userId === userId" @click="handleDelete">
-          삭제
-        </button>
-        <button v-if="currentPost.type === 'post'" @click="handleModal">
-          답글 쓰기
-        </button>
+  <!-- 메인 게시글 카드 -->
+  <article 
+    v-if="currentPost" 
+    class="post-detail-container"
+    role="article"
+    :aria-label="`게시글: ${currentPost.title}`"
+  >
+    <!-- 삭제된 원글 알림 -->
+    <div 
+      v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
+      class="deleted-parent-notice"
+      role="alert"
+      aria-live="polite"
+    >
+      <div class="notice-icon" aria-hidden="true">⚠️</div>
+      <span>원글이 삭제된 답글입니다</span>
+    </div>
+
+    <!-- 게시글 헤더 -->
+    <header class="post-header">
+      <div class="header-top">
+        <div class="title-section">
+          <div class="post-type-indicator">
+            <span v-if="currentPost.type === 'reply'" class="reply-badge" aria-label="답글">Re:</span>
+            <span v-else class="reply-badge-placeholder" aria-hidden="true"></span>
+          </div>
+          
+          <h1 class="post-title" id="post-title">
+            {{ currentPost.title }}
+          </h1>
+        </div>
+        
+        <!-- 개인 액션 버튼들 (수정/삭제만) -->
+        <div class="header-actions" v-if="currentPost.userId === userId">
+          <div class="action-buttons">
+            <button 
+              class="action-button edit-button"
+              @click="handleUpdate"
+              :aria-label="`게시글 '${currentPost.title}' 수정`"
+            >
+              <span class="button-icon" aria-hidden="true">✏️</span>
+              <span>수정</span>
+            </button>
+            
+            <button 
+              class="action-button delete-button"
+              @click="handleDelete"
+              :aria-label="`게시글 '${currentPost.title}' 삭제`"
+            >
+              <span class="button-icon" aria-hidden="true">🗑️</span>
+              <span>삭제</span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="post-meta">
-      <span>작성자: {{ currentPost.user.name }}</span>
-      <span>작성일: {{ formatDate(currentPost.date) }}</span>
-    </div>
-    <div class="post-content">{{ currentPost.content }}</div>
-    <div class="post-stats">
-      <span>조회수: {{ currentPost.view }}</span>
-      <span>좋아요: {{ currentPost.likes.length }}</span>
-      <span>싫어요: {{ currentPost.dislikes.length }}</span>
-    </div>
-    <div class="post-reply">
-      <button v-if="prevPost?.id" @click="moveToPost('prev')">이전 글</button>
-      <button v-if="nextPost?.id" @click="moveToPost('next')">다음 글</button>
-    </div>
+    </header>
+
+    <!-- 작성자 정보 섹션 -->
+    <section class="post-author-section">
+      <div class="author-info">
+        <div class="author-avatar" :aria-label="`작성자 ${currentPost.user.name}`">
+          {{ currentPost.user.name.charAt(0).toUpperCase() }}
+        </div>
+        <div class="author-details">
+          <span class="author-name">{{ currentPost.user.name }}</span>
+          <time 
+            class="post-date" 
+            :datetime="currentPost.date"
+            :title="`작성일: ${formatDate(currentPost.date)}`"
+          >
+            {{ formatDate(currentPost.date) }}
+          </time>
+        </div>
+      </div>
+    </section>
+
+    <!-- 게시글 내용 -->
+    <main class="post-content-section">
+      <div 
+        class="post-content" 
+        role="main"
+        aria-labelledby="post-title"
+      >
+        {{ currentPost.content }}
+      </div>
+    </main>
+
+    <!-- 통계 및 네비게이션 푸터 -->
+    <footer class="post-footer">
+      <!-- 통계 정보 및 답글 버튼 -->
+      <div class="post-stats-section">
+        <div class="post-stats-footer">
+          <div class="stat-item views" title="조회수">
+            <svg
+              class="stat-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span class="stat-number">{{ currentPost.view.toLocaleString() }}</span>
+          </div>
+          <div class="stat-item likes" title="좋아요">
+            <svg
+              class="stat-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+              />
+            </svg>
+            <span class="stat-number">{{ currentPost.likes.length }}</span>
+          </div>
+          <div class="stat-item dislikes" title="싫어요">
+            <svg
+              class="stat-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"
+              />
+            </svg>
+            <span class="stat-number">{{ currentPost.dislikes.length }}</span>
+          </div>
+        </div>
+        
+        <!-- 답글 버튼 -->
+        <div class="reply-action" v-if="currentPost.type === 'post'">
+          <button 
+            class="action-button reply-button"
+            @click="handleModal"
+            :aria-label="`게시글 '${currentPost.title}'에 답글 작성`"
+          >
+            <span class="button-icon" aria-hidden="true">💬</span>
+            <span>답글 쓰기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 네비게이션 -->
+      <nav class="post-navigation" :style="{ justifyContent: navigationJustify }" aria-label="게시글 네비게이션">
+        <button 
+          v-if="prevPost?.id" 
+          class="nav-button prev-button"
+          @click="moveToPost('prev')"
+          :aria-label="`이전 게시글: ${prevPost.title}`"
+          :title="prevPost.title"
+        >
+          <span class="nav-icon" aria-hidden="true">←</span>
+          <div class="nav-content">
+            <span class="nav-label">이전 글</span>
+            <span class="nav-title">{{ truncateTitle(prevPost.title) }}</span>
+          </div>
+        </button>
+        
+        <button 
+          v-if="nextPost?.id" 
+          class="nav-button next-button"
+          @click="moveToPost('next')"
+          :aria-label="`다음 게시글: ${nextPost.title}`"
+          :title="nextPost.title"
+        >
+          <div class="nav-content">
+            <span class="nav-label">다음 글</span>
+            <span class="nav-title">{{ truncateTitle(nextPost.title) }}</span>
+          </div>
+          <span class="nav-icon" aria-hidden="true">→</span>
+        </button>
+      </nav>
+    </footer>
+  </article>
+
+  <!-- 로딩 상태 -->
+  <div v-else class="loading-container" role="status" aria-label="게시글 로딩 중">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <span class="loading-text">게시글을 불러오는 중...</span>
   </div>
-  <div v-else class="loading">Loading...</div>
 </template>
 
 <script setup lang="ts">
 import { usePost, useModal, useUser } from '@/composables';
 import { formatDate } from '@/utils';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 const {
   prevPost,
@@ -136,6 +294,22 @@ const setData = async () => {
     console.error('setData 호출 에러:', error);
     showAlert('게시글을 불러오는 중 오류가 발생했습니다.');
   }
+};
+
+// 네비게이션 버튼 배치 계산
+const navigationJustify = computed(() => {
+  const hasPrev = !!prevPost.value?.id;
+  const hasNext = !!nextPost.value?.id;
+  
+  if (hasPrev && hasNext) return 'space-between';
+  if (hasPrev) return 'flex-start'; 
+  if (hasNext) return 'flex-end';
+  return 'center';
+});
+
+// 제목 자르기 유틸리티 함수
+const truncateTitle = (title: string, maxLength: number = 30): string => {
+  return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
 };
 
 onMounted(async () => {

@@ -2,7 +2,6 @@
   <div class="posts-container">
     <header class="header">
       <div class="header-content">
-        <h1>자유게시판</h1>
         <div class="header-actions">
           <SearchFilter
             :boardType="boardType"

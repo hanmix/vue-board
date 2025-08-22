@@ -1,7 +1,6 @@
 <template>
   <header class="header">
     <div class="header-content">
-      <h1>공지게시판</h1>
       <div class="header-actions">
         <SearchFilter
           :boardType="boardType"

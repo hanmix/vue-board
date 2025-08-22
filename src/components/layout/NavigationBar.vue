@@ -35,4 +35,3 @@ const tabs: TabInfo[] = [
 
 const selected = ref(tabs[1].id);
 </script>
-
