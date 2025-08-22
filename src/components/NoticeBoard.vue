@@ -3,7 +3,12 @@
     <div class="header-content">
       <h1>공지게시판</h1>
       <div class="header-actions">
-        <SearchFilter :boardType="boardType" />
+        <SearchFilter
+          :boardType="boardType"
+          :searchKeyword="searchKeyword"
+          :searchType="searchType"
+          :onSearch="setSearch"
+        />
       </div>
     </div>
   </header>
@@ -12,9 +17,9 @@
 
     <div v-else-if="error" class="error">{{ error }}</div>
 
-    <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
+    <div v-else-if="!posts.length" class="empty">게시글이 없습니다.</div>
 
-    <div v-else v-for="post in postList" :key="post.id">
+    <div v-else v-for="post in posts" :key="post.id">
       <PostItem :post="post" />
     </div>
   </section>
@@ -22,8 +27,9 @@
   <section class="pagination-section">
     <Pagination
       v-if="totalPosts && !loading && !error"
-      :currentPage="page"
+      :currentPage="currentPage"
       :totalPage="lastPage"
+      :onPageChange="goToPage"
     />
   </section>
 </template>
@@ -32,23 +38,21 @@
 import SearchFilter from './SearchFilter.vue';
 import Pagination from './Pagination.vue';
 import PostItem from './PostItem.vue';
-import { usePost, usePagination } from '@/composables';
-import { onMounted, watch } from 'vue';
+import { useBoardData } from '@/composables';
 import { BoardType } from '@/types';
-
-const { loading, error, postList, page, lastPage, totalPosts, fetchPosts } =
-  usePost();
-const {} = usePagination();
 
 const boardType = BoardType.NOTICE;
 
-watch(
-  page,
-  () => {
-    fetchPosts(BoardType.NOTICE);
-  },
-  {
-    immediate: true,
-  }
-);
+const {
+  posts,
+  loading,
+  error,
+  currentPage,
+  lastPage,
+  totalPosts,
+  searchKeyword,
+  searchType,
+  goToPage,
+  setSearch,
+} = useBoardData(boardType);
 </script>

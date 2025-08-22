@@ -23,47 +23,50 @@
 
     <div v-else-if="error" class="error">{{ error }}</div>
 
-    <div v-else-if="!postList.length" class="empty">게시글이 없습니다.</div>
+    <div v-else-if="!filteredPosts.length" class="empty">
+      게시글이 없습니다.
+    </div>
 
     <div v-else v-for="post in filteredPosts" :key="post.id">
-      <PostItem :post="post" :isMypage="isMypage" />
+      <PostItem
+        :post="post"
+        :isMypage="isMypage"
+      />
     </div>
   </section>
 
   <section class="pagination-section">
     <Pagination
       v-if="totalPosts && !loading && !error"
-      :currentPage="page"
+      :currentPage="currentPage"
       :totalPage="lastPage"
+      :onPageChange="goToPage"
     />
   </section>
 </template>
 <script setup lang="ts">
-import { usePost, useUser, useAuth } from '@/composables';
-import { computed, onMounted, watch } from 'vue';
+import { useMyPageData, useUser, useAuth, usePost } from '@/composables';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import PostItem from './PostItem.vue';
 import Pagination from './Pagination.vue';
 
 const {
-  totalPosts,
-  page,
-  lastPage,
-  postList,
+  filteredPosts,
   loading,
   error,
-  isMypage,
-  fetchMyPosts,
-} = usePost();
+  totalPosts,
+  currentPage,
+  lastPage,
+  goToPage,
+} = useMyPageData();
+
+const { isMypage } = usePost(); // isMypage는 여전히 usePost에서 가져옴
 const { currentUser, getUserById } = useUser();
 const { logout, getCurrentUser } = useAuth();
 const router = useRouter();
 
 const currentUserFromAuth = computed(() => getCurrentUser());
-
-const filteredPosts = computed(() =>
-  postList.value.filter(post => !post.isDeleted)
-);
 
 const setData = async () => {
   // JWT에서 기본 정보를 우선 사용하고, 추가 정보가 필요하면 API 호출
@@ -71,16 +74,6 @@ const setData = async () => {
     await getUserById();
   }
 };
-
-watch(
-  page,
-  async () => {
-    await fetchMyPosts();
-  },
-  {
-    immediate: true,
-  }
-);
 
 function handleLogout() {
   const confirmed = confirm('정말 로그아웃 하시겠습니까?');
