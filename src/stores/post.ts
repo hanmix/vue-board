@@ -13,6 +13,13 @@ import {
 
 export const usePostStore = defineStore('post', () => {
   const postList = ref<Post[]>([]);
+  
+  /**
+   * @deprecated 아래 pagination 관련 상태들은 더 이상 사용되지 않습니다.
+   * @description URL 기반 상태 관리 (useNavigation, useBoardData)로 대체되었습니다.
+   * @see useNavigation - URL 쿼리 기반 상태 관리
+   * @see useBoardData - 통합 게시판 데이터 관리
+   */
   const searchType = ref<SearchType>('title');
   const searchKeyword = ref('');
   const totalPosts = ref<number>(0);
@@ -31,12 +38,25 @@ export const usePostStore = defineStore('post', () => {
     isMypage.value = value;
   };
 
+  /**
+   * @deprecated resetPagination은 더 이상 사용되지 않습니다.
+   * @description useNavigation.resetFilters()를 사용하세요.
+   * @see useNavigation.resetFilters - URL 기반 필터 초기화
+   * @returns {void}
+   */
   const resetPagination = () => {
     page.value = 1;
     searchKeyword.value = '';
     searchType.value = 'title';
   };
 
+  /**
+   * @deprecated fetchPosts는 더 이상 사용되지 않습니다.
+   * @description useBoardData에서 직접 getPostsApi를 호출합니다.
+   * @see useBoardData - 통합 게시판 데이터 관리
+   * @param {BoardType} board - 게시판 타입
+   * @returns {Promise<void>}
+   */
   const fetchPosts = async (board: BoardType): Promise<void> => {
     loading.value = true;
     error.value = null;
@@ -68,6 +88,12 @@ export const usePostStore = defineStore('post', () => {
     }
   };
 
+  /**
+   * @deprecated fetchMyPosts는 더 이상 사용되지 않습니다.
+   * @description useMyPageData에서 직접 getMyPostsApi를 호출합니다.
+   * @see useMyPageData - 마이페이지 전용 데이터 관리
+   * @returns {Promise<void>}
+   */
   const fetchMyPosts = async (): Promise<void> => {
     loading.value = true;
     error.value = null;

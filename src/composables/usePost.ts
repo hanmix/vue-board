@@ -17,25 +17,35 @@ export const usePost = () => {
     currentPost,
     nextPost,
     parentPost,
+    isMypage,
+    /**
+     * @deprecated 아래 pagination 상태들은 더 이상 사용되지 않습니다.
+     * @see useBoardData - 통합 게시판 데이터 관리를 사용하세요
+     */
     page,
     size,
     lastPage,
     totalPosts,
     searchKeyword,
     searchType,
-    isMypage,
   } = storeToRefs(postStore);
 
   const {
     setIsMypage,
-    fetchPosts,
-    fetchMyPosts,
     fetchPostById,
     fetchParentPostById,
     createNewPost,
     updatePost,
     deletePost,
     createNewReply,
+    /**
+     * @deprecated 아래 함수들은 더 이상 사용되지 않습니다.
+     * @see useBoardData - 통합 게시판 데이터 관리를 사용하세요
+     * @see useMyPageData - 마이페이지 데이터 관리를 사용하세요
+     */
+    fetchMyPosts,
+    resetPagination,
+    fetchPosts,
   } = postStore;
 
   const userIds = computed(() => postList.value.map((post: Post) => post.userId));
@@ -74,6 +84,7 @@ export const usePost = () => {
   };
 
   return {
+    // 활성 상태
     loading,
     error,
     postList,
@@ -81,24 +92,32 @@ export const usePost = () => {
     currentPost,
     nextPost,
     parentPost,
-    page,
-    size,
-    lastPage,
-    totalPosts,
-    searchKeyword,
-    searchType,
     isMypage,
     userIds,
 
+    // 활성 함수
     setIsMypage,
-    fetchPosts,
     fetchPostsWithCache,
-    fetchMyPosts,
     fetchPostById,
     fetchParentPostById,
     createNewPost,
     updatePost,
     deletePost,
     createNewReply,
+
+    /**
+     * @deprecated 아래는 더 이상 사용되지 않습니다.
+     * @see useBoardData - 통합 게시판 데이터 관리
+     * @see useMyPageData - 마이페이지 데이터 관리
+     */
+    fetchMyPosts,
+    page,
+    size,
+    lastPage,
+    totalPosts,
+    searchKeyword,
+    searchType,
+    resetPagination,
+    fetchPosts,
   };
 };
