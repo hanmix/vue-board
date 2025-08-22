@@ -11,7 +11,12 @@
 
     <!-- Deleted Notice -->
     <div
-      v-if="post.type === 'reply' && post.parentId && post.isParentDeleted"
+      v-if="
+        post.type === 'reply' &&
+        post.parentId &&
+        post.isParentDeleted &&
+        !isMypage
+      "
       class="post-deleted-notice"
     >
       <svg
