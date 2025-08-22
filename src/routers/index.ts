@@ -1,15 +1,14 @@
 // 즉시 로드 - 첫 방문 시 필요한 컴포넌트들
 import MainPage from '@/pages/MainPage.vue';
 import BoardPage from '@/pages/BoardPage.vue';
-import SignIn from '@/components/SignIn.vue';
-import SignUp from '@/components/SignUp.vue';
+import { SignIn, SignUp } from '@/components/features/auth';
 import type { RouteRecordRaw, RouteRecordSingleView } from 'vue-router';
 
 // Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
-const Posts = () => import('@/components/Posts.vue');
-const PostDetail = () => import('@/components/PostDetail.vue');
-const Mypage = () => import('@/components/Mypage.vue');
-const NoticeBoard = () => import('@/components/NoticeBoard.vue');
+const BoardList = () => import('@/components/features/board/BoardList.vue');
+const BoardDetail = () => import('@/components/features/board/BoardDetail.vue');
+const UserProfile = () => import('@/components/features/user/UserProfile.vue');
+const NoticeBoard = () => import('@/components/features/board/NoticeBoard.vue');
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -42,18 +41,18 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'free',
         name: 'free',
-        component: Posts,
+        component: BoardList,
       },
       {
         path: 'detail/:id',
         name: 'board-detail',
-        component: PostDetail,
+        component: BoardDetail,
         props: true,
       },
       {
         path: '/mypage',
         name: 'mypage',
-        component: Mypage,
+        component: UserProfile,
       },
     ],
   },

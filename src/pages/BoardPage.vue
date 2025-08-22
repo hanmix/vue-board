@@ -5,5 +5,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import NavigationBar from '@/components/NavigationBar.vue';
+import { NavigationBar } from '@/components/layout';
 </script>

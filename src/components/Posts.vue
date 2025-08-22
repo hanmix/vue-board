@@ -49,13 +49,8 @@
 <script setup lang="ts">
 import { useBoardData, useModal } from '@/composables';
 import { useModalStore } from '@/stores/modal';
-import SearchFilter from '@/components/SearchFilter.vue';
-import Pagination from '@/components/Pagination.vue';
-import PostItem from './PostItem.vue';
-import FloatingButton from './FloatingButton.vue';
-
-// lazy loading을 preload 방식으로 개선
-import NewPostModal from './NewPostModal.vue';
+import { SearchFilter, Pagination } from '@/components/ui';
+import { PostItem, FloatingButton, NewPostModal } from '@/components';
 import { BoardType } from '@/types';
 
 const {

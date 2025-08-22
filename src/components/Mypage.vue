@@ -48,8 +48,7 @@
 import { useMyPageData, useUser, useAuth, usePost } from '@/composables';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import PostItem from './PostItem.vue';
-import Pagination from './Pagination.vue';
+import { PostItem, Pagination } from '@/components';
 
 const {
   filteredPosts,

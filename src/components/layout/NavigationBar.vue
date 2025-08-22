@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import type { TabInfo } from '@/types/tab';
 import { TabName } from '@/types/tab';
-import Tabs from './common/Tabs.vue';
+import { Tabs } from '@/components/ui/navigation';
 import { ref } from 'vue';
 
 const tabs: TabInfo[] = [

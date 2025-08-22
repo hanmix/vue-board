@@ -35,9 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import SearchFilter from './SearchFilter.vue';
-import Pagination from './Pagination.vue';
-import PostItem from './PostItem.vue';
+import { SearchFilter, Pagination } from '@/components/ui';
+import { PostItem } from '@/components';
 import { useBoardData } from '@/composables';
 import { BoardType } from '@/types';
 
