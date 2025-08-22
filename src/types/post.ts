@@ -23,6 +23,10 @@ export interface Post {
   isDeleted: boolean;
 }
 
+export interface ProcessedPost extends Post {
+  isParentDeleted: boolean;
+}
+
 export interface PostListResponse {
   posts: Post[];
   pagination: PaginationInfo;
