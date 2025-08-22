@@ -1,6 +1,6 @@
 // 즉시 로드 - 첫 방문 시 필요한 컴포넌트들
-import MainPage from '@/pages/MainPage.vue';
-import BoardPage from '@/pages/BoardPage.vue';
+import HomePage from '@/pages/HomePage.vue';
+import BoardLayout from '@/pages/BoardLayout.vue';
 import { SignIn, SignUp } from '@/components/features/auth';
 import type { RouteRecordRaw, RouteRecordSingleView } from 'vue-router';
 
@@ -14,7 +14,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'main',
-    component: MainPage,
+    component: HomePage,
   },
   {
     path: '/signIn',
@@ -30,7 +30,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/board',
     name: 'board',
     meta: { requiresAuth: true },
-    component: BoardPage,
+    component: BoardLayout,
     redirect: { name: 'free' },
     children: [
       {
