@@ -2,7 +2,8 @@
 import HomePage from '@/pages/HomePage.vue';
 import BoardLayout from '@/pages/BoardLayout.vue';
 import { SignIn, SignUp } from '@/components/features/auth';
-import type { RouteRecordRaw, RouteRecordSingleView } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+import { RouteName } from '@/types/navigate';
 
 // Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
 const BoardList = () => import('@/components/features/board/BoardList.vue');
@@ -13,45 +14,45 @@ const NoticeBoard = () => import('@/components/features/board/NoticeBoard.vue');
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'main',
+    name: RouteName.HOME,
     component: HomePage,
   },
   {
     path: '/signIn',
-    name: 'signIn',
+    name: RouteName.SIGN_IN,
     component: SignIn,
   },
   {
     path: '/signUp',
-    name: 'signUp',
+    name: RouteName.SIGN_UP,
     component: SignUp,
   },
   {
     path: '/board',
-    name: 'board',
+    name: RouteName.BOARD,
     meta: { requiresAuth: true },
     component: BoardLayout,
-    redirect: { name: 'free' },
+    redirect: { name: RouteName.FREE },
     children: [
       {
         path: 'notice',
-        name: 'notice',
+        name: RouteName.NOTICE,
         component: NoticeBoard,
       },
       {
         path: 'free',
-        name: 'free',
+        name: RouteName.FREE,
         component: BoardList,
       },
       {
         path: 'detail/:id',
-        name: 'board-detail',
+        name: RouteName.BOARD_DETAIL,
         component: BoardDetail,
         props: true,
       },
       {
         path: '/mypage',
-        name: 'mypage',
+        name: RouteName.MYPAGE,
         component: UserProfile,
       },
     ],
