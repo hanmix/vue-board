@@ -1,18 +1,36 @@
 <template>
-  <!-- 데스크톱: 헤더 내 탭 -->
-  <header class="header">
-    <div class="header-mobile">
-      <h1>싱글벙글 게시판</h1>
-      <div class="nav-buttons desktop-only">
-        <Tabs :tabs="tabs" :current-board="currentBoard" />
-      </div>
-    </div>
-  </header>
-  
-  <!-- 모바일: 하단 고정 탭 -->
-  <nav class="bottom-navigation mobile-only">
-    <Tabs :tabs="tabs" :current-board="currentBoard" />
-  </nav>
+  <div class="navigation-wrapper">
+    <!-- 데스크톱: 상단 고정 헤더 -->
+    <VContainer class="navigation-container">
+      <header class="navigation-header">
+        <div class="header-content">
+          <div class="brand-section">
+            <h1 class="brand-title">Vue Board</h1>
+            <span class="brand-subtitle">싱글벙글 게시판</span>
+          </div>
+          
+          <div class="nav-section desktop-only">
+            <Tabs :tabs="tabs" :current-board="currentBoard" />
+          </div>
+          
+          <div class="actions-section">
+            <VButton variant="ghost" @click="toggleTheme" class="theme-toggle">
+              {{ isDark ? '🌞' : '🌙' }}
+            </VButton>
+          </div>
+        </div>
+      </header>
+    </VContainer>
+    
+    <!-- 모바일: 하단 고정 탭 -->
+    <nav class="bottom-navigation mobile-only">
+      <VContainer padding="tight">
+        <div class="bottom-nav-content">
+          <Tabs :tabs="tabs" :current-board="currentBoard" />
+        </div>
+      </VContainer>
+    </nav>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,9 +41,11 @@ import { Tabs } from '@/components/ui/navigation';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
+import { useTheme } from '@/design-system/composables/useTheme';
 
 const route = useRoute();
 const { currentPost } = usePostStore();
+const { toggleTheme, isDark } = useTheme();
 
 const tabs: TabInfo[] = [
   {
@@ -92,3 +112,165 @@ const currentBoard = computed(() => {
 });
 
 </script>
+
+<style scoped>
+/* Navigation Wrapper */
+.navigation-wrapper {
+  position: relative;
+  z-index: var(--z-sticky); /* 새로운 디자인 시스템의 z-index 체계 사용 */
+}
+
+/* Desktop Header */
+.navigation-container {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-sm);
+}
+
+.navigation-header {
+  padding: var(--space-4) 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* Brand Section */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.brand-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.brand-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+/* Navigation Section */
+.nav-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Actions Section */
+.actions-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.theme-toggle {
+  font-size: var(--font-size-lg);
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+}
+
+/* Bottom Navigation (Mobile) */
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-sticky);
+}
+
+.bottom-nav-content {
+  padding: var(--space-2) 0;
+  padding-bottom: max(var(--space-2), var(--safe-area-inset-bottom));
+}
+
+/* Responsive Design */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .brand-section {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .brand-subtitle::before {
+    content: '·';
+    margin-right: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  /* 모바일에서 하단 네비게이션을 위한 여백 확보 */
+  .navigation-wrapper {
+    margin-bottom: calc(60px + var(--safe-area-inset-bottom));
+  }
+}
+
+/* iPhone SE 및 작은 화면 최적화 */
+@media (max-width: 375px) {
+  .navigation-header {
+    padding: var(--space-3) 0;
+  }
+
+  .brand-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .brand-subtitle {
+    font-size: var(--font-size-xs);
+  }
+
+  .header-content {
+    gap: var(--space-2);
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .navigation-container,
+  .bottom-navigation {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .navigation-container {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+</style>
