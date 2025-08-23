@@ -1,16 +1,12 @@
 <template>
-  <header class="header">
-    <div class="header-content">
-      <div class="header-actions">
-        <SearchFilter
-          :boardType="boardType"
-          :searchKeyword="searchKeyword"
-          :searchType="searchType"
-          :onSearch="setSearch"
-        />
-      </div>
-    </div>
-  </header>
+  <div class="search-header">
+    <SearchFilter
+      :boardType="boardType"
+      :searchKeyword="searchKeyword"
+      :searchType="searchType"
+      :onSearch="setSearch"
+    />
+  </div>
   <section class="posts-section">
     <div v-if="loading" class="loading">로딩중...</div>
 

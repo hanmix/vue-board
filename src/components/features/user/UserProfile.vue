@@ -15,9 +15,9 @@
   </section>
 
   <section class="posts-section">
-    <header class="header">
+    <div class="section-header">
       <h2>내 게시글</h2>
-    </header>
+    </div>
     <div v-if="loading" class="loading">로딩중...</div>
 
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -46,7 +46,6 @@ import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { BoardItem } from '@/components/features/board';
 import { Pagination } from '@/components/ui';
-
 const {
   filteredPosts,
   loading,

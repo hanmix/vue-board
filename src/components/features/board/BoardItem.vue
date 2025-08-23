@@ -40,7 +40,11 @@
       <main class="feed-body">
         <h2 class="post-title-feed">
           <router-link
-            :to="{ name: 'board-detail', params: { id: post.id } }"
+            :to="{ 
+              name: 'board-detail', 
+              params: { id: props.post.id },
+              query: { from: detectedBoardType }
+            }"
             class="post-link-feed"
             @click.stop
           >
@@ -91,20 +95,60 @@
 </template>
 
 <script setup lang="ts">
-import { type ProcessedPost } from '@/types';
+import { type ProcessedPost, BoardType } from '@/types';
 import { formatDate } from '@/utils';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { computed } from 'vue';
 
-const { post } = defineProps<{
+const props = defineProps<{
   post: ProcessedPost;
   isMypage?: boolean;
+  boardType?: BoardType; // 선택적 prop (하위 호환성)
 }>();
 
 const router = useRouter();
+const route = useRoute();
+
+// 캡슐화된 boardType 자동 감지 로직
+const detectedBoardType = computed((): BoardType => {
+  // 1순위: 명시적으로 전달된 boardType (기존 방식 지원)
+  if (props.boardType) {
+    return props.boardType;
+  }
+  
+  // 2순위: post.board 값을 BoardType으로 매핑
+  if (props.post.board) {
+    switch (props.post.board) {
+      case 'notice':
+      case BoardType.NOTICE:
+        return BoardType.NOTICE;
+      case 'free':  
+      case BoardType.FREE:
+        return BoardType.FREE;
+      default:
+        break;
+    }
+  }
+  
+  // 3순위: 현재 라우트에서 추정
+  if (route.path.includes('/board/notice')) {
+    return BoardType.NOTICE;
+  } else if (route.path.includes('/board/free')) {
+    return BoardType.FREE;
+  }
+  
+  // 기본값
+  return BoardType.FREE;
+});
 
 // 카드 클릭 시 상세 페이지로 이동
 const navigateToDetail = () => {
-  router.push({ name: 'board-detail', params: { id: post.id } });
+  const query = { from: detectedBoardType.value };
+  router.push({ 
+    name: 'board-detail', 
+    params: { id: props.post.id },
+    query 
+  });
 };
 
 // 상대 시간 표시 (소셜 미디어 스타일)

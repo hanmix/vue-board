@@ -1,0 +1,263 @@
+/* =================================================================
+   DESIGN SYSTEM TOKENS - Vue Board v2.0
+   모든 디자인 토큰을 중앙에서 관리
+   ================================================================= */
+
+:root {
+  /* =============
+     PRIMITIVE COLORS
+     ============= */
+  
+  /* Zinc Palette (Primary Grayscale) */
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+
+  /* Blue Palette (Primary Brand) */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
+
+  /* Purple Palette (Secondary Brand) */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7c3aed;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+
+  /* Status Colors */
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --yellow-600: #ca8a04;
+  
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0891b2;
+
+  /* =============
+     SEMANTIC COLORS - DARK THEME (DEFAULT)
+     ============= */
+  
+  /* Background */
+  --color-bg-primary: var(--zinc-900);      /* #18181b - 메인 배경 */
+  --color-bg-secondary: var(--zinc-800);    /* #27272a - 카드/섹션 */
+  --color-bg-tertiary: var(--zinc-700);     /* #3f3f46 - 호버 상태 */
+  --color-bg-elevated: #1f1f23;             /* 부유 요소 (모달, 카드) */
+  --color-bg-hover: #2a2a2e;                /* 호버 상태 */
+
+  /* Text */
+  --color-text-primary: var(--zinc-200);    /* #e4e4e7 - 주요 텍스트 */
+  --color-text-secondary: var(--zinc-400);  /* #a1a1aa - 보조 텍스트 */
+  --color-text-tertiary: var(--zinc-500);   /* #71717a - 비활성 텍스트 */
+  --color-text-inverse: var(--zinc-50);     /* #fafafa - 강조 텍스트 */
+  --color-text-disabled: var(--zinc-600);   /* #52525b - 비활성화 */
+
+  /* Brand */
+  --color-brand-primary: var(--blue-400);   /* #60a5fa - 주요 브랜드 */
+  --color-brand-secondary: var(--purple-600); /* #9333ea - 보조 브랜드 */
+
+  /* Interactive */
+  --color-interactive-default: var(--blue-400);
+  --color-interactive-hover: var(--blue-500);
+  --color-interactive-active: var(--blue-600);
+  --color-interactive-disabled: var(--zinc-600);
+
+  /* Status */
+  --color-status-success: var(--green-500);  /* #22c55e */
+  --color-status-error: var(--red-500);      /* #ef4444 */
+  --color-status-warning: var(--yellow-500); /* #eab308 */
+  --color-status-info: var(--cyan-500);      /* #06b6d4 */
+
+  /* Border */
+  --color-border-default: var(--zinc-700);   /* #3f3f46 */
+  --color-border-subtle: var(--zinc-800);    /* #27272a */
+  --color-border-strong: var(--zinc-600);    /* #52525b */
+  --color-border-interactive: var(--blue-400);
+
+  /* =============
+     TYPOGRAPHY
+     ============= */
+  
+  /* Font Families */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'SF Mono', Consolas, 'Liberation Mono', monospace;
+
+  /* Font Sizes (1.125 modular scale) */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px - 기본 */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+
+  /* Line Heights */
+  --line-height-tight: 1.25;   /* 제목용 */
+  --line-height-normal: 1.5;   /* 본문용 */
+  --line-height-loose: 1.75;   /* 읽기용 */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* =============
+     SPACING SYSTEM (4px base)
+     ============= */
+  
+  /* Base Spacing */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px - 기본 */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-12: 3rem;     /* 48px */
+  --spacing-16: 4rem;     /* 64px */
+  --spacing-20: 5rem;     /* 80px */
+  --spacing-24: 6rem;     /* 96px */
+
+  /* Semantic Spacing */
+  --spacing-component-xs: var(--spacing-2);  /* 8px - 컴포넌트 내부 최소 간격 */
+  --spacing-component-sm: var(--spacing-3);  /* 12px - 컴포넌트 내부 작은 간격 */
+  --spacing-component-md: var(--spacing-4);  /* 16px - 컴포넌트 내부 기본 간격 */
+  --spacing-component-lg: var(--spacing-6);  /* 24px - 컴포넌트 내부 큰 간격 */
+
+  --spacing-section-xs: var(--spacing-8);    /* 32px - 섹션간 최소 간격 */
+  --spacing-section-sm: var(--spacing-10);   /* 40px - 섹션간 작은 간격 */
+  --spacing-section-md: var(--spacing-12);   /* 48px - 섹션간 기본 간격 */
+  --spacing-section-lg: var(--spacing-16);   /* 64px - 섹션간 큰 간격 */
+  --spacing-section-xl: var(--spacing-20);   /* 80px - 섹션간 최대 간격 */
+
+  /* =============
+     LAYOUT SYSTEM
+     ============= */
+  
+  /* Container Widths */
+  --container-xs: 475px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  /* Application Layout */
+  --layout-header-height: 72px;
+  --layout-sidebar-width: 280px;
+  --layout-content-max-width: 1200px;
+  --layout-content-padding: var(--spacing-6);
+
+  /* Grid System */
+  --grid-columns: 12;
+  --grid-gap: var(--spacing-6);
+
+  /* Z-Index Scale */
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-fixed: 300;
+  --z-index-overlay: 400;
+  --z-index-modal: 500;
+  --z-index-popover: 600;
+  --z-index-tooltip: 700;
+  --z-index-toast: 800;
+
+  /* =============
+     EFFECTS & INTERACTIONS
+     ============= */
+  
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-base: 0.375rem; /* 6px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;  /* 완전한 원형 */
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+  /* Glassmorphism */
+  --glass-background: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(10px);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Animation Curves */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* =============
+   LIGHT THEME OVERRIDE
+   ============= */
+
+[data-theme="light"] {
+  --color-bg-primary: var(--zinc-50);
+  --color-bg-secondary: var(--zinc-100);
+  --color-bg-tertiary: var(--zinc-200);
+  --color-bg-elevated: #ffffff;
+  --color-bg-hover: var(--zinc-100);
+
+  --color-text-primary: var(--zinc-800);
+  --color-text-secondary: var(--zinc-600);
+  --color-text-tertiary: var(--zinc-500);
+  --color-text-inverse: var(--zinc-900);
+  --color-text-disabled: var(--zinc-400);
+
+  --color-border-default: var(--zinc-300);
+  --color-border-subtle: var(--zinc-200);
+  --color-border-strong: var(--zinc-400);
+
+  /* Light mode용 그림자 조정 */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.04);
+}

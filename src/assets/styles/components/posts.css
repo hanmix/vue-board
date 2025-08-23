@@ -247,9 +247,7 @@
 
 .modern-feed-item:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    0 6px 20px rgba(96, 165, 250, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .modern-feed-item:active {
@@ -497,7 +495,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-xs); /* 0.4rem - SearchFilter와의 간격 최소화 */
   margin-bottom: var(--spacing-lg);
 }
 
@@ -523,22 +521,14 @@
   }
 }
 
-/* Post Item Base - BoardDetail 스타일 적용 */
+/* Post Item Base - 담백한 디자인 */
 .post-item,
 .post-card {
-  background: linear-gradient(
-    135deg,
-    rgba(31, 31, 35, 0.95) 0%,
-    rgba(39, 39, 42, 0.90) 50%,
-    rgba(63, 63, 70, 0.85) 100%
-  );
-  backdrop-filter: blur(20px);
+  background: rgba(39, 39, 42, 0.7);
+  backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-lg);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.2),
-    0 2px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
   transition: all var(--transition-normal);

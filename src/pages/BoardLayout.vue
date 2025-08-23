@@ -1,9 +1,8 @@
 <template>
   <div class="board-container">
-    <NavigationBar />
     <router-view />
   </div>
 </template>
 <script setup lang="ts">
-import { NavigationBar } from '@/components/layout';
+// NavigationBar는 이제 App.vue에서 관리
 </script>

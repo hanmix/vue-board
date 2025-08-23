@@ -69,6 +69,7 @@
   /* Layout */
   --container-max-width: 1200px;
   --container-padding: 1.6rem;
+  --section-padding: var(--spacing-lg);
   --header-height: 6rem;
   --touch-target: 4.4rem;
 
@@ -111,12 +112,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden; /* 가로스크롤 방지 */
 }
 
 body {
   margin: 0;
   min-width: 375px;
   min-height: 100vh;
+  overflow-x: hidden; /* 가로스크롤 방지 */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
     sans-serif;
 
