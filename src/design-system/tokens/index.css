@@ -1,0 +1,6 @@
+/* src/design-system/tokens/index.css */
+/* Vite에서 CSS 파일들을 하나로 통합 */
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './effects.css';

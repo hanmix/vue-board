@@ -10,6 +10,7 @@ const BoardList = () => import('@/components/features/board/BoardList.vue');
 const BoardDetail = () => import('@/components/features/board/BoardDetail.vue');
 const UserProfile = () => import('@/components/features/user/UserProfile.vue');
 const NoticeBoard = () => import('@/components/features/board/NoticeBoard.vue');
+const TestDesignSystem = () => import('@/views/TestDesignSystem.vue');
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -63,5 +64,10 @@ export const routes: RouteRecordRaw[] = [
         component: UserProfile,
       },
     ],
+  },
+  {
+    path: '/design-system',
+    name: 'DesignSystem',
+    component: TestDesignSystem,
   },
 ] as RouteRecordRaw[];

@@ -1,0 +1,4 @@
+/* src/design-system/styles/index.css */
+/* Vite CSS 진입점 - 모든 스타일을 하나로 통합 */
+@import '../tokens/index.css';
+@import './base.css';
