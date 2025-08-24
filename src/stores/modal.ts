@@ -19,24 +19,20 @@ export const useModalStore = defineStore('modalStore', () => {
     type.value = modalType;
     payload.value = data;
     isVisible.value = true;
-    document.body.classList.add('modal-open');
   };
 
   const close = () => {
     isVisible.value = false;
     type.value = null;
     payload.value = {};
-    document.body.classList.remove('modal-open');
   };
 
   const showModal = () => {
     isVisible.value = true;
-    document.body.classList.add('modal-open');
   };
 
   const hideModal = () => {
     isVisible.value = false;
-    document.body.classList.remove('modal-open');
   };
 
   return {

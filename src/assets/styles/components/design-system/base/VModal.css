@@ -1,0 +1,159 @@
+.v-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--space-4);
+}
+
+.v-modal {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid var(--color-border);
+}
+
+/* 크기 변형 */
+.v-modal--sm {
+  width: 100%;
+  max-width: 400px;
+}
+
+.v-modal--md {
+  width: 100%;
+  max-width: 600px;
+}
+
+.v-modal--lg {
+  width: 100%;
+  max-width: 800px;
+}
+
+.v-modal--xl {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.v-modal--full {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+}
+
+/* 헤더 */
+.v-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.v-modal__title h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.v-modal__close {
+  font-size: var(--font-size-lg);
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+}
+
+/* 본문 */
+.v-modal__body {
+  padding: var(--space-6);
+  color: var(--color-text);
+}
+
+/* 푸터 */
+.v-modal__footer {
+  padding: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+/* 트랜지션 */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity var(--transition-base);
+}
+
+.modal-enter-active .v-modal,
+.modal-leave-active .v-modal {
+  transition: transform var(--transition-base);
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .v-modal,
+.modal-leave-to .v-modal {
+  transform: scale(0.95) translateY(-20px);
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .v-modal-overlay {
+    padding: var(--space-2);
+    align-items: flex-end;
+  }
+
+  .v-modal {
+    max-height: 85vh;
+    width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .v-modal--full {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .v-modal__header {
+    padding: var(--space-4) var(--space-4) var(--space-3) var(--space-4);
+  }
+
+  .v-modal__body {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .v-modal__footer {
+    padding: var(--space-3) var(--space-4) var(--space-4) var(--space-4);
+  }
+
+  .v-modal__title h3 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .modal-enter-active,
+  .modal-leave-active,
+  .modal-enter-active .v-modal,
+  .modal-leave-active .v-modal {
+    transition: none;
+  }
+
+  .modal-enter-from .v-modal,
+  .modal-leave-to .v-modal {
+    transform: none;
+  }
+}
