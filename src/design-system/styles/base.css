@@ -32,7 +32,6 @@ body {
   /* Vite HMR 시 부드러운 전환 */
   transition: background-color var(--transition-base), color var(--transition-base);
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 /* 미디어 요소 기본 설정 */

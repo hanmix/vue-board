@@ -1,0 +1,11 @@
+.v-toast-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+}
+
+.v-toast-container > * {
+  pointer-events: auto;
+}

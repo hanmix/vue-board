@@ -1,0 +1,1 @@
+export { default } from './VToastContainer.vue'

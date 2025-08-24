@@ -1,0 +1,117 @@
+.v-loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+}
+
+/* 크기 변형 */
+.v-loading-spinner--sm {
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+}
+
+.v-loading-spinner--sm .v-loading-spinner__spinner {
+  width: 24px;
+  height: 24px;
+}
+
+.v-loading-spinner--md .v-loading-spinner__spinner {
+  width: 32px;
+  height: 32px;
+}
+
+.v-loading-spinner--lg {
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+}
+
+.v-loading-spinner--lg .v-loading-spinner__spinner {
+  width: 48px;
+  height: 48px;
+}
+
+/* 스피너 */
+.v-loading-spinner__spinner {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+
+.v-loading-spinner__circle {
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--color-border-subtle);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: v-loading-spin 1s linear infinite;
+}
+
+/* 변형별 스타일 */
+.v-loading-spinner--primary .v-loading-spinner__circle {
+  border-color: var(--color-border-subtle);
+  border-top-color: var(--color-primary);
+}
+
+.v-loading-spinner--secondary .v-loading-spinner__circle {
+  border-color: var(--color-border-subtle);
+  border-top-color: var(--color-secondary);
+}
+
+.v-loading-spinner--minimal .v-loading-spinner__circle {
+  border-color: transparent;
+  border-top-color: var(--color-text-tertiary);
+  border-width: 2px;
+}
+
+/* 메시지 */
+.v-loading-spinner__message {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.v-loading-spinner--lg .v-loading-spinner__message {
+  font-size: var(--font-size-base);
+}
+
+/* 애니메이션 */
+@keyframes v-loading-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 다크모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .v-loading-spinner__circle {
+    border-color: var(--color-border-base);
+  }
+  
+  .v-loading-spinner--minimal .v-loading-spinner__circle {
+    border-top-color: var(--color-text-secondary);
+  }
+}
+
+/* 애니메이션 감소 모드 */
+@media (prefers-reduced-motion: reduce) {
+  .v-loading-spinner__circle {
+    animation-duration: 2s;
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .v-loading-spinner__circle {
+    border-width: 4px;
+    border-top-color: var(--color-text-primary);
+  }
+}

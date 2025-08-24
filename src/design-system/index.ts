@@ -9,6 +9,9 @@ export * from './composables';
 // 타입 export
 export type { ButtonProps } from './components/base/VButton/VButton.vue';
 export type { CardProps } from './components/base/VCard/VCard.vue';
+export type { DropdownProps } from './components/base/VDropdown/VDropdown.vue';
+export type { DropdownItemProps } from './components/base/VDropdown/VDropdownItem.vue';
+export type { ModalProps } from './components/base/VModal/VModal.vue';
 export type { ContainerProps } from './components/layout/VContainer/VContainer.vue';
 
 // 기본 export

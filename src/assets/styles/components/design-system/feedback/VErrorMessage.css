@@ -1,0 +1,153 @@
+.v-error-message {
+  --error-icon-color: var(--color-danger);
+  --error-border-color: var(--color-danger-border);
+  --error-background: var(--color-danger-subtle);
+}
+
+.v-error-message--warning {
+  --error-icon-color: var(--color-warning);
+  --error-border-color: var(--color-warning-border);
+  --error-background: var(--color-warning-subtle);
+}
+
+.v-error-message--critical {
+  --error-icon-color: var(--color-danger);
+  --error-border-color: var(--color-danger);
+  --error-background: var(--color-danger-bg);
+}
+
+.v-error-message {
+  border-color: var(--error-border-color);
+  background: var(--error-background);
+}
+
+.v-error-message__content {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
+
+.v-error-message__icon {
+  flex-shrink: 0;
+  color: var(--error-icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-size-lg);
+}
+
+.v-error-message__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.v-error-message__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.v-error-message__title {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.v-error-message__message {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.v-error-message__actions {
+  margin-top: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.v-error-message__close {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  padding: var(--spacing-xs);
+  min-width: auto;
+  width: 32px;
+  height: 32px;
+}
+
+.v-error-message__close:hover {
+  color: var(--color-text-primary);
+  background: var(--color-background-subtle);
+}
+
+/* Severity별 아이콘 스타일 */
+.v-error-message--error .v-error-message__icon::before {
+  content: '⚠️';
+}
+
+.v-error-message--warning .v-error-message__icon::before {
+  content: '⚡';
+}
+
+.v-error-message--critical .v-error-message__icon::before {
+  content: '🚨';
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .v-error-message__content {
+    gap: var(--spacing-xs);
+  }
+  
+  .v-error-message__icon {
+    width: 20px;
+    height: 20px;
+    font-size: var(--font-size-base);
+  }
+  
+  .v-error-message__title {
+    font-size: var(--font-size-sm);
+  }
+  
+  .v-error-message__message {
+    font-size: var(--font-size-xs);
+  }
+  
+  .v-error-message__actions {
+    margin-top: var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+}
+
+/* 다크모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .v-error-message {
+    --error-background: var(--color-danger-bg-dark);
+    --error-border-color: var(--color-danger-border-dark);
+  }
+  
+  .v-error-message--warning {
+    --error-background: var(--color-warning-bg-dark);
+    --error-border-color: var(--color-warning-border-dark);
+  }
+  
+  .v-error-message--critical {
+    --error-background: var(--color-danger-bg-dark);
+    --error-border-color: var(--color-danger-border-dark);
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .v-error-message {
+    border-width: 2px;
+  }
+  
+  .v-error-message__icon {
+    font-weight: var(--font-weight-bold);
+  }
+}
