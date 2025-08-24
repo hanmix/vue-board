@@ -1,41 +1,26 @@
 <template>
   <div class="pagination">
-    <button
-      class="pagination-btn pagination-first"
+    <VButton
+      variant="ghost"
+      size="sm"
       @click="moveToFirstPage"
       :disabled="currentPage <= 1"
-      title="첫 페이지로"
+      :title="'첫 페이지로'"
+      class="pagination-btn"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polygon points="19,20 9,12 19,4" />
-        <line x1="5" y1="19" x2="5" y2="5" />
-      </svg>
-    </button>
+      <VIcon name="first-page" size="sm" />
+    </VButton>
 
-    <button
-      class="pagination-btn pagination-prev"
+    <VButton
+      variant="ghost"
+      size="sm"
       @click="prevPage"
       :disabled="currentPage <= 1"
-      title="이전 페이지"
+      :title="'이전 페이지'"
+      class="pagination-btn"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polyline points="15,18 9,12 15,6" />
-      </svg>
-    </button>
+      <VIcon name="chevron-left" size="sm" />
+    </VButton>
 
     <div class="pagination-info">
       <span class="current-page">{{ currentPage }}</span>
@@ -43,46 +28,34 @@
       <span class="total-page">{{ totalPage }}</span>
     </div>
 
-    <button
-      class="pagination-btn pagination-next"
+    <VButton
+      variant="ghost"
+      size="sm"
       @click="nextPage"
       :disabled="currentPage >= totalPage"
-      title="다음 페이지"
+      :title="'다음 페이지'"
+      class="pagination-btn"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polyline points="9,18 15,12 9,6" />
-      </svg>
-    </button>
+      <VIcon name="chevron-right" size="sm" />
+    </VButton>
 
-    <button
-      class="pagination-btn pagination-last"
+    <VButton
+      variant="ghost"
+      size="sm"
       @click="moveToLastPage"
       :disabled="currentPage >= totalPage"
-      title="마지막 페이지로"
+      :title="'마지막 페이지로'"
+      class="pagination-btn"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polygon points="5,4 15,12 5,20" />
-        <line x1="19" y1="5" x2="19" y2="19" />
-      </svg>
-    </button>
+      <VIcon name="last-page" size="sm" />
+    </VButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import '/src/assets/styles/components/ui/navigation/Pagination.css';
+import { VButton, VIcon } from '@/design-system/components';
+
 const { currentPage, totalPage, onPageChange } = defineProps<{
   currentPage: number;
   totalPage: number;

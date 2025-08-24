@@ -1,206 +1,165 @@
 <template>
-  <!-- 메인 게시글 카드 -->
-  <article 
-    v-if="currentPost" 
-    class="post-detail-container"
-    role="article"
-    :aria-label="`게시글: ${currentPost.title}`"
-  >
+  <VContainer v-if="currentPost" class="post-detail">
     <!-- 삭제된 원글 알림 -->
-    <div 
+    <VCard
       v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
+      variant="outlined"
+      padding="md"
       class="deleted-parent-notice"
-      role="alert"
-      aria-live="polite"
     >
-      <div class="notice-icon" aria-hidden="true">⚠️</div>
-      <span>원글이 삭제된 답글입니다</span>
-    </div>
-
-    <!-- 게시글 헤더 -->
-    <header class="post-header">
-      <div class="header-top">
-        <div class="title-section">
-          <div class="post-type-indicator">
-            <span v-if="currentPost.type === 'reply'" class="reply-badge" aria-label="답글">Re:</span>
-            <span v-else class="reply-badge-placeholder" aria-hidden="true"></span>
-          </div>
-          
-          <h1 class="post-title" id="post-title">
-            {{ currentPost.title }}
-          </h1>
-        </div>
-        
-        <!-- 개인 액션 버튼들 (수정/삭제만) -->
-        <div class="header-actions" v-if="currentPost.userId === userId">
-          <div class="action-buttons">
-            <button 
-              class="action-button edit-button"
-              @click="handleUpdate"
-              :aria-label="`게시글 '${currentPost.title}' 수정`"
-            >
-              <span class="button-icon" aria-hidden="true">✏️</span>
-              <span>수정</span>
-            </button>
-            
-            <button 
-              class="action-button delete-button"
-              @click="handleDelete"
-              :aria-label="`게시글 '${currentPost.title}' 삭제`"
-            >
-              <span class="button-icon" aria-hidden="true">🗑️</span>
-              <span>삭제</span>
-            </button>
-          </div>
-        </div>
+      <div class="notice-content">
+        <div class="notice-icon">⚠️</div>
+        <span class="notice-text">원글이 삭제된 답글입니다</span>
       </div>
-    </header>
+    </VCard>
 
-    <!-- 작성자 정보 섹션 -->
-    <section class="post-author-section">
-      <div class="author-info">
-        <div class="author-avatar" :aria-label="`작성자 ${currentPost.user.name}`">
-          {{ currentPost.user.name.charAt(0).toUpperCase() }}
-        </div>
-        <div class="author-details">
-          <span class="author-name">{{ currentPost.user.name }}</span>
-          <time 
-            class="post-date" 
-            :datetime="currentPost.date"
-            :title="`작성일: ${formatDate(currentPost.date)}`"
-          >
-            {{ formatDate(currentPost.date) }}
-          </time>
-        </div>
-      </div>
-    </section>
+    <!-- 메인 게시글 카드 -->
+    <VCard variant="elevated" padding="lg" class="post-main-card">
+      <article role="article" :aria-label="`게시글: ${currentPost.title}`">
+        <!-- 게시글 헤더 -->
+        <header class="post-header">
+          <div class="header-content">
+            <div class="title-section">
+              <div v-if="currentPost.type === 'reply'" class="reply-badge">
+                <span class="reply-indicator">Re:</span>
+              </div>
 
-    <!-- 게시글 내용 -->
-    <main class="post-content-section">
-      <div 
-        class="post-content" 
-        role="main"
-        aria-labelledby="post-title"
-      >
-        {{ currentPost.content }}
-      </div>
-    </main>
+              <h1 class="post-title">{{ currentPost.title }}</h1>
+            </div>
 
-    <!-- 통계 및 네비게이션 푸터 -->
-    <footer class="post-footer">
-      <!-- 통계 정보 및 답글 버튼 -->
-      <div class="post-stats-section">
-        <div class="post-stats-footer">
-          <div class="stat-item views" title="조회수">
-            <svg
-              class="stat-icon"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              aria-hidden="true"
-            >
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-            <span class="stat-number">{{ currentPost.view.toLocaleString() }}</span>
+            <!-- 액션 버튼들 -->
+            <div v-if="currentPost.userId === userId" class="header-actions">
+              <VButton
+                variant="ghost"
+                size="sm"
+                @click="handleUpdate"
+                :aria-label="`게시글 '${currentPost.title}' 수정`"
+              >
+                <VIcon name="edit" size="sm" />
+                수정
+              </VButton>
+
+              <VButton
+                variant="ghost"
+                size="sm"
+                @click="handleDelete"
+                :aria-label="`게시글 '${currentPost.title}' 삭제`"
+                class="delete-button"
+              >
+                <VIcon name="trash" size="sm" />
+                삭제
+              </VButton>
+            </div>
           </div>
-          <div class="stat-item likes" title="좋아요">
-            <svg
-              class="stat-icon"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              aria-hidden="true"
-            >
-              <path
-                d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
-              />
-            </svg>
-            <span class="stat-number">{{ currentPost.likes.length }}</span>
+        </header>
+
+        <!-- 작성자 정보 -->
+        <div class="author-section">
+          <div class="author-avatar">
+            {{ currentPost.user.name.charAt(0).toUpperCase() }}
           </div>
-          <div class="stat-item dislikes" title="싫어요">
-            <svg
-              class="stat-icon"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              aria-hidden="true"
-            >
-              <path
-                d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"
-              />
-            </svg>
-            <span class="stat-number">{{ currentPost.dislikes.length }}</span>
+          <div class="author-details">
+            <div class="author-name">{{ currentPost.user.name }}</div>
+            <time class="post-date" :datetime="currentPost.date">
+              {{ formatDate(currentPost.date) }}
+            </time>
           </div>
         </div>
-        
-        <!-- 답글 버튼 -->
-        <div class="reply-action" v-if="currentPost.type === 'post'">
-          <button 
-            class="action-button reply-button"
+
+        <!-- 게시글 내용 -->
+        <div class="post-content">
+          {{ currentPost.content }}
+        </div>
+
+        <!-- 게시글 푸터 -->
+        <footer class="post-footer">
+          <div class="post-stats">
+            <div class="stat-item">
+              <VIcon name="eye" size="sm" />
+              {{ currentPost.view.toLocaleString() }}
+            </div>
+            <div class="stat-item">
+              <VIcon name="thumbs-up" size="sm" />
+              {{ currentPost.likes.length }}
+            </div>
+            <div class="stat-item">
+              <VIcon name="thumbs-down" size="sm" />
+              {{ currentPost.dislikes.length }}
+            </div>
+          </div>
+
+          <VButton
+            variant="secondary"
+            size="sm"
             @click="handleModal"
             :aria-label="`게시글 '${currentPost.title}'에 답글 작성`"
           >
-            <span class="button-icon" aria-hidden="true">💬</span>
-            <span>답글 쓰기</span>
-          </button>
-        </div>
-      </div>
+            <VIcon name="message-circle" size="sm" />
+            답글 쓰기
+          </VButton>
+        </footer>
+      </article>
+    </VCard>
 
-      <!-- 네비게이션 -->
-      <nav class="post-navigation" :style="{ justifyContent: navigationJustify }" aria-label="게시글 네비게이션">
-        <button 
-          v-if="prevPost?.id" 
-          class="nav-button prev-button"
+    <!-- 게시글 네비게이션 -->
+    <VCard
+      v-if="prevPost?.id || nextPost?.id"
+      variant="outlined"
+      padding="md"
+      class="post-navigation"
+    >
+      <div class="navigation-content" :class="navigationClass">
+        <VButton
+          v-if="prevPost?.id"
+          variant="ghost"
+          size="sm"
           @click="moveToPost('prev')"
-          :aria-label="`이전 게시글: ${prevPost.title}`"
-          :title="prevPost.title"
+          class="nav-button prev-button"
         >
-          <span class="nav-icon" aria-hidden="true">←</span>
-          <div class="nav-content">
-            <span class="nav-label">이전 글</span>
-            <span class="nav-title">{{ truncateTitle(prevPost.title) }}</span>
-          </div>
-        </button>
-        
-        <button 
-          v-if="nextPost?.id" 
-          class="nav-button next-button"
+          <VIcon name="chevron-left" size="sm" aria-label="이전 글로 이동" />
+          <span class="nav-title desktop-only">
+            {{ truncateTitle(prevPost.title) }}
+          </span>
+          <span class="nav-label mobile-only">이전 글</span>
+        </VButton>
+
+        <VButton
+          v-if="nextPost?.id"
+          variant="ghost"
+          size="sm"
           @click="moveToPost('next')"
-          :aria-label="`다음 게시글: ${nextPost.title}`"
-          :title="nextPost.title"
+          class="nav-button next-button"
         >
-          <div class="nav-content">
-            <span class="nav-label">다음 글</span>
-            <span class="nav-title">{{ truncateTitle(nextPost.title) }}</span>
-          </div>
-          <span class="nav-icon" aria-hidden="true">→</span>
-        </button>
-      </nav>
-    </footer>
-  </article>
+          <span class="nav-title desktop-only">{{
+            truncateTitle(nextPost.title)
+          }}</span>
+          <span class="nav-label mobile-only">다음 글</span>
+          <VIcon name="chevron-right" size="sm" aria-label="다음 글로 이동" />
+        </VButton>
+      </div>
+    </VCard>
+  </VContainer>
 
   <!-- 로딩 상태 -->
-  <div v-else class="loading-container" role="status" aria-label="게시글 로딩 중">
-    <div class="loading-spinner" aria-hidden="true"></div>
-    <span class="loading-text">게시글을 불러오는 중...</span>
-  </div>
+  <VContainer v-else class="loading-container">
+    <VLoadingSpinner size="lg" message="게시글을 불러오는 중..." />
+  </VContainer>
 </template>
 
 <script setup lang="ts">
-import { usePost, useModal, useUser } from '@/composables';
+import '/src/assets/styles/components/features/board/BoardDetail.css';
+import { usePost, useUser } from '@/composables';
 import { formatDate } from '@/utils';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/design-system/composables';
+import {
+  VContainer,
+  VCard,
+  VButton,
+  VIcon,
+  VLoadingSpinner,
+} from '@/design-system/components';
 const {
   prevPost,
   currentPost,
@@ -213,7 +172,7 @@ const {
   deletePost,
 } = usePost();
 const { userId } = useUser();
-const { showAlert } = useModal();
+const { showSuccess, showError } = useToast();
 
 const { id } = defineProps<{
   id: string;
@@ -222,43 +181,31 @@ const emit = defineEmits(['onUpdate']);
 const router = useRouter();
 
 const handleFetchPostById = async () => {
-  try {
-    if (!id) return;
-    await fetchPostById(id);
-  } catch (error) {
-    console.error('handleFetchPostById 호출 에러:', error);
-    throw error;
-  }
+  await fetchPostById(id);
 };
 
 const handleFetchParentPostById = async () => {
-  try {
-    if (currentPost.value?.parentId) {
-      await fetchParentPostById(currentPost.value.parentId);
-    } else {
-      return;
-    }
-  } catch (error) {
-    console.error('handleFetchParentPostById 호출 에러:', error);
-    throw error;
+  if (
+    currentPost.value &&
+    currentPost.value.type === 'reply' &&
+    typeof currentPost.value.parentId === 'string'
+  ) {
+    await fetchParentPostById(currentPost.value.parentId);
   }
 };
 
-const title = ref('답글 테스트 중 ... 제목 입니다.');
-const content = ref('답글 테스트 중 ... 내용 입니다.');
-
+const title = ref('');
+const content = ref('답글 내용 테스트');
 const handleModal = async () => {
-  if (typeof currentPost.value?.id === 'string') {
-    title.value = `${currentPost.value.title}에 대한 ${title.value}`;
-    const data = await createNewReply(
-      currentPost.value.id,
-      title.value,
-      content.value
-    );
-    if (!data) return;
-    showAlert('답글이 생성되었습니다.');
-    router.push(`/board/detail/${data.id}`);
-  }
+  title.value = '답글 제목 테스트 중';
+  const data = await createNewReply(
+    currentPost.value?.id as string,
+    title.value,
+    content.value
+  );
+  if (!data) return;
+  showSuccess('답글이 생성되었습니다.');
+  router.push(`/board/detail/${data.id}`);
 };
 
 const handleUpdate = async () => {
@@ -266,23 +213,15 @@ const handleUpdate = async () => {
     title.value = '게시글 수정 테스트 중 -- 제목';
     content.value = '게시글 수정 테스트 중 -- 내용';
     await updatePost(currentPost.value.id, title.value, content.value);
-    showAlert('게시글이 수정되었습니다.');
+    showSuccess('게시글이 수정되었습니다.');
   }
 };
 
 const handleDelete = async () => {
   if (typeof currentPost.value?.id === 'string') {
     await deletePost(currentPost.value.id);
-    showAlert('게시글이 삭제 되었습니다.');
+    showSuccess('게시글이 삭제되었습니다.');
     router.push('/board');
-  }
-};
-
-const moveToPost = (type: 'prev' | 'next') => {
-  if (type === 'prev' && prevPost.value) {
-    router.push(`/board/detail/${prevPost.value.id}`);
-  } else if (type === 'next' && nextPost.value) {
-    router.push(`/board/detail/${nextPost.value.id}`);
   }
 };
 
@@ -292,27 +231,44 @@ const setData = async () => {
     await handleFetchParentPostById();
   } catch (error) {
     console.error('setData 호출 에러:', error);
-    showAlert('게시글을 불러오는 중 오류가 발생했습니다.');
+    showError('게시글을 불러오는 중 오류가 발생했습니다.');
   }
 };
 
 // 네비게이션 버튼 배치 계산
-const navigationJustify = computed(() => {
+const navigationClass = computed(() => {
   const hasPrev = !!prevPost.value?.id;
   const hasNext = !!nextPost.value?.id;
-  
-  if (hasPrev && hasNext) return 'space-between';
-  if (hasPrev) return 'flex-start'; 
-  if (hasNext) return 'flex-end';
-  return 'center';
+
+  if (hasPrev && hasNext) return 'nav-both';
+  if (hasPrev && !hasNext) return 'nav-prev-only';
+  if (!hasPrev && hasNext) return 'nav-next-only';
+  return '';
 });
 
-// 제목 자르기 유틸리티 함수
-const truncateTitle = (title: string, maxLength: number = 30): string => {
+// 제목 자르기 (UI 최적화)
+const truncateTitle = (title: string, maxLength = 30) => {
   return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
 };
 
-onMounted(async () => {
-  await setData();
+// 네비게이션 이동
+const moveToPost = (direction: 'prev' | 'next') => {
+  const post = direction === 'prev' ? prevPost.value : nextPost.value;
+  if (post?.id) {
+    router.push(`/board/detail/${post.id}`);
+  }
+};
+
+watch(
+  () => id,
+  async newId => {
+    if (newId) {
+      await setData();
+    }
+  }
+);
+
+onMounted(() => {
+  setData();
 });
 </script>

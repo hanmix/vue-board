@@ -1,51 +1,65 @@
 <template>
-  <article class="post-card modern-feed-item" @click="navigateToDetail">
-    <!-- 삭제된 원글 알림 (최상단에 컴팩트하게) -->
-    <div
-      v-if="post.type === 'reply' && post.parentId && post.isParentDeleted && !isMypage"
-      class="deleted-notice-banner"
+  <VCard
+    variant="elevated"
+    padding="md"
+    class="board-item-card"
+    @click="navigateToDetail"
+  >
+    <!-- 삭제된 원글 알림 -->
+    <VCard
+      v-if="
+        post.type === 'reply' &&
+        post.parentId &&
+        post.isParentDeleted &&
+        !isMypage
+      "
+      variant="outlined"
+      padding="sm"
+      class="deleted-parent-alert"
     >
-      ⚠️ 원글이 삭제된 답글
-    </div>
+      <div class="alert-content">
+        <div class="alert-icon">⚠️</div>
+        <span class="alert-text">원글이 삭제된 답글</span>
+      </div>
+    </VCard>
 
-    <!-- 메인 컨텐츠 (소셜 미디어 스타일) -->
-    <div class="feed-content">
-      <!-- 작성자 & 메타 정보 (상단) -->
-      <header class="feed-header">
+    <!-- 메인 컨텐츠 -->
+    <article class="post-content">
+      <!-- 헤더: 작성자 정보 및 메타데이터 -->
+      <header class="post-header">
         <div class="author-section">
-          <div class="author-avatar-mini">
+          <div class="author-avatar">
             {{ post.user.name.charAt(0).toUpperCase() }}
           </div>
-          <div class="author-meta">
-            <span class="author-name">{{ post.user.name }}</span>
-            <span class="post-metadata">
-              <time :datetime="post.date" :title="formatDate(post.date)">
-                {{ getRelativeTime(post.date) }}
-              </time>
-            </span>
+          <div class="author-info">
+            <h3 class="author-name">{{ post.user.name }}</h3>
+            <time
+              class="post-time"
+              :datetime="post.date"
+              :title="formatDate(post.date)"
+            >
+              {{ getRelativeTime(post.date) }}
+            </time>
           </div>
         </div>
-        
-        <!-- 답글 표시 (우상단) -->
-        <div v-if="post.type === 'reply'" class="reply-indicator">
-          <svg class="reply-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9,17 4,12 9,7"/>
-            <path d="M20 18v-2a4 4 0 0 0-4-4H4"/>
-          </svg>
-          <span class="reply-text">답글</span>
+
+        <!-- 답글 표시 -->
+        <div v-if="post.type === 'reply'" class="reply-badge">
+          <VIcon name="reply" size="xs" class="reply-icon" />
+          <span>답글</span>
         </div>
       </header>
 
-      <!-- 게시글 제목 (메인 컨텐츠) -->
-      <main class="feed-body">
-        <h2 class="post-title-feed">
+      <!-- 게시글 제목 -->
+      <main class="post-body">
+        <h2 class="post-title">
           <router-link
-            :to="{ 
-              name: 'board-detail', 
+            :to="{
+              name: 'board-detail',
               params: { id: props.post.id },
-              query: { from: detectedBoardType }
+              query: { from: detectedBoardType },
             }"
-            class="post-link-feed"
+            class="post-link"
             @click.stop
           >
             {{ post.title }}
@@ -53,45 +67,42 @@
         </h2>
       </main>
 
-      <!-- 인터랙션 바 (하단) -->
-      <footer class="feed-interactions">
+      <!-- 인터랙션 바 -->
+      <footer class="post-footer">
         <div class="interaction-stats">
-          <button class="interaction-btn views" @click.stop>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-            <span>{{ formatStatNumber(post.view) }}</span>
-          </button>
-          
-          <button class="interaction-btn likes" @click.stop>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-            </svg>
-            <span>{{ formatStatNumber(post.likes.length) }}</span>
-          </button>
-          
-          <button class="interaction-btn dislikes" @click.stop>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
-            </svg>
-            <span>{{ formatStatNumber(post.dislikes.length) }}</span>
-          </button>
+          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
+            <VIcon name="eye" size="xs" class="stat-icon" />
+            <span class="stat-count">{{ formatStatNumber(post.view) }}</span>
+          </VButton>
+
+          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
+            <VIcon name="thumbs-up" size="xs" class="stat-icon" />
+            <span class="stat-count">{{
+              formatStatNumber(post.likes.length)
+            }}</span>
+          </VButton>
+
+          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
+            <VIcon name="thumbs-down" size="xs" class="stat-icon" />
+            <span class="stat-count">{{
+              formatStatNumber(post.dislikes.length)
+            }}</span>
+          </VButton>
         </div>
 
-        <!-- 읽기 액션 -->
-        <router-link
-          :to="{ name: 'board-detail', params: { id: post.id } }"
-          class="read-action"
-          @click.stop
+        <!-- 읽기 버튼 -->
+        <VButton
+          variant="ghost"
+          size="sm"
+          class="read-button"
+          @click.stop="navigateToDetail"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9,18 15,12 9,6"/>
-          </svg>
-        </router-link>
+          <span class="sr-only">게시글 보기</span>
+          <VIcon name="chevron-right" size="xs" class="read-icon" />
+        </VButton>
       </footer>
-    </div>
-  </article>
+    </article>
+  </VCard>
 </template>
 
 <script setup lang="ts">
@@ -99,6 +110,8 @@ import { type ProcessedPost, BoardType } from '@/types';
 import { formatDate } from '@/utils';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
+import { VCard, VButton, VIcon } from '@/design-system/components';
+import '/src/assets/styles/components/features/board/BoardItem.css';
 
 const props = defineProps<{
   post: ProcessedPost;
@@ -115,28 +128,28 @@ const detectedBoardType = computed((): BoardType => {
   if (props.boardType) {
     return props.boardType;
   }
-  
+
   // 2순위: post.board 값을 BoardType으로 매핑
   if (props.post.board) {
     switch (props.post.board) {
       case 'notice':
       case BoardType.NOTICE:
         return BoardType.NOTICE;
-      case 'free':  
+      case 'free':
       case BoardType.FREE:
         return BoardType.FREE;
       default:
         break;
     }
   }
-  
+
   // 3순위: 현재 라우트에서 추정
   if (route.path.includes('/board/notice')) {
     return BoardType.NOTICE;
   } else if (route.path.includes('/board/free')) {
     return BoardType.FREE;
   }
-  
+
   // 기본값
   return BoardType.FREE;
 });
@@ -144,10 +157,10 @@ const detectedBoardType = computed((): BoardType => {
 // 카드 클릭 시 상세 페이지로 이동
 const navigateToDetail = () => {
   const query = { from: detectedBoardType.value };
-  router.push({ 
-    name: 'board-detail', 
+  router.push({
+    name: 'board-detail',
     params: { id: props.post.id },
-    query 
+    query,
   });
 };
 
@@ -156,12 +169,14 @@ const getRelativeTime = (dateString: string): string => {
   const now = new Date();
   const postDate = new Date(dateString);
   const diffInSeconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
-  
+
   if (diffInSeconds < 60) return '방금 전';
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}분 전`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}시간 전`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}일 전`;
-  
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)}시간 전`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}일 전`;
+
   return formatDate(dateString);
 };
 
