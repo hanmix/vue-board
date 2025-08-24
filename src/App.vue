@@ -3,6 +3,7 @@ import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { NavigationBar } from '@/components/layout';
 import { useTheme } from '@/design-system/composables/useTheme';
+import { VToastContainer } from '@/design-system/components/base';
 
 const route = useRoute();
 const { initTheme } = useTheme();
@@ -20,13 +21,18 @@ onMounted(() => {
 
 <template>
   <div id="app-root">
-    <!-- Navigation -->
-    <NavigationBar v-if="shouldShowNavigation" />
+    <!-- Sticky Navigation Header -->
+    <header v-if="shouldShowNavigation" class="app-header">
+      <NavigationBar />
+    </header>
     
     <!-- Main Content -->
-    <main class="app-main">
+    <main class="app-main" :class="{ 'with-navigation': shouldShowNavigation }">
       <router-view />
     </main>
+    
+    <!-- Toast Container -->
+    <VToastContainer />
   </div>
 </template>
 
@@ -38,14 +44,22 @@ onMounted(() => {
   color: var(--color-text);
 }
 
+/* Sticky Navigation Header */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--color-bg);
+}
+
 .app-main {
-  /* 네비게이션이 있을 때와 없을 때 모두 고려한 유연한 레이아웃 */
   min-height: 100vh;
   position: relative;
 }
 
-/* 네비게이션이 있는 페이지에서의 메인 콘텐츠 조정 */
-.app-main:has(~ nav) {
-  /* 필요시 네비게이션 높이만큼 padding-top 추가 가능 */
+/* 네비게이션이 있는 페이지에서의 메인 콘텐츠 */
+.app-main.with-navigation {
+  /* sticky header가 처리하므로 별도 padding-top 불필요 */
+  min-height: calc(100vh - var(--nav-height, 64px));
 }
 </style>

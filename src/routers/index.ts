@@ -57,13 +57,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/mypage',
     name: RouteName.MYPAGE,
     meta: { requiresAuth: true },
-    component: BoardLayout, // 기존 BoardLayout 사용하여 탭 유지
-    children: [
-      {
-        path: '',
-        component: UserProfile,
-      },
-    ],
+    component: UserProfile,
   },
   {
     path: '/design-system',
