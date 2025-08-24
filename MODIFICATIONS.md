@@ -2,7 +2,8 @@
 
 ## 📅 수정 일시
 
-**2025년 8월 아키텍처 대규모 리팩토링 및 현대화 (최신)**  
+**2025년 8월 24일 SVG → VIcon 컴포넌트 마이그레이션 및 모달 시스템 개선 (최신)**  
+2025년 8월 아키텍처 대규모 리팩토링 및 현대화  
 2025년 8월 22일 게시판 페이지네이션 리셋 기능 추가  
 2025년 8월 21일 TypeScript 오류 해결  
 2025년 8월 21일 추가 수정 사항 (계속)  
@@ -11,7 +12,15 @@
 
 ## 🎯 주요 개선 사항 요약
 
-### 🚀 2025년 8월 아키텍처 대규모 리팩토링 및 현대화 (최신)
+### 🎨 2025년 8월 24일 SVG → VIcon 컴포넌트 마이그레이션 및 모달 시스템 개선 (최신)
+
+1. **통합 아이콘 시스템 구축**: 프로젝트 전체 SVG 태그를 VIcon 컴포넌트로 통합
+2. **타입 안전성 강화**: VIcon 컴포넌트에 동적 class 바인딩 지원 추가
+3. **모달 백그라운드 스크롤 방지 개선**: 중복 시스템 제거 및 단일 시스템으로 통합
+4. **네비게이션 버튼 레이아웃 개선**: BoardDetail 이전글/다음글 버튼 정렬 및 반응형 최적화
+5. **새로운 아이콘 6개 추가**: reply, first-page, last-page, search, chevron-down, pencil
+
+### 🚀 2025년 8월 아키텍처 대규모 리팩토링 및 현대화
 
 1. **URL 기반 상태 관리 시스템 구축**: React useNavigate 패턴 적용
 2. **컴포넌트 구조 완전 재설계**: features/ui/layout 기반 관심사 분리
@@ -64,7 +73,128 @@
 
 ## 🛠️ 상세 수정 내역
 
-### 🚀 2025년 8월 아키텍처 대규모 리팩토링 및 현대화 (최신)
+### 🎨 2025년 8월 24일 SVG → VIcon 컴포넌트 마이그레이션 및 모달 시스템 개선 (최신)
+
+#### 1. 통합 VIcon 컴포넌트 시스템 구축
+
+##### 🔧 **문제점**
+
+- 프로젝트 전체에 17개의 인라인 SVG 태그가 분산되어 있음
+- 아이콘별로 다른 크기 및 스타일 지정 방식으로 일관성 부족
+- SVG 코드 중복으로 번들 크기 증가 및 유지보수 어려움
+- TypeScript 타입 체크 미적용으로 아이콘 이름 오타 감지 불가
+
+##### ✅ **해결 방안**
+
+- **VIcon.vue 컴포넌트 개발**: 중앙집중식 아이콘 관리 시스템
+- **동적 아이콘 랜더링**: v-html 기반 안전한 SVG 렌더링
+- **타입 안전성 강화**: TypeScript 인터페이스로 아이콘 이름 및 props 체크
+- **크기 통합 시스템**: xs~xl 단계별 사이즈 또는 숫자 값 지원
+
+##### 📝 **주요 구현 내용**
+
+**1. VIcon 컴포넌트 인터페이스**
+
+```typescript
+export interface VIconProps {
+  name: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+  strokeWidth?: number;
+  color?: string;
+  ariaLabel?: string;
+  class?: string | Record<string, boolean> | Array<string | Record<string, boolean>>;
+}
+```
+
+**2. 아이콘 라이브러리 구축 (11개 아이콘)**
+
+- `chevron-left`, `chevron-right`: 네비게이션 화살표
+- `edit`, `trash`, `eye`: 게시글 액션 아이콘
+- `thumbs-up`, `thumbs-down`: 추천/비추천 아이콘
+- `message-circle`, `reply`: 댓글 관련 아이콘
+- `first-page`, `last-page`: 페이지네이션 아이콘
+- `search`: 검색 아이콘
+- `chevron-down`: 드롭다운 아이콘
+- `pencil`: 글쓰기 아이콘 (단순한 연필 모양)
+
+**3. 파일별 SVG → VIcon 마이그레이션**
+
+- `BoardDetail.vue`: 5개 SVG → VIcon 변환
+- `BoardItem.vue`: 5개 SVG → VIcon 변환
+- `Pagination.vue`: 4개 SVG → VIcon 변환
+- `SearchFilter.vue`: 2개 SVG → VIcon 변환
+- `FloatingButton.vue`: 1개 SVG → VIcon 변환
+
+#### 2. 모달 백그라운드 스크롤 방지 시스템 개선
+
+##### 🔧 **문제점**
+
+- VModal 컴포넌트와 Modal Store 양줄에서 스크롤 방지 로직 중복 구현
+- modal.css 파일과 VModal 컴포넌트의 CSS 충돌
+- 모달 열릴 때 modal-open 클래스가 body에 추가되지 않는 문제
+
+##### ✅ **해결 방안**
+
+- **modal.css 파일 완전 삭제**: 중복 CSS 제거
+- **VModal 컴포넌트로 통합**: 단일 시스템으로 스크롤 방지 관리
+- **라이프사이클 훅 추가**: onMounted/onUnmounted로 안전한 체계 관리
+
+**구현된 스크롤 방지 CSS:**
+
+```css
+body.modal-open {
+  overflow-y: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+```
+
+#### 3. BoardDetail 네비게이션 버튼 레이아웃 개선
+
+##### 🔧 **문제점**
+
+- 이전글/다음글 버튼 크기가 글 제목 길이에 따라 가변적
+- 모바일에서 다음글 버튼의 아이콘/텍스트 순서 문제
+- 아이콘과 텍스트의 수직 정렬이 맞지 않음
+
+##### ✅ **해결 방안**
+
+- **일관된 버튼 크기**: min-width/min-height 제약 조건
+- **DOM 구조 단순화**: wrapper div 제거 및 직접적인 flexbox 레이아웃
+- **수직 정렬 문제 해결**: `vertical-align: text-bottom` 적용
+- **모바일 레이아웃 최적화**: flex-direction: row-reverse 사용
+
+#### 4. TypeScript 타입 안전성 강화
+
+##### 🔧 **문제점**
+
+- VIcon의 class prop이 동적 class 바인딩 (:class) 미지원
+- SearchFilter.vue에서 VIcon 사용 시 TypeScript 에러 발생
+
+##### ✅ **해결 방안**
+
+**VIcon 인터페이스 수정:**
+
+```typescript
+class?: string | Record<string, boolean> | Array<string | Record<string, boolean>>;
+```
+
+이로써 다음과 같은 모든 방식의 class 바인딩 지원:
+
+- 문자열: `class="search-arrow"`
+- 객체: `class="{ active: isActive }"`
+- 배열: `class="['base-class', { 'active': isOpen }]"`
+
+#### 5. 새로운 아이콘 6개 추가
+
+1. **reply**: 댓글 답글 아이콘
+2. **first-page**: 첨 페이지 네비게이션
+3. **last-page**: 마지막 페이지 네비게이션
+4. **search**: 검색 기능
+5. **chevron-down**: 드롭다운 전개/수집
+6. **pencil**: 단순한 연필 모양 (글쓰기 버튼)
+
+### 🚀 2025년 8월 아키텍처 대규모 리팩토링 및 현대화
 
 #### 25. URL 기반 상태 관리 시스템 구축
 
@@ -1436,6 +1566,38 @@ min-width: 375px;
 
 ---
 
+## 📋 파일 변경 요약
+
+### 🎨 2025년 8월 24일 SVG → VIcon 컴포넌트 마이그레이션 및 모달 시스템 개선
+
+#### 🆕 새로 생성된 파일 (1개)
+
+- `src/design-system/components/base/VIcon/VIcon.vue`: 중앙화된 아이콘 관리 컴포넌트
+
+#### ✏️ 수정된 파일 (7개)
+
+- `src/design-system/components/base/index.ts`: VIcon export 추가
+- `src/components/features/board/BoardDetail.vue`: 5개 SVG → VIcon 변환
+- `src/components/features/board/BoardItem.vue`: 5개 SVG → VIcon 변환  
+- `src/components/ui/navigation/Pagination.vue`: 4개 SVG → VIcon 변환
+- `src/components/ui/form/SearchFilter.vue`: 2개 SVG → VIcon 변환
+- `src/components/features/common/FloatingButton.vue`: 1개 SVG → VIcon 변환
+- `src/design-system/components/base/VModal/VModal.vue`: 모달 스크롤 방지 시스템 통합
+
+#### ❌ 삭제된 파일 (1개)
+
+- `src/assets/modal.css`: 중복 CSS 파일 제거
+
+#### 🎯 개선 효과
+
+1. **번들 크기 감소**: 17개 인라인 SVG → 1개 컴포넌트로 중복 제거
+2. **타입 안전성**: 아이콘 이름 및 props TypeScript 검증
+3. **일관성 향상**: 통일된 크기 시스템 및 스타일링
+4. **유지보수성**: 중앙화된 아이콘 관리로 변경사항 최소화
+5. **접근성 개선**: aria-label 자동 생성 및 role="img" 속성
+
+---
+
 ## 🔮 향후 개선 방향
 
 ### 🎯 **단기 목표 (1-2주)**
@@ -1523,5 +1685,5 @@ min-width: 375px;
 ---
 
 _이 문서는 Vue Board 프로젝트의 주요 개선 사항을 정리한 것입니다._  
-_최종 업데이트: 2025년 8월 21일_  
+_최종 업데이트: 2025년 8월 24일_  
 _문의사항이 있으시면 개발팀에 연락해주세요._

@@ -26,6 +26,7 @@ Vue 3 + TypeScript Composition API 기반의 현대적 프론트엔드 아키텍
 3. **URL 기반 상태 관리**: 브라우저 기본 동작과 조화
 4. **배럴 익스포트**: 체계적인 import 시스템
 5. **타입 안전성**: 엄격한 TypeScript 적용
+6. **HTML 구조 최적화**: 불필요한 wrapper div 제거를 통한 DOM 깊이 최소화
 
 ## 표준 프로젝트 구조
 
@@ -88,6 +89,21 @@ src/
 ├── routers/                 # Vue Router 설정
 │   ├── index.ts             # 라우터 익스포트
 │   └── routes.ts            # 라우트 정의 및 가드
+│
+├── design-system/           # 디자인 시스템
+│   ├── tokens/              # 디자인 토큰 (CSS Custom Properties)
+│   │   ├── colors.css       # 색상 토큰
+│   │   ├── typography.css   # 타이포그래피 토큰
+│   │   ├── spacing.css      # 간격 토큰
+│   │   └── index.css        # 통합 토큰 익스포트
+│   ├── components/          # 재사용 가능한 UI 컴포넌트
+│   │   ├── base/            # 기본 컴포넌트 (VButton, VCard, VModal)
+│   │   ├── layout/          # 레이아웃 컴포넌트 (VContainer)
+│   │   └── index.ts         # 디자인 시스템 컴포넌트 익스포트
+│   ├── composables/         # 디자인 시스템 관련 컴포저블
+│   │   ├── useTheme.ts      # 테마 전환 로직
+│   │   └── useBreakpoint.ts # 반응형 브레이크포인트
+│   └── index.ts             # 디자인 시스템 통합 익스포트
 │
 ├── assets/                  # 정적 자산
 │   └── main.css             # 메인 CSS
@@ -304,6 +320,30 @@ import BoardItem from '@/components/features/board/BoardItem.vue'
 
 // ✅ 배럴 익스포트 활용 (권장)
 import { BoardList, BoardItem } from '@/components/features/board'
+```
+
+**HTML Wrapper Div 최적화 가이드라인:**
+1. **한 기능/영역 당 최대 1~2 레벨 wrapper** → 보통 layout > section > component
+2. **컴포넌트 단위로 책임 분리** → Vue 컴포넌트 자체가 wrapper 역할을 하므로 불필요한 div 줄이기
+3. **토큰 기반 spacing 활용** → gap, padding으로 해결할 수 있다면 wrapper 줄이기
+4. **스크롤, position, background, overflow 같은 책임을 가진 컨테이너만 wrapper 유지**
+
+```vue
+<!-- ❌ 불필요한 wrapper 남용 -->
+<div class="outer-wrapper">
+  <div class="inner-wrapper">
+    <div class="content-wrapper">
+      <div class="item-wrapper">
+        <Component />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ 최적화된 구조 -->
+<main class="layout">
+  <Component />
+</main>
 ```
 
 ### 3. 상태 관리 가이드
@@ -536,7 +576,114 @@ router.beforeEach((to) => {
 })
 ```
 
-### 5. 레거시 코드 관리
+### 5. HTML Wrapper 최적화 실전 가이드
+
+**적용 전후 비교 - BoardList 컴포넌트:**
+```vue
+<!-- ❌ 최적화 전 (4레벨 깊이) -->
+<div class="board-list">
+  <div class="posts-section">
+    <div class="state-container">
+      <div class="post-item">
+        <BoardItem :post="post" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ 최적화 후 (2레벨 깊이) -->
+<div class="board-list">
+  <VLoadingSpinner v-if="loading" class="centered-state" />
+  <div v-else class="posts-list">
+    <BoardItem v-for="post in posts" :key="post.id" :post="post" />
+  </div>
+</div>
+```
+
+**적용된 최적화 원칙:**
+- `posts-section` 제거 → 단순 컨테이너 역할만 수행
+- `state-container` → `centered-state` 클래스로 통합
+- `post-item` wrapper 제거 → v-for에서 직접 컴포넌트 렌더링
+- CSS는 글로벌 스타일시트에서 관리
+
+### 6. 디자인 시스템 가이드
+
+**토큰 기반 CSS 시스템:**
+```css
+/* 색상 토큰 */
+:root {
+  --color-primary: #4f46e5;
+  --color-bg: #ffffff;
+  --color-text: #111827;
+  --color-border: #e5e7eb;
+}
+
+/* 다크 테마 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1e1e2f;
+    --color-text: #f5f5f5;
+    --color-border: #374151;
+  }
+}
+
+/* 간격 토큰 */
+:root {
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+}
+```
+
+**디자인 시스템 컴포넌트 사용:**
+```vue
+<template>
+  <!-- ✅ 디자인 시스템 컴포넌트 사용 -->
+  <VCard variant="elevated" padding="md">
+    <VButton variant="primary" @click="handleClick">
+      버튼
+    </VButton>
+  </VCard>
+</template>
+
+<script setup lang="ts">
+import { VCard, VButton } from '@/design-system/components'
+
+// 테마 전환
+import { useTheme } from '@/design-system/composables/useTheme'
+const { toggleTheme, isDark } = useTheme()
+</script>
+
+<style scoped>
+/* ✅ 토큰 사용 */
+.custom-element {
+  padding: var(--space-4);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+}
+</style>
+```
+
+**반응형 디자인:**
+```vue
+<script setup lang="ts">
+import { useBreakpoint } from '@/design-system/composables/useBreakpoint'
+
+const { isMobile, isTablet, isDesktop } = useBreakpoint()
+</script>
+
+<template>
+  <div :class="{ 'mobile-layout': isMobile, 'desktop-layout': isDesktop }">
+    <!-- 반응형 콘텐츠 -->
+  </div>
+</template>
+```
+
+### 7. 레거시 코드 관리
 
 ```typescript
 /**

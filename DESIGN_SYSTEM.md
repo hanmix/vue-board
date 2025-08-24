@@ -89,33 +89,33 @@ src/
 ```css
 /* src/design-system/tokens/colors.css */
 :root {
-  /* 브랜드 색상 */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-500: #4f46e5;
-  --color-primary-600: #4338ca;
-  --color-primary-700: #3730a3;
+  /* 브랜드 색상 - 다크 테마와 조화로운 톤 */
+  --color-primary-50: #f0f4ff;
+  --color-primary-100: #e0e9ff;
+  --color-primary-500: #6366f1; /* 더 밝고 선명한 보라 */
+  --color-primary-600: #5b63d3;
+  --color-primary-700: #4f46e5;
 
-  --color-secondary-500: #f59e0b;
-  --color-secondary-600: #d97706;
+  --color-secondary-500: #06b6d4; /* 시원한 청록색 */
+  --color-secondary-600: #0891b2;
 
-  /* 시스템 색상 */
-  --color-success: #22c55e;
-  --color-danger: #ef4444;
-  --color-warning: #facc15;
-  --color-info: #3b82f6;
+  /* 시스템 색상 - 다크 테마 최적화 */
+  --color-success: #10b981; /* 더 선명한 녹색 */
+  --color-danger: #f87171; /* 부드러운 빨간색 */
+  --color-warning: #fbbf24; /* 따뜻한 황색 */
+  --color-info: #60a5fa; /* 밝은 파란색 */
 
-  /* 중성 색상 */
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  /* 중성 색상 - 다크 테마와 조화로운 따뜻한 그레이 */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
 }
 
 /* 라이트 테마 매핑 */
@@ -134,21 +134,31 @@ src/
 /* 다크 테마 매핑 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #1e1e2f;
-    --color-surface: #2a2a40;
-    --color-text: #f5f5f5;
-    --color-text-muted: #a1a1aa;
-    --color-border: var(--color-gray-700);
+    --color-bg: #242424; /* 메인 배경 (차분한 다크 그레이) */
+    --color-surface: #2e2e2e; /* 카드/패널 배경 */
+    --color-text: #f5f5f5; /* 메인 텍스트 */
+    --color-text-muted: #a1a1a1; /* 보조 텍스트 */
+    --color-border: #404040; /* 경계선 - 더 자연스러운 그레이 */
+    
+    /* 다크 모드에서 브랜드 색상 미세 조정 */
+    --color-primary: #7c3aed; /* 다크에서 더 생동감 있는 보라 */
+    --color-primary-hover: #8b5cf6;
+    --color-secondary: #14b8a6; /* 다크에서 더 선명한 청록 */
   }
 }
 
 /* 강제 다크 테마 클래스 */
 .theme-dark {
-  --color-bg: #1e1e2f;
-  --color-surface: #2a2a40;
-  --color-text: #f5f5f5;
-  --color-text-muted: #a1a1aa;
-  --color-border: var(--color-gray-700);
+  --color-bg: #242424; /* 메인 배경 (차분한 다크 그레이) */
+  --color-surface: #2e2e2e; /* 카드/패널 배경 */
+  --color-text: #f5f5f5; /* 메인 텍스트 */
+  --color-text-muted: #a1a1a1; /* 보조 텍스트 */
+  --color-border: #404040; /* 경계선 - 더 자연스러운 그레이 */
+  
+  /* 다크 모드에서 브랜드 색상 미세 조정 */
+  --color-primary: #7c3aed; /* 다크에서 더 생동감 있는 보라 */
+  --color-primary-hover: #8b5cf6;
+  --color-secondary: #14b8a6; /* 다크에서 더 선명한 청록 */
 }
 ```
 
@@ -1954,11 +1964,11 @@ body {
 
 /* 다크 테마 */
 .theme-dark {
-  --color-bg: #1e1e2f;
-  --color-surface: #2a2a40;
+  --color-bg: #242424;
+  --color-surface: #2e2e2e;
   --color-text: #f5f5f5;
-  --color-text-muted: #a1a1aa;
-  --color-border: var(--color-gray-700);
+  --color-text-muted: #a1a1a1;
+  --color-border: #3a3a3a;
 
   /* 다크 모드에서 그림자 조정 */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
