@@ -1,0 +1,116 @@
+<template>
+  <svg
+    :class="iconClasses"
+    :width="iconSize"
+    :height="iconSize"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    :stroke-width="strokeWidth"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    :aria-label="ariaLabel"
+    role="img"
+    v-html="iconPath"
+  ></svg>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import '/src/assets/styles/components/design-system/base/VIcon.css';
+
+export interface VIconProps {
+  name: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+  strokeWidth?: number;
+  color?: string;
+  ariaLabel?: string;
+  class?: string | Record<string, boolean> | Array<string | Record<string, boolean>>;
+}
+
+const props = withDefaults(defineProps<VIconProps>(), {
+  size: 'md',
+  strokeWidth: 2,
+  color: 'currentColor',
+});
+
+// 크기 매핑
+const sizeMap = {
+  xs: 12,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32,
+};
+
+// 아이콘 패스 매핑
+const iconPaths = {
+  'chevron-left': '<polyline points="15,18 9,12 15,6" />',
+  'chevron-right': '<polyline points="9,18 15,12 9,6" />',
+  edit: `
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  `,
+  trash: `
+    <polyline points="3,6 5,6 21,6"/>
+    <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"/>
+  `,
+  eye: `
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  `,
+  'thumbs-up': `
+    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+  `,
+  'thumbs-down': `
+    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
+  `,
+  'message-circle': '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
+  'reply': `
+    <polyline points="9,17 4,12 9,7"/>
+    <path d="M20 18v-2a4 4 0 0 0-4-4H4"/>
+  `,
+  'chevrons-left': `
+    <polyline points="11,17 6,12 11,7"/>
+    <polyline points="18,17 13,12 18,7"/>
+  `,
+  'chevrons-right': `
+    <polyline points="13,17 18,12 13,7"/>
+    <polyline points="6,17 11,12 6,7"/>
+  `,
+  'first-page': `
+    <polygon points="19,20 9,12 19,4"/>
+    <line x1="5" y1="19" x2="5" y2="5"/>
+  `,
+  'last-page': `
+    <polygon points="5,4 15,12 5,20"/>
+    <line x1="19" y1="5" x2="19" y2="19"/>
+  `,
+  'search': `
+    <circle cx="11" cy="11" r="8"/>
+    <path d="m21 21-4.35-4.35"/>
+  `,
+  'chevron-down': '<polyline points="6,9 12,15 18,9"/>',
+  'pencil': `
+    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+  `,
+};
+
+const iconSize = computed(() => {
+  if (typeof props.size === 'number') return props.size;
+  return sizeMap[props.size];
+});
+
+const iconPath = computed(() => {
+  const path = iconPaths[props.name as keyof typeof iconPaths];
+  if (!path) {
+    console.warn(`VIcon: Unknown icon name "${props.name}"`);
+    return '';
+  }
+  return path;
+});
+
+const iconClasses = computed(() => ['v-icon', props.class]);
+
+const ariaLabel = computed(() => props.ariaLabel || `${props.name} icon`);
+</script>
