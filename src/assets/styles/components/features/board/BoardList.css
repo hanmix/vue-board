@@ -1,0 +1,24 @@
+.board-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: 60vh;
+}
+
+/* Search Section */
+.search-section {
+  position: static;
+  background-color: var(--color-bg);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .board-list {
+    gap: var(--space-4);
+  }
+
+  .search-section {
+    position: static;
+    top: auto;
+  }
+}

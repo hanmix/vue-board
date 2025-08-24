@@ -1,0 +1,25 @@
+.board-layout {
+  /* 레이아웃 기본 속성 */
+  min-height: calc(100vh - var(--nav-height, 64px));
+  background-color: var(--color-bg);
+  
+  /* 컨테이너 레이아웃 */
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+/* 모바일에서 하단 네비게이션 고려 */
+@media (max-width: 768px) {
+  .board-layout {
+    padding: var(--space-6) var(--space-4) calc(80px + var(--safe-area-inset-bottom) + var(--space-6));
+    min-height: auto;
+  }
+}
+
+/* iPhone SE 및 작은 화면 최적화 */
+@media (max-width: 375px) {
+  .board-layout {
+    padding: var(--space-4) var(--space-3) calc(80px + var(--safe-area-inset-bottom) + var(--space-4));
+  }
+}

@@ -1,0 +1,111 @@
+/* SearchFilter 컴포넌트 스타일 */
+
+.search-filter {
+  width: 100%;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.search-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-bg);
+  transition: border-color var(--transition-base);
+}
+
+.search-input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.search-type-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  background: none;
+  border: none;
+  border-right: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  min-height: var(--touch-target-min);
+}
+
+.search-type-trigger:hover {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.search-type-trigger--open {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.search-type-arrow {
+  transition: transform var(--transition-base);
+}
+
+.search-type-arrow--open {
+  transform: rotate(180deg);
+}
+
+.search-input {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-button {
+  border-radius: var(--radius-2xl);
+  border-left: 1px solid var(--color-border);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .search-input-group {
+    border-radius: var(--radius-xl);
+  }
+
+  .search-type-trigger {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+  }
+
+  .search-input {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+
+  .search-button {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .search-type-trigger,
+  .search-type-arrow,
+  .search-input-group {
+    transition: none;
+  }
+}

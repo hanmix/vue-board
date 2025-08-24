@@ -1,32 +1,44 @@
 <template>
-  <div class="search-header">
+  <!-- Search Header -->
+  <VCard variant="outlined" padding="md" class="search-section">
     <SearchFilter
       :boardType="boardType"
       :searchKeyword="searchKeyword"
       :searchType="searchType"
       :onSearch="setSearch"
     />
+  </VCard>
+
+  <VLoadingSpinner
+    v-if="loading"
+    size="md"
+    message="공지사항을 불러오는 중..."
+    class="centered-state"
+  />
+
+  <VErrorMessage
+    v-else-if="error"
+    :message="error"
+    title="공지사항을 불러올 수 없습니다"
+    severity="error"
+    class="centered-state"
+  />
+
+  <div v-else-if="!posts.length" class="empty-state centered-state">
+    게시글이 없습니다.
   </div>
-  <section class="posts-section">
-    <div v-if="loading" class="loading">로딩중...</div>
 
-    <div v-else-if="error" class="error">{{ error }}</div>
+  <div v-else class="posts-list">
+    <BoardItem v-for="post in posts" :key="post.id" :post="post" />
+  </div>
 
-    <div v-else-if="!posts.length" class="empty">게시글이 없습니다.</div>
-
-    <div v-else v-for="post in posts" :key="post.id">
-      <BoardItem :post="post" />
-    </div>
-  </section>
-
-  <section class="pagination-section">
-    <Pagination
-      v-if="totalPosts && !loading && !error"
-      :currentPage="currentPage"
-      :totalPage="lastPage"
-      :onPageChange="goToPage"
-    />
-  </section>
+  <Pagination
+    v-if="totalPosts && !loading && !error"
+    :currentPage="currentPage"
+    :totalPage="lastPage"
+    :onPageChange="goToPage"
+    class="pagination"
+  />
 </template>
 
 <script setup lang="ts">
@@ -34,6 +46,7 @@ import { SearchFilter, Pagination } from '@/components/ui';
 import BoardItem from './BoardItem.vue';
 import { useBoardData } from '@/composables';
 import { BoardType } from '@/types';
+import { VLoadingSpinner, VErrorMessage } from '@/design-system/components';
 
 const boardType = BoardType.NOTICE;
 

@@ -1,0 +1,49 @@
+.floating-container {
+  position: fixed;
+  bottom: var(--safe-area-inset-bottom, var(--space-6));
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: var(--z-floating);
+}
+
+/* FAB 특별 스타일링 - VButton 오버라이드 */
+.floating-button {
+  width: 56px;
+  height: 56px;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  border-radius: var(--radius-full) !important;
+  box-shadow: var(--shadow-lg) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.floating-button:hover {
+  box-shadow: var(--shadow-xl) !important;
+  transform: translateY(-2px);
+}
+
+.floating-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .floating-container {
+    bottom: calc(var(--safe-area-inset-bottom, 0px) + var(--space-4) + 60px);
+    right: var(--space-4);
+  }
+
+  .floating-button {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .floating-button:hover {
+    transform: none;
+  }
+}

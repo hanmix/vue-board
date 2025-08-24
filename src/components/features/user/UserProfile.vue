@@ -14,31 +14,40 @@
     </div>
   </section>
 
-  <section class="posts-section">
-    <div class="section-header">
-      <h2>내 게시글</h2>
-    </div>
-    <div v-if="loading" class="loading">로딩중...</div>
+  <section class="my-posts-section">
+    <h2 class="section-title">내 게시글</h2>
+    
+    <VLoadingSpinner 
+      v-if="loading"
+      size="md" 
+      message="게시글을 불러오는 중..." 
+      class="centered-state"
+    />
 
-    <div v-else-if="error" class="error">{{ error }}</div>
+    <VErrorMessage
+      v-else-if="error"
+      :message="error"
+      title="내 게시글을 불러올 수 없습니다"
+      severity="error"
+      class="centered-state"
+    />
 
-    <div v-else-if="!filteredPosts.length" class="empty">
+    <div v-else-if="!filteredPosts.length" class="empty-state centered-state">
       게시글이 없습니다.
     </div>
 
-    <div v-else v-for="post in filteredPosts" :key="post.id">
-      <BoardItem :post="post" :isMypage="isMypage" />
+    <div v-else class="posts-list">
+      <BoardItem v-for="post in filteredPosts" :key="post.id" :post="post" :isMypage="isMypage" />
     </div>
   </section>
 
-  <section class="pagination-section">
-    <Pagination
-      v-if="totalPosts && !loading && !error"
-      :currentPage="currentPage"
-      :totalPage="lastPage"
-      :onPageChange="goToPage"
-    />
-  </section>
+  <Pagination
+    v-if="totalPosts && !loading && !error"
+    :currentPage="currentPage"
+    :totalPage="lastPage"
+    :onPageChange="goToPage"
+    class="pagination"
+  />
 </template>
 <script setup lang="ts">
 import { useMyPageData, useUser, useAuth, usePost } from '@/composables';
@@ -46,6 +55,7 @@ import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { BoardItem } from '@/components/features/board';
 import { Pagination } from '@/components/ui';
+import { VLoadingSpinner, VErrorMessage } from '@/design-system/components';
 const {
   filteredPosts,
   loading,
