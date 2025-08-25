@@ -12,33 +12,33 @@
         <form @submit.prevent="handleLogin" class="auth-form">
           <div class="form-field">
             <label for="email" class="form-label">이메일</label>
-            <input 
-              id="email" 
-              type="email" 
-              v-model="email" 
-              required 
+            <input
+              id="email"
+              type="email"
+              v-model="email"
+              required
               class="form-input"
               placeholder="이메일을 입력하세요"
             />
           </div>
-          
+
           <div class="form-field">
             <label for="password" class="form-label">비밀번호</label>
-            <input 
-              id="password" 
-              type="password" 
-              v-model="password" 
-              required 
+            <input
+              id="password"
+              type="password"
+              v-model="password"
+              required
               class="form-input"
               placeholder="비밀번호를 입력하세요"
             />
           </div>
 
-          <VButton 
-            type="submit" 
-            variant="primary" 
-            size="lg" 
-            :loading="loading" 
+          <VButton
+            type="submit"
+            variant="primary"
+            size="lg"
+            :loading="loading"
             block
             class="auth-submit"
           >
@@ -66,6 +66,7 @@ import '/src/assets/styles/components/features/auth/SignIn.css';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables';
 import { useToast } from '@/design-system/composables';
+import { VContainer, VCard, VButton } from '@/design-system/components';
 
 const router = useRouter();
 const { showSuccess, showError } = useToast();
@@ -85,4 +86,3 @@ const handleLogin = async () => {
   }
 };
 </script>
-

@@ -23,7 +23,7 @@
 
 .v-error-message__content {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--space-2);
   align-items: flex-start;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .v-error-message__title {
-  margin: 0 0 var(--spacing-xs) 0;
+  margin: 0 0 var(--space-1) 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
@@ -64,16 +64,16 @@
 }
 
 .v-error-message__actions {
-  margin-top: var(--spacing-md);
+  margin-top: var(--space-4);
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
 .v-error-message__close {
   flex-shrink: 0;
   color: var(--color-text-tertiary);
-  padding: var(--spacing-xs);
+  padding: var(--space-1);
   min-width: auto;
   width: 32px;
   height: 32px;
@@ -100,7 +100,7 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .v-error-message__content {
-    gap: var(--spacing-xs);
+    gap: var(--space-1);
   }
   
   .v-error-message__icon {
@@ -118,8 +118,8 @@
   }
   
   .v-error-message__actions {
-    margin-top: var(--spacing-sm);
-    gap: var(--spacing-xs);
+    margin-top: var(--space-2);
+    gap: var(--space-1);
   }
 }
 

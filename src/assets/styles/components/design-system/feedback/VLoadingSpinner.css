@@ -3,14 +3,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
+  gap: var(--space-4);
+  padding: var(--space-6);
 }
 
 /* 크기 변형 */
 .v-loading-spinner--sm {
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md);
+  gap: var(--space-2);
+  padding: var(--space-4);
 }
 
 .v-loading-spinner--sm .v-loading-spinner__spinner {
@@ -24,8 +24,8 @@
 }
 
 .v-loading-spinner--lg {
-  gap: var(--spacing-lg);
-  padding: var(--spacing-xl);
+  gap: var(--space-6);
+  padding: var(--space-8);
 }
 
 .v-loading-spinner--lg .v-loading-spinner__spinner {

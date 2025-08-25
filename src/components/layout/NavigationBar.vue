@@ -33,6 +33,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
 import { useTheme } from '@/design-system/composables/useTheme';
+import { VButton } from '@/design-system/components';
 
 const route = useRoute();
 const { currentPost } = usePostStore();

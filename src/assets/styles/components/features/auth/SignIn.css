@@ -59,7 +59,8 @@
   font-size: var(--font-size-base);
   color: var(--color-text);
   background-color: var(--color-bg);
-  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  transition: border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .form-input:focus {
@@ -87,6 +88,12 @@
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px var(--color-bg) inset;
+  -webkit-text-fill-color: var(--color-text);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* Footer */
 .auth-footer {
   text-align: center;
@@ -107,11 +114,11 @@
   .auth-page {
     padding: var(--space-4);
   }
-  
+
   .auth-container {
     max-width: none;
   }
-  
+
   .auth-title {
     font-size: var(--font-size-2xl);
   }

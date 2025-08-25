@@ -1,4 +1,4 @@
-import { ref, nextTick } from 'vue';
+import { ref } from 'vue';
 
 export interface ToastItem {
   id: string;
@@ -23,9 +23,9 @@ const addToast = (options: Omit<ToastItem, 'id' | 'visible'>) => {
     visible: true,
     ...options,
   };
-  
+
   toasts.value.push(toast);
-  
+
   return id;
 };
 
@@ -34,7 +34,7 @@ const removeToast = (id: string) => {
   if (index > -1) {
     // Set visible to false first to trigger transition
     toasts.value[index].visible = false;
-    
+
     // Remove from array after transition completes
     setTimeout(() => {
       const currentIndex = toasts.value.findIndex(toast => toast.id === id);
@@ -49,14 +49,18 @@ const clearAllToasts = () => {
   toasts.value.forEach(toast => {
     toast.visible = false;
   });
-  
+
   setTimeout(() => {
     toasts.value.splice(0);
   }, 300);
 };
 
 // Convenience methods
-const showToast = (message: string, variant: ToastItem['variant'] = 'info', options?: Partial<ToastItem>) => {
+const showToast = (
+  message: string,
+  variant: ToastItem['variant'] = 'info',
+  options?: Partial<ToastItem>
+) => {
   return addToast({
     message,
     variant,

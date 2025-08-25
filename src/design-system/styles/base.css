@@ -30,7 +30,8 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
   /* Vite HMR 시 부드러운 전환 */
-  transition: background-color var(--transition-base), color var(--transition-base);
+  transition: background-color var(--transition-base),
+    color var(--transition-base);
   min-height: 100vh;
 }
 

@@ -33,10 +33,10 @@
                 class="form-input form-input-grouped"
                 placeholder="이메일을 입력해주세요"
               />
-              <VButton 
-                type="button" 
-                variant="secondary" 
-                size="sm" 
+              <VButton
+                type="button"
+                variant="secondary"
+                size="sm"
                 @click="checkedEmail"
                 class="form-input-button"
               >
@@ -65,18 +65,23 @@
               v-model="doubleCheckPassword"
               required
               class="form-input"
-              :class="{ 'form-input-error': doubleCheckPassword && !isPasswordMatch }"
+              :class="{
+                'form-input-error': doubleCheckPassword && !isPasswordMatch,
+              }"
               placeholder="비밀번호를 다시 입력해주세요"
             />
-            <p v-if="doubleCheckPassword && !isPasswordMatch" class="field-error">
+            <p
+              v-if="doubleCheckPassword && !isPasswordMatch"
+              class="field-error"
+            >
               비밀번호가 일치하지 않습니다
             </p>
           </div>
 
-          <VButton 
-            type="submit" 
-            variant="primary" 
-            size="lg" 
+          <VButton
+            type="submit"
+            variant="primary"
+            size="lg"
             block
             class="auth-submit"
           >
@@ -102,6 +107,7 @@ import '/src/assets/styles/components/features/auth/SignUp.css';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables';
 import { useToast } from '@/design-system/composables';
+import { VContainer, VCard, VButton } from '@/design-system/components';
 
 const router = useRouter();
 const { showSuccess, showError, showWarning } = useToast();

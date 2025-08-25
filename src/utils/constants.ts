@@ -43,15 +43,15 @@ export const isSmallMobile = () => window.innerWidth <= BREAKPOINTS.SMALL_MOBILE
 export const isIPhoneSE = () => window.innerWidth <= BREAKPOINTS.IPHONE_SE_MAX;
 
 /**
- * 스페이싱 상수 (CSS 변수와 동일한 값)
+ * 스페이싱 상수 (design-system tokens와 동일한 값)
  */
 export const SPACING = {
-  XS: 4,    // --spacing-xs
-  SM: 8,    // --spacing-sm
-  MD: 16,   // --spacing-md
-  LG: 24,   // --spacing-lg
-  XL: 32,   // --spacing-xl
-  XXL: 48,  // --spacing-2xl
+  XS: 4,    // --space-1
+  SM: 8,    // --space-2  
+  MD: 16,   // --space-4
+  LG: 24,   // --space-6
+  XL: 32,   // --space-8
+  XXL: 48,  // --space-12
 } as const;
 
 /**

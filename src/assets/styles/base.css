@@ -57,14 +57,7 @@
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
 
-  /* Spacing System */
-  --spacing-xs: 0.4rem;
-  --spacing-sm: 0.8rem;
-  --spacing-md: 1.6rem;
-  --spacing-lg: 2.4rem;
-  --spacing-xl: 3.2rem;
-  --spacing-2xl: 4.8rem;
-  --spacing-3xl: 6.4rem;
+  /* Legacy Spacing - Use --space-* from design-system instead */
 
   /* Layout */
   --container-max-width: 1200px;

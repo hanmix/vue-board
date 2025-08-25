@@ -11,7 +11,7 @@
 }
 
 .v-card--elevated {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-xl);
   border: 1px solid transparent;
 }
 

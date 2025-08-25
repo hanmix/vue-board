@@ -1,60 +1,3 @@
-<script setup lang="ts">
-import '/src/assets/styles/components/layout/HomePage.css';
-import { useRouter } from 'vue-router';
-import { useTheme } from '@/design-system/composables/useTheme';
-import { VContainer, VCard, VButton } from '@/design-system/components';
-
-const router = useRouter();
-const { toggleTheme, isDark } = useTheme();
-
-const navigateToSignIn = () => {
-  router.push('/signIn');
-};
-
-const navigateToDesignSystem = () => {
-  router.push('/design-system');
-};
-
-const features = [
-  {
-    id: 1,
-    icon: '📝',
-    title: '자유 게시판',
-    description: '다양한 주제로 자유롭게 소통할 수 있는 공간입니다.',
-  },
-  {
-    id: 2,
-    icon: '📢',
-    title: '공지사항',
-    description: '중요한 공지사항과 업데이트 소식을 확인하세요.',
-  },
-  {
-    id: 3,
-    icon: '👤',
-    title: '마이페이지',
-    description: '내가 작성한 글과 댓글을 한 곳에서 관리하세요.',
-  },
-  {
-    id: 4,
-    icon: '🎨',
-    title: '모던 디자인',
-    description: '반응형 디자인과 다크모드를 지원합니다.',
-  },
-  {
-    id: 5,
-    icon: '⚡',
-    title: '빠른 성능',
-    description: 'Vue 3와 Vite로 구축된 빠르고 효율적인 환경입니다.',
-  },
-  {
-    id: 6,
-    icon: '🔒',
-    title: '안전한 인증',
-    description: 'JWT 기반의 안전한 사용자 인증 시스템입니다.',
-  },
-];
-</script>
-
 <template>
   <VContainer class="home-page">
     <!-- Hero Section -->
@@ -124,3 +67,60 @@ const features = [
     </div>
   </VContainer>
 </template>
+
+<script setup lang="ts">
+import '/src/assets/styles/components/layout/HomePage.css';
+import { useRouter } from 'vue-router';
+import { useTheme } from '@/design-system/composables/useTheme';
+import { VContainer, VCard, VButton } from '@/design-system/components';
+
+const router = useRouter();
+const { toggleTheme, isDark } = useTheme();
+
+const navigateToSignIn = () => {
+  router.push('/signIn');
+};
+
+const navigateToDesignSystem = () => {
+  router.push('/design-system');
+};
+
+const features = [
+  {
+    id: 1,
+    icon: '📝',
+    title: '자유 게시판',
+    description: '다양한 주제로 자유롭게 소통할 수 있는 공간입니다.',
+  },
+  {
+    id: 2,
+    icon: '📢',
+    title: '공지사항',
+    description: '중요한 공지사항과 업데이트 소식을 확인하세요.',
+  },
+  {
+    id: 3,
+    icon: '👤',
+    title: '마이페이지',
+    description: '내가 작성한 글과 댓글을 한 곳에서 관리하세요.',
+  },
+  {
+    id: 4,
+    icon: '🎨',
+    title: '모던 디자인',
+    description: '반응형 디자인과 다크모드를 지원합니다.',
+  },
+  {
+    id: 5,
+    icon: '⚡',
+    title: '빠른 성능',
+    description: 'Vue 3와 Vite로 구축된 빠르고 효율적인 환경입니다.',
+  },
+  {
+    id: 6,
+    icon: '🔒',
+    title: '안전한 인증',
+    description: 'JWT 기반의 안전한 사용자 인증 시스템입니다.',
+  },
+];
+</script>

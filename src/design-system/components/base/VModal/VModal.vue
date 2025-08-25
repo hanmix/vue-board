@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import '/src/assets/styles/components/design-system/base/VModal.css';
 import { computed, watch, onMounted, onUnmounted } from 'vue';
+import { VButton } from '@/design-system/components/base';
 
 export interface ModalProps {
   modelValue: boolean;

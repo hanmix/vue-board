@@ -1,10 +1,6 @@
 <template>
   <Teleport to="body">
-    <Transition
-      name="alert-slide"
-      @enter="onEnter"
-      @leave="onLeave"
-    >
+    <Transition name="alert-slide" @enter="onEnter" @leave="onLeave">
       <div
         v-if="visible"
         class="v-alert"
@@ -17,7 +13,7 @@
             <component :is="iconComponent" />
           </slot>
         </div>
-        
+
         <div class="v-alert__content">
           <div v-if="title" class="v-alert__title">
             {{ title }}
@@ -26,7 +22,7 @@
             <slot>{{ message }}</slot>
           </div>
         </div>
-        
+
         <button
           v-if="closable"
           class="v-alert__close"
@@ -34,9 +30,16 @@
           type="button"
           :aria-label="'알림 닫기'"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       </div>
@@ -45,8 +48,9 @@
 </template>
 
 <script setup lang="ts">
+import VIcon from '../VIcon/VIcon.vue';
 import '/src/assets/styles/components/design-system/base/VAlert.css';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, h, onMounted, onUnmounted, ref } from 'vue';
 
 export interface AlertProps {
   visible?: boolean;
@@ -56,7 +60,13 @@ export interface AlertProps {
   closable?: boolean;
   duration?: number; // auto-hide duration in milliseconds, 0 means no auto-hide
   showIcon?: boolean;
-  position?: 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+  position?:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-center'
+    | 'bottom-left';
 }
 
 const props = withDefaults(defineProps<AlertProps>(), {
@@ -70,7 +80,7 @@ const props = withDefaults(defineProps<AlertProps>(), {
 
 const emit = defineEmits<{
   'update:visible': [value: boolean];
-  'close': [];
+  close: [];
 }>();
 
 let autoHideTimer: ReturnType<typeof setTimeout> | null = null;
@@ -81,42 +91,19 @@ const alertClasses = computed(() => [
   {
     'v-alert--closable': props.closable,
     'v-alert--with-title': props.title,
-  }
+  },
 ]);
 
 const iconComponent = computed(() => {
-  switch (props.variant) {
-    case 'success':
-      return {
-        template: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="20,6 9,17 4,12"/>
-        </svg>`
-      };
-    case 'warning':
-      return {
-        template: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <triangle points="7.86,2 16.14,2 22,13.76 2,13.76"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>`
-      };
-    case 'error':
-      return {
-        template: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="15" y1="9" x2="9" y2="15"/>
-          <line x1="9" y1="9" x2="15" y2="15"/>
-        </svg>`
-      };
-    default: // info
-      return {
-        template: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="16" x2="12" y2="12"/>
-          <line x1="12" y1="8" x2="12.01" y2="8"/>
-        </svg>`
-      };
-  }
+  const iconNameMap = {
+    success: 'success',
+    warning: 'warning',
+    error: 'error',
+    info: 'info',
+  } as const;
+
+  const name = iconNameMap[props.variant] ?? 'info';
+  return () => h(VIcon, { name, size: 'sm' });
 });
 
 const handleClose = () => {
@@ -171,4 +158,3 @@ onUnmounted(() => {
 // Re-start timer when component becomes visible
 const visible = computed(() => props.visible);
 </script>
-

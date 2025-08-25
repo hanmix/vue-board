@@ -3,6 +3,9 @@
    컴포넌트별로 분리된 스타일을 통합하여 import
    ================================================================= */
 
+/* Design System Tokens - 최우선 import */
+@import '/src/design-system/tokens/index.css';
+
 /* Base Styles - 전역 변수, 리셋, 타이포그래피 */
 @import './styles/base.css';
 

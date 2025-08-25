@@ -25,7 +25,10 @@ export interface VIconProps {
   strokeWidth?: number;
   color?: string;
   ariaLabel?: string;
-  class?: string | Record<string, boolean> | Array<string | Record<string, boolean>>;
+  class?:
+    | string
+    | Record<string, boolean>
+    | Array<string | Record<string, boolean>>;
 }
 
 const props = withDefaults(defineProps<VIconProps>(), {
@@ -66,7 +69,7 @@ const iconPaths = {
     <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
   `,
   'message-circle': '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
-  'reply': `
+  reply: `
     <polyline points="9,17 4,12 9,7"/>
     <path d="M20 18v-2a4 4 0 0 0-4-4H4"/>
   `,
@@ -86,13 +89,31 @@ const iconPaths = {
     <polygon points="5,4 15,12 5,20"/>
     <line x1="19" y1="5" x2="19" y2="19"/>
   `,
-  'search': `
+  search: `
     <circle cx="11" cy="11" r="8"/>
     <path d="m21 21-4.35-4.35"/>
   `,
   'chevron-down': '<polyline points="6,9 12,15 18,9"/>',
-  'pencil': `
+  pencil: `
     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+  `,
+  success: `
+    <polyline points="20,6 9,17 4,12"/>
+  `,
+  warn: `
+    <triangle points="7.86,2 16.14,2 22,13.76 2,13.76"/>
+    <line x1="12" y1="9" x2="12" y2="13"/>
+    <line x1="12" y1="17" x2="12.01" y2="17"/>
+  `,
+  error: `
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="15" y1="9" x2="9" y2="15"/>
+    <line x1="9" y1="9" x2="15" y2="15"/>
+  `,
+  info: `
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="16" x2="12" y2="12"/>
+    <line x1="12" y1="8" x2="12.01" y2="8"/>
   `,
 };
 

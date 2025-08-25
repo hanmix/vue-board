@@ -46,7 +46,11 @@ import { SearchFilter, Pagination } from '@/components/ui';
 import BoardItem from './BoardItem.vue';
 import { useBoardData } from '@/composables';
 import { BoardType } from '@/types';
-import { VLoadingSpinner, VErrorMessage } from '@/design-system/components';
+import {
+  VLoadingSpinner,
+  VErrorMessage,
+  VCard,
+} from '@/design-system/components';
 
 const boardType = BoardType.NOTICE;
 
