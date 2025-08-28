@@ -5,10 +5,10 @@
 
   <Teleport to="body">
     <Transition name="dropdown">
-      <div 
-        v-if="isOpen" 
-        ref="menuRef" 
-        class="v-dropdown-menu" 
+      <div
+        v-if="isOpen"
+        ref="menuRef"
+        class="v-dropdown-menu"
         :class="menuClasses"
         :style="menuStyle"
         role="menu"
@@ -22,12 +22,19 @@
 
 <script setup lang="ts">
 import '/src/assets/styles/components/design-system/base/VDropdown.css';
-import { ref, reactive, computed, onBeforeUnmount, nextTick, watch } from 'vue';
+import { ref, reactive, computed, onBeforeUnmount, nextTick } from 'vue';
 
 export interface DropdownProps {
   closeOnScroll?: boolean;
-  placement?: 'bottom-start' | 'bottom-end' | 'bottom-center' | 'top-start' | 'top-end' | 'top-center';
-  offset?: number;
+  placement?:
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'bottom-center'
+    | 'top-start'
+    | 'top-end'
+    | 'top-center';
+  verticalOffset?: number;
+  horizontalOffset?: number;
   mobileFullWidth?: boolean;
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
@@ -37,7 +44,8 @@ export interface DropdownProps {
 const props = withDefaults(defineProps<DropdownProps>(), {
   closeOnScroll: true,
   placement: 'bottom-start',
-  offset: 8,
+  verticalOffset: 20,
+  horizontalOffset: 13,
   mobileFullWidth: true,
   size: 'md',
   disabled: false,
@@ -45,8 +53,8 @@ const props = withDefaults(defineProps<DropdownProps>(), {
 
 const emit = defineEmits<{
   'update:open': [value: boolean];
-  'open': [];
-  'close': [];
+  open: [];
+  close: [];
 }>();
 
 const isOpen = ref(false);
@@ -58,17 +66,17 @@ const menuClasses = computed(() => [
   `v-dropdown-menu--${props.size}`,
   {
     'v-dropdown-menu--mobile-full': props.mobileFullWidth,
-  }
+  },
 ]);
 
 let scrollTimer: ReturnType<typeof setTimeout> | null = null;
 
 const toggle = async () => {
   if (props.disabled) return;
-  
+
   isOpen.value = !isOpen.value;
   emit('update:open', isOpen.value);
-  
+
   if (isOpen.value) {
     emit('open');
     await nextTick();
@@ -96,44 +104,46 @@ const updateMenuPosition = () => {
   const rect = trigger.getBoundingClientRect();
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
-  
+
   // Reset styles
   Object.keys(menuStyle).forEach(key => {
     delete menuStyle[key];
   });
-  
+
   menuStyle.position = 'fixed';
   menuStyle.zIndex = 'var(--z-dropdown)';
-  
+
   // Check if mobile
   const isMobile = viewportWidth <= 768;
-  
+
   if (isMobile && props.mobileFullWidth) {
     // Mobile: full width with margins
     menuStyle.left = 'var(--space-4)';
     menuStyle.right = 'var(--space-4)';
     menuStyle.width = 'auto';
-    
+
     // Position based on available space
-    const spaceBelow = viewportHeight - rect.bottom - props.offset;
-    const spaceAbove = rect.top - props.offset;
-    
+    const spaceBelow = viewportHeight - rect.bottom - props.verticalOffset;
+    const spaceAbove = rect.top - props.verticalOffset;
+
     if (spaceBelow >= 200 || spaceBelow >= spaceAbove) {
-      menuStyle.top = `${rect.bottom + props.offset}px`;
+      menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
     } else {
-      menuStyle.bottom = `${viewportHeight - rect.top + props.offset}px`;
+      menuStyle.bottom = `${
+        viewportHeight - rect.top + props.verticalOffset
+      }px`;
     }
   } else {
     // Desktop: positioned relative to trigger
     const menuWidth = Math.max(200, rect.width);
-    
+
     // Horizontal positioning
     let leftPos = rect.left;
-    
+
     switch (props.placement) {
       case 'bottom-start':
       case 'top-start':
-        leftPos = rect.left;
+        leftPos = rect.left - props.horizontalOffset;
         break;
       case 'bottom-end':
       case 'top-end':
@@ -144,7 +154,7 @@ const updateMenuPosition = () => {
         leftPos = rect.left + (rect.width - menuWidth) / 2;
         break;
     }
-    
+
     // Prevent overflow
     const rightEdge = leftPos + menuWidth;
     if (rightEdge > viewportWidth - 16) {
@@ -153,16 +163,18 @@ const updateMenuPosition = () => {
     if (leftPos < 16) {
       leftPos = 16;
     }
-    
+
     menuStyle.left = `${leftPos}px`;
     menuStyle.minWidth = `${menuWidth}px`;
-    
+
     // Vertical positioning
     const isTopPlacement = props.placement.startsWith('top');
     if (isTopPlacement) {
-      menuStyle.bottom = `${viewportHeight - rect.top + props.offset}px`;
+      menuStyle.bottom = `${
+        viewportHeight - rect.top + props.verticalOffset
+      }px`;
     } else {
-      menuStyle.top = `${rect.bottom + props.offset}px`;
+      menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
     }
   }
 };
@@ -222,7 +234,7 @@ const unbindListeners = () => {
   document.removeEventListener('keydown', handleKeydown);
   window.removeEventListener('resize', handleResize);
   document.removeEventListener('scroll', handleScroll, true);
-  
+
   if (scrollTimer) {
     clearTimeout(scrollTimer);
     scrollTimer = null;
@@ -241,4 +253,3 @@ onBeforeUnmount(() => {
   unbindListeners();
 });
 </script>
-

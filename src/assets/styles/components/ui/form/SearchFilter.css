@@ -1,5 +1,14 @@
 /* SearchFilter 컴포넌트 스타일 */
 
+/* Search Section */
+.search-section {
+  position: static;
+  background-color: var(--color-bg);
+  max-width: var(--container-lg);
+  padding: 0;
+  margin: var(--space-6) auto;
+}
+
 .search-filter {
   width: 100%;
 }
@@ -80,8 +89,20 @@
   border-left: 1px solid var(--color-border);
 }
 
+.search-toggle {
+  display: none;
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
+  .search-section {
+    position: static;
+    top: auto;
+    max-width: var(--container-lg);
+    padding: 0;
+    margin: var(--space-6);
+  }
+
   .search-input-group {
     border-radius: var(--radius-xl);
   }

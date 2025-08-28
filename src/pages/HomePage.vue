@@ -31,6 +31,13 @@
             >
               디자인 시스템 보기
             </VButton>
+            <VButton
+              variant="danger"
+              size="lg"
+              @click="navigateToNestedTransition"
+            >
+              중첩 트랜지션 보기
+            </VButton>
           </div>
         </div>
       </VCard>
@@ -83,6 +90,10 @@ const navigateToSignIn = () => {
 
 const navigateToDesignSystem = () => {
   router.push('/design-system');
+};
+
+const navigateToNestedTransition = () => {
+  router.push('/nested-transition');
 };
 
 const features = [

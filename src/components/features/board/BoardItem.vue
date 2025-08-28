@@ -91,7 +91,7 @@
         </div>
 
         <!-- 읽기 버튼 -->
-        <VButton
+        <!-- <VButton
           variant="ghost"
           size="sm"
           class="read-button"
@@ -99,7 +99,7 @@
         >
           <span class="sr-only">게시글 보기</span>
           <VIcon name="chevron-right" size="xs" class="read-icon" />
-        </VButton>
+        </VButton> -->
       </footer>
     </article>
   </VCard>

@@ -4,6 +4,7 @@ import BoardLayout from '@/pages/BoardLayout.vue';
 import { SignIn, SignUp } from '@/components/features/auth';
 import type { RouteRecordRaw } from 'vue-router';
 import { RouteName } from '@/types/navigate';
+import TestNestedTransition from '@/views/TestNestedTransition.vue';
 
 // Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
 const BoardList = () => import('@/components/features/board/BoardList.vue');
@@ -63,5 +64,10 @@ export const routes: RouteRecordRaw[] = [
     path: '/design-system',
     name: 'DesignSystem',
     component: TestDesignSystem,
+  },
+  {
+    path: '/nested-transition',
+    name: 'TestNestedTransition',
+    component: TestNestedTransition,
   },
 ] as RouteRecordRaw[];

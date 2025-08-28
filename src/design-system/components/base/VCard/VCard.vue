@@ -19,7 +19,7 @@ import '/src/assets/styles/components/design-system/base/VCard.css';
 import { computed } from 'vue';
 
 export interface CardProps {
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'filled';
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
@@ -34,4 +34,3 @@ const cardClasses = computed(() => [
   `v-card--padding-${props.padding}`,
 ]);
 </script>
-

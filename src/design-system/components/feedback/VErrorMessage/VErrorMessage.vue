@@ -5,7 +5,7 @@
     class="v-error-message"
     :class="[
       `v-error-message--${severity}`,
-      { 'v-error-message--dismissible': dismissible }
+      { 'v-error-message--dismissible': dismissible },
     ]"
     role="alert"
     aria-live="assertive"
@@ -23,7 +23,7 @@
         <h3 v-if="title" class="v-error-message__title">
           {{ title }}
         </h3>
-        
+
         <div class="v-error-message__message">
           <slot>
             {{ message }}
@@ -31,11 +31,14 @@
         </div>
 
         <!-- 액션 버튼들 -->
-        <div v-if="$slots.actions || showRetry" class="v-error-message__actions">
+        <div
+          v-if="$slots.actions || showRetry"
+          class="v-error-message__actions"
+        >
           <slot name="actions">
             <VButton
               v-if="showRetry"
-              variant="outlined"
+              variant="danger"
               size="sm"
               :loading="retrying"
               @click="handleRetry"
@@ -55,10 +58,7 @@
         aria-label="에러 메시지 닫기"
         @click="handleDismiss"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+        <VIcon name="close" size="sm" />
       </VButton>
     </div>
   </VCard>
@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import '/src/assets/styles/components/design-system/feedback/VErrorMessage.css';
 import { computed } from 'vue';
-import { VCard, VButton } from '@/design-system/components';
+import { VCard, VButton, VIcon } from '@/design-system/components';
 
 interface Props {
   message?: string;
@@ -118,4 +118,3 @@ const handleRetry = () => {
   emit('retry');
 };
 </script>
-

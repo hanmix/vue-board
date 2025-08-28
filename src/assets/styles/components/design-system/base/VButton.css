@@ -77,9 +77,9 @@
     padding: var(--space-2-5) var(--space-4);
   }
 
-  .v-button--md {
+  /* .v-button--md {
     padding: var(--space-3-5) var(--space-5);
-  }
+  } */
 
   .v-button--lg {
     padding: var(--space-4) var(--space-7);

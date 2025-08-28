@@ -10,7 +10,7 @@
 .board-item-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--border-color-base);
+  border: 1px solid var(--color-primary-hover);
 }
 
 .board-item-card:active {
@@ -139,10 +139,12 @@
   text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
-  transition: color var(--transition-duration-fast) var(--transition-timing-base);
+  transition: color var(--transition-duration-fast)
+    var(--transition-timing-base);
 }
 
 .post-link:hover {
@@ -192,7 +194,8 @@
 .stat-icon {
   color: currentColor;
   opacity: 0.7;
-  transition: opacity var(--transition-duration-fast) var(--transition-timing-base);
+  transition: opacity var(--transition-duration-fast)
+    var(--transition-timing-base);
 }
 
 .stat-button:hover .stat-icon {
@@ -242,26 +245,26 @@
   .post-header {
     gap: var(--space-1);
   }
-  
+
   .author-avatar {
     width: 36px;
     height: 36px;
     font-size: var(--font-size-sm);
   }
-  
+
   .post-title {
     font-size: var(--font-size-base);
   }
-  
+
   .interaction-stats {
     gap: var(--space-1);
   }
-  
+
   .stat-button {
     padding: var(--space-1);
     font-size: var(--font-size-xs);
   }
-  
+
   .reply-badge {
     padding: var(--space-1);
     font-size: var(--font-size-xs);
@@ -272,23 +275,23 @@
   .board-item-card:hover {
     transform: none;
   }
-  
+
   .post-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-2);
   }
-  
+
   .reply-badge {
     align-self: flex-start;
   }
-  
+
   .post-footer {
     flex-direction: column;
     gap: var(--space-2);
     align-items: stretch;
   }
-  
+
   .read-button {
     align-self: center;
   }
@@ -300,16 +303,16 @@
     background: var(--color-background-elevated);
     border-color: var(--border-color-base);
   }
-  
+
   .board-item-card:hover {
     border-color: var(--border-color-prominent);
   }
-  
+
   .deleted-parent-alert {
     background: var(--color-warning-bg-dark);
     border-color: var(--color-warning-border-dark);
   }
-  
+
   .alert-text {
     color: var(--color-warning-text-dark);
   }

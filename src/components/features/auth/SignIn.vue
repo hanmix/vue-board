@@ -5,7 +5,7 @@
         <template #header>
           <div class="auth-header">
             <h1 class="auth-title">로그인</h1>
-            <p class="auth-subtitle">Vue Board에 오신 것을 환영합니다</p>
+            <p class="auth-subtitle">안녕하세요. 싱글벙글 게시판 입니다.</p>
           </div>
         </template>
 
@@ -67,6 +67,7 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables';
 import { useToast } from '@/design-system/composables';
 import { VContainer, VCard, VButton } from '@/design-system/components';
+import { onMounted } from 'vue';
 
 const router = useRouter();
 const { showSuccess, showError } = useToast();
@@ -85,4 +86,11 @@ const handleLogin = async () => {
     showError('로그인 중 오류가 발생했습니다.');
   }
 };
+
+onMounted(() => {
+  const titleInput = document.getElementById('email');
+  if (titleInput) {
+    titleInput.focus();
+  }
+});
 </script>

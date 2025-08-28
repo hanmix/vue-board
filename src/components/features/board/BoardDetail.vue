@@ -17,7 +17,7 @@
     <VCard variant="elevated" padding="lg" class="post-main-card">
       <article role="article" :aria-label="`게시글: ${currentPost.title}`">
         <!-- 게시글 헤더 -->
-        <header class="post-header">
+        <header class="item-header">
           <div class="header-content">
             <div class="title-section">
               <div v-if="currentPost.type === 'reply'" class="reply-badge">
@@ -36,7 +36,7 @@
                 :aria-label="`게시글 '${currentPost.title}' 수정`"
               >
                 <VIcon name="edit" size="sm" />
-                수정
+                <p class="edit-text">수정</p>
               </VButton>
 
               <VButton
@@ -47,7 +47,7 @@
                 class="delete-button"
               >
                 <VIcon name="trash" size="sm" />
-                삭제
+                <p class="delete-text">삭제</p>
               </VButton>
             </div>
           </div>
@@ -254,8 +254,14 @@ const truncateTitle = (title: string, maxLength = 30) => {
 // 네비게이션 이동
 const moveToPost = (direction: 'prev' | 'next') => {
   const post = direction === 'prev' ? prevPost.value : nextPost.value;
+  const boardType = post?.board || 'free';
+  const query = { from: boardType };
   if (post?.id) {
-    router.push(`/board/detail/${post.id}`);
+    router.push({
+      name: 'board-detail',
+      params: { id: post.id },
+      query,
+    });
   }
 };
 
