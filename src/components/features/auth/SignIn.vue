@@ -76,13 +76,13 @@ const { email, password, loading, error, isAuthenticated, login } = useAuth();
 const handleLogin = async () => {
   try {
     await login(email.value, password.value);
-    if (isAuthenticated) {
+    if (isAuthenticated.value) {
       showSuccess('로그인 되었습니다.');
       router.push('/board');
     } else {
-      showError('아이디 또는 비밀번호가 틀렸습니다.');
+      throw error.value;
     }
-  } catch (error) {
+  } catch {
     showError('로그인 중 오류가 발생했습니다.');
   }
 };

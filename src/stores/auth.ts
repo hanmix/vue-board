@@ -32,14 +32,14 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
     try {
       const payload: LoginRequest = { email, password };
-      const { isSuccess, message, data } = await loginApi(payload);
-      if (!isSuccess) throw (error.value = message || '로그인에 실패했습니다.');
+      const { isSuccess, data } = await loginApi(payload);
+      if (!isSuccess) throw error.value;
 
       token.value = data.token;
       sessionStorage.setItem('access-token', token.value);
       tokenUserInfo.value = parseJwt(token.value);
     } catch {
-      error.value = '로그인 중 오류가 발생했습니다.';
+      error.value = '아이디 또는 비밀번호를 확인해주세요.';
     } finally {
       loading.value = false;
     }
