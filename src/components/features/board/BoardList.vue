@@ -1,20 +1,10 @@
 <template>
   <div class="board-list">
-    <!-- Search Header -->
-    <VCard variant="outlined" padding="md" class="search-section">
-      <SearchFilter
-        :boardType="boardType"
-        :searchKeyword="searchKeyword"
-        :searchType="searchType"
-        :onSearch="setSearch"
-      />
-    </VCard>
-
     <!-- Loading State -->
-    <VLoadingSpinner 
+    <VLoadingSpinner
       v-if="loading"
-      size="lg" 
-      message="게시글을 불러오는 중..." 
+      size="lg"
+      message="게시글을 불러오는 중..."
       class="centered-state"
     />
 
@@ -30,7 +20,12 @@
     />
 
     <!-- Empty State -->
-    <VCard v-else-if="!posts.length" variant="outlined" padding="lg" class="centered-state">
+    <VCard
+      v-else-if="!posts.length"
+      variant="outlined"
+      padding="lg"
+      class="centered-state"
+    >
       <div class="empty-state">
         <span class="empty-icon">📝</span>
         <h3 class="empty-title">게시글이 없습니다</h3>
@@ -70,12 +65,17 @@
 import '/src/assets/styles/components/features/board/BoardList.css';
 import { useBoardData, useModal } from '@/composables';
 import { useModalStore } from '@/stores/modal';
-import { SearchFilter, Pagination } from '@/components/ui';
+import { Pagination } from '@/components/ui';
 import BoardItem from './BoardItem.vue';
 import { FloatingButton } from '@/components/features';
 import NewPostModal from './NewPostModal.vue';
 import { BoardType } from '@/types';
-import { VCard, VButton, VLoadingSpinner, VErrorMessage } from '@/design-system/components';
+import {
+  VCard,
+  VButton,
+  VLoadingSpinner,
+  VErrorMessage,
+} from '@/design-system/components';
 
 const {
   posts,
@@ -84,10 +84,7 @@ const {
   currentPage,
   lastPage,
   totalPosts,
-  searchKeyword,
-  searchType,
   goToPage,
-  setSearch,
   refetch,
 } = useBoardData(BoardType.FREE);
 
@@ -99,8 +96,6 @@ defineEmits(['onClose', 'onCreate', 'onUpdate']);
 function handleCreate() {
   showModal();
 }
-
-const boardType = BoardType.FREE;
 
 function handleUpdate() {
   refetch();

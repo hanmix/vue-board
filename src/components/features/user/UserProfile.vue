@@ -1,53 +1,60 @@
 <template>
-  <div class="header mypage-header">
-    <button @click="handleLogout" class="logout-btn">로그아웃</button>
-  </div>
-
-  <section class="userInfo-section">
-    <div v-if="currentUserFromAuth || currentUser">
-      <h2>내 정보</h2>
-      <ul>
-        <li>id: {{ currentUserFromAuth?.id || currentUser?.id }}</li>
-        <li v-if="currentUser?.email">email: {{ currentUser.email }}</li>
-        <li v-if="currentUser?.name">name: {{ currentUser.name }}</li>
-      </ul>
+  <main class="board-layout">
+    <div class="header mypage-header">
+      <button @click="handleLogout" class="logout-btn">로그아웃</button>
     </div>
-  </section>
 
-  <section class="my-posts-section">
-    <h2 class="section-title">내 게시글</h2>
-    
-    <VLoadingSpinner 
-      v-if="loading"
-      size="md" 
-      message="게시글을 불러오는 중..." 
-      class="centered-state"
+    <section class="userInfo-section">
+      <div v-if="currentUserFromAuth || currentUser">
+        <h2>내 정보</h2>
+        <ul>
+          <li>id: {{ currentUserFromAuth?.id || currentUser?.id }}</li>
+          <li v-if="currentUser?.email">email: {{ currentUser.email }}</li>
+          <li v-if="currentUser?.name">name: {{ currentUser.name }}</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="board-list">
+      <h2 class="section-title">내 게시글</h2>
+
+      <VLoadingSpinner
+        v-if="loading"
+        size="md"
+        message="게시글을 불러오는 중..."
+        class="centered-state"
+      />
+
+      <VErrorMessage
+        v-else-if="error"
+        :message="error"
+        title="내 게시글을 불러올 수 없습니다"
+        severity="error"
+        class="centered-state"
+      />
+
+      <div v-else-if="!filteredPosts.length" class="empty-state centered-state">
+        게시글이 없습니다.
+      </div>
+
+      <div v-else class="posts-list">
+        <BoardItem
+          v-for="post in filteredPosts"
+          :key="post.id"
+          :post="post"
+          :isMypage="isMypage"
+        />
+      </div>
+    </section>
+
+    <Pagination
+      v-if="totalPosts && !loading && !error"
+      :currentPage="currentPage"
+      :totalPage="lastPage"
+      :onPageChange="goToPage"
+      class="pagination"
     />
-
-    <VErrorMessage
-      v-else-if="error"
-      :message="error"
-      title="내 게시글을 불러올 수 없습니다"
-      severity="error"
-      class="centered-state"
-    />
-
-    <div v-else-if="!filteredPosts.length" class="empty-state centered-state">
-      게시글이 없습니다.
-    </div>
-
-    <div v-else class="posts-list">
-      <BoardItem v-for="post in filteredPosts" :key="post.id" :post="post" :isMypage="isMypage" />
-    </div>
-  </section>
-
-  <Pagination
-    v-if="totalPosts && !loading && !error"
-    :currentPage="currentPage"
-    :totalPage="lastPage"
-    :onPageChange="goToPage"
-    class="pagination"
-  />
+  </main>
 </template>
 <script setup lang="ts">
 import { useMyPageData, useUser, useAuth, usePost } from '@/composables';

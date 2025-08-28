@@ -11,11 +11,26 @@
     </nav>
 
     <div class="actions-section">
-      <VButton variant="ghost" @click="toggleTheme" class="theme-toggle">
-        {{ isDark ? '🌞' : '🌙' }}
+      <VButton
+        variant="ghost"
+        size="sm"
+        @click="toggleSearchBar"
+        class="theme-toggle"
+      >
+        <VIcon :name="'search'" size="md" />
       </VButton>
     </div>
   </header>
+
+  <!-- Search Header -->
+  <VCard variant="outlined" padding="sm" class="search-section search-toggle">
+    <SearchFilter
+      :boardType="boardType"
+      :searchKeyword="searchKeyword"
+      :searchType="searchType"
+      :onSearch="setSearch"
+    />
+  </VCard>
 
   <!-- 모바일: 하단 고정 탭 -->
   <nav class="bottom-navigation mobile-only">
@@ -25,19 +40,18 @@
 
 <script setup lang="ts">
 import '/src/assets/styles/components/layout/NavigationBar.css';
-import type { TabInfo } from '@/types/tab';
-import { TabName } from '@/types/tab';
+import { type TabInfo, TabName } from '@/types/tab';
 import { BoardType } from '@/types/pagination';
-import { Tabs } from '@/components/ui/navigation';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
-import { useTheme } from '@/design-system/composables/useTheme';
-import { VButton } from '@/design-system/components';
+import { VButton, VIcon, VCard } from '@/design-system/components';
+import { Tabs, SearchFilter } from '@/components/ui';
+import { useBoardData } from '@/composables';
 
 const route = useRoute();
 const { currentPost } = usePostStore();
-const { toggleTheme, isDark } = useTheme();
+const { searchKeyword, searchType, setSearch } = useBoardData(BoardType.ALL);
 
 const tabs: TabInfo[] = [
   {
@@ -56,6 +70,30 @@ const tabs: TabInfo[] = [
     to: '/mypage',
   },
 ];
+
+const boardType = computed(() => {
+  const path = route.path;
+  if (path.startsWith('/board/notice')) {
+    return BoardType.NOTICE;
+  } else if (path.startsWith('/board/free')) {
+    return BoardType.FREE;
+  } else {
+    return BoardType.ALL; // 기본값 또는 기타 게시판 타입
+  }
+});
+
+const isSearchVisible = ref(false);
+
+const toggleSearchBar = () => {
+  isSearchVisible.value = !isSearchVisible.value;
+  const searchSection = document.querySelector('.search-section');
+
+  if (isSearchVisible.value) {
+    searchSection?.classList.remove('search-toggle');
+  } else {
+    searchSection?.classList.add('search-toggle');
+  }
+};
 
 // BoardDetail에서 현재 게시글이 속한 게시판 판단
 const currentBoard = computed(() => {
