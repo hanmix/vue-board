@@ -25,12 +25,16 @@ onMounted(() => {
     <header v-if="shouldShowNavigation" class="app-header">
       <NavigationBar />
     </header>
-    
+
     <!-- Main Content -->
     <main class="app-main" :class="{ 'with-navigation': shouldShowNavigation }">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <Transition name="page" mode="out-in">
+          <component :is="Component" :key="route.fullPath" />
+        </Transition>
+      </router-view>
     </main>
-    
+
     <!-- Toast Container -->
     <VToastContainer />
   </div>
@@ -61,5 +65,24 @@ onMounted(() => {
 .app-main.with-navigation {
   /* sticky header가 처리하므로 별도 padding-top 불필요 */
   min-height: calc(100vh - var(--nav-height, 64px));
+}
+
+/* Vue 스타일 전환 애니메이션 */
+.page-enter-active {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
 }
 </style>
