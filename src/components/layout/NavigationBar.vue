@@ -23,14 +23,16 @@
   </header>
 
   <!-- Search Header -->
-  <VCard variant="outlined" padding="sm" class="search-section search-toggle">
-    <SearchFilter
-      :boardType="boardType"
-      :searchKeyword="searchKeyword"
-      :searchType="searchType"
-      :onSearch="setSearch"
-    />
-  </VCard>
+  <Transition name="slide-down">
+    <VCard v-if="isSearchVisible" variant="outlined" padding="sm" class="search-section">
+      <SearchFilter
+        :boardType="boardType"
+        :searchKeyword="searchKeyword"
+        :searchType="searchType"
+        :onSearch="setSearch"
+      />
+    </VCard>
+  </Transition>
 
   <!-- 모바일: 하단 고정 탭 -->
   <nav class="bottom-navigation mobile-only">
@@ -86,13 +88,6 @@ const isSearchVisible = ref(false);
 
 const toggleSearchBar = () => {
   isSearchVisible.value = !isSearchVisible.value;
-  const searchSection = document.querySelector('.search-section');
-
-  if (isSearchVisible.value) {
-    searchSection?.classList.remove('search-toggle');
-  } else {
-    searchSection?.classList.add('search-toggle');
-  }
 };
 
 // BoardDetail에서 현재 게시글이 속한 게시판 판단
