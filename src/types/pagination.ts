@@ -1,3 +1,5 @@
+import { BoardType } from './navigate';
+
 export interface PaginationParams {
   board?: BoardType;
   page: number;
@@ -14,8 +16,3 @@ export interface PaginationInfo {
 }
 
 export type SearchType = 'title' | 'content' | 'title_content' | 'user';
-export enum BoardType {
-  ALL = '',
-  NOTICE = 'notice',
-  FREE = 'free',
-}
