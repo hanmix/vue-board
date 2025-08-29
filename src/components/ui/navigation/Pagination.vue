@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/ui/navigation/Pagination.css';
+import './Pagination.css';
 import { VButton, VIcon } from '@/design-system/components';
 
 const { currentPage, totalPage, onPageChange } = defineProps<{

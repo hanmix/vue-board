@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import '/src/assets/styles/components/design-system/base/VIcon.css';
+import './VIcon.css';
 
 export interface VIconProps {
   name: string;

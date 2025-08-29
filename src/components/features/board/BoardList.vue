@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/features/board/BoardList.css';
+import './BoardList.css';
 import { useBoardData, useModal } from '@/composables';
 import { useModalStore } from '@/stores/modal';
 import { Pagination } from '@/components/ui';

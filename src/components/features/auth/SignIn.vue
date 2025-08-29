@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import '/src/assets/styles/components/features/auth/SignIn.css';
+import './SignIn.css';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables';
 import { useToast } from '@/design-system/composables';

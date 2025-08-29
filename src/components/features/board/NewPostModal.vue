@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/features/board/NewPostModal.css';
+import './NewPostModal.css';
 import { ref, computed, nextTick, onMounted } from 'vue';
 import { usePost, useModal } from '@/composables';
 import { VModal, VButton } from '@/design-system/components/base';

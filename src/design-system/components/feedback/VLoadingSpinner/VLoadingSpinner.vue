@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/feedback/VLoadingSpinner.css';
+import './VLoadingSpinner.css';
 interface Props {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'primary' | 'secondary' | 'minimal';

@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/ui/navigation/Tabs.css';
+import './Tabs.css';
 import type { TabInfo } from '@/types/tab';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';

@@ -111,7 +111,7 @@ import { formatDate } from '@/utils';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
 import { VCard, VButton, VIcon } from '@/design-system/components';
-import '/src/assets/styles/components/features/board/BoardItem.css';
+import './BoardItem.css';
 
 const props = defineProps<{
   post: ProcessedPost;

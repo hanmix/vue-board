@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VButton.css';
+import './VButton.css';
 import { computed, ref } from 'vue';
 
 export interface ButtonProps {

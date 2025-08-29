@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VDropdown.css';
+import './VDropdown.css';
 import { ref, reactive, computed, onBeforeUnmount, nextTick } from 'vue';
 
 export interface DropdownProps {

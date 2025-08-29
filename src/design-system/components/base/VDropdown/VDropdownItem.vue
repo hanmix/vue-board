@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VDropdownItem.css';
+import './VDropdownItem.css';
 import { computed } from 'vue';
 
 export interface DropdownItemProps {

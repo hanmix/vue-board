@@ -39,17 +39,18 @@ src/
 │
 ├── components/              # 컴포넌트 아키텍처 (관심사 분리)
 │   ├── features/            # 도메인별 비즈니스 로직 컴포넌트
-│   │   ├── auth/            # 인증: SignIn, SignUp
-│   │   ├── board/           # 게시판: BoardList, BoardItem, BoardDetail, NewPostModal
+│   │   ├── auth/            # 인증: SignIn, SignUp (+ CSS)
+│   │   ├── board/           # 게시판: BoardList, BoardItem, BoardDetail, NewPostModal, NoticeBoard (+ CSS)
 │   │   ├── user/            # 사용자: UserProfile
-│   │   ├── common/          # 공통: FloatingButton
+│   │   ├── common/          # 공통: FloatingButton (+ CSS)
 │   │   └── index.ts         # Features 통합 배럴 익스포트
 │   ├── ui/                  # 순수 재사용 UI 컴포넌트
-│   │   ├── base/            # 기본: BaseModal
-│   │   ├── navigation/      # 네비게이션: Tabs, Pagination
-│   │   ├── form/            # 폼: SearchFilter, Dropdown
+│   │   ├── base/            # 기본: (현재 비어있음)
+│   │   ├── feedback/        # 피드백 관련
+│   │   ├── navigation/      # 네비게이션: Tabs, Pagination (+ CSS)
+│   │   ├── form/            # 폼: SearchFilter (+ CSS)
 │   │   └── index.ts         # UI 통합 배럴 익스포트
-│   ├── layout/              # 레이아웃: NavigationBar
+│   ├── layout/              # 레이아웃: NavigationBar (+ CSS)
 │   └── index.ts             # 메인 컴포넌트 배럴 익스포트
 │
 ├── stores/                  # Pinia 상태 관리
@@ -57,6 +58,7 @@ src/
 │   ├── post.ts              # 게시글 상태 (CRUD, 목록)
 │   ├── user.ts              # 사용자 정보
 │   ├── modal.ts             # 모달 상태
+│   ├── comment.ts           # 댓글 상태
 │   └── index.ts             # 스토어 통합 익스포트
 │
 ├── composables/             # Vue 3 컴포저블 (비즈니스 로직)
@@ -65,6 +67,10 @@ src/
 │   ├── useBoardData.ts      # 통합 게시판 데이터 관리
 │   ├── useMyPageData.ts     # 마이페이지 데이터 관리
 │   ├── useModal.ts          # 모달 로직
+│   ├── useBreakpoint.ts     # 반응형 브레이크포인트
+│   ├── usePagination.ts     # 페이지네이션 로직
+│   ├── usePost.ts           # 게시글 로직
+│   ├── useUser.ts           # 사용자 로직
 │   └── index.ts             # 컴포저블 통합 익스포트
 │
 ├── apis/                    # API 서비스 모듈
@@ -72,6 +78,7 @@ src/
 │   ├── auth.ts              # 인증 API
 │   ├── post.ts              # 게시글 API
 │   ├── user.ts              # 사용자 API
+│   ├── comment.ts           # 댓글 API
 │   └── index.ts             # API 모듈 통합 익스포트
 │
 ├── types/                   # TypeScript 타입 정의
@@ -79,38 +86,56 @@ src/
 │   ├── user.ts              # 사용자 타입
 │   ├── post.ts              # 게시글 타입 (ProcessedPost 포함)
 │   ├── modal.ts             # 모달 타입
+│   ├── comment.ts           # 댓글 타입
+│   ├── navigate.ts          # 네비게이션 타입 (RouteName, BoardType, 매핑 유틸리티)
+│   ├── pagination.ts        # 페이지네이션 타입 (SearchType 포함)
+│   ├── tab.ts               # 탭 관련 타입
 │   └── index.ts             # 타입 통합 익스포트
 │
 ├── utils/                   # 유틸리티 함수
 │   ├── date.ts              # 날짜 포맷팅
 │   ├── jwt.ts               # JWT 토큰 처리
+│   ├── constants.ts         # 상수 정의
 │   └── index.ts             # 유틸 함수 익스포트
 │
 ├── routers/                 # Vue Router 설정
-│   ├── index.ts             # 라우터 익스포트
-│   └── routes.ts            # 라우트 정의 및 가드
+│   ├── index.ts             # 라우터 및 라우트 정의
+│   └── router.ts            # 라우터 인스턴스
 │
 ├── design-system/           # 디자인 시스템
-│   ├── tokens/              # 디자인 토큰 (CSS Custom Properties)
-│   │   ├── colors.css       # 색상 토큰
-│   │   ├── typography.css   # 타이포그래피 토큰
-│   │   ├── spacing.css      # 간격 토큰
-│   │   └── index.css        # 통합 토큰 익스포트
-│   ├── components/          # 재사용 가능한 UI 컴포넌트
-│   │   ├── base/            # 기본 컴포넌트 (VButton, VCard, VModal)
-│   │   ├── layout/          # 레이아웃 컴포넌트 (VContainer)
+│   ├── components/          # 재사용 가능한 UI 컴포넌트 (+ CSS Co-location)
+│   │   ├── base/            # 기본: VButton, VCard, VModal, VAlert, VIcon, VDropdown, VToastContainer
+│   │   ├── feedback/        # 피드백: VErrorMessage, VLoadingSpinner
+│   │   ├── layout/          # 레이아웃: VContainer
 │   │   └── index.ts         # 디자인 시스템 컴포넌트 익스포트
 │   ├── composables/         # 디자인 시스템 관련 컴포저블
 │   │   ├── useTheme.ts      # 테마 전환 로직
-│   │   └── useBreakpoint.ts # 반응형 브레이크포인트
+│   │   ├── useToast.ts      # 토스트 알림 로직
+│   │   └── index.ts         # 컴포저블 익스포트
+│   ├── styles/              # 글로벌 스타일
+│   │   ├── index.css        # 메인 스타일 진입점
+│   │   └── base.css         # 기본 스타일
+│   ├── tokens/              # 디자인 토큰 (CSS Custom Properties)
+│   │   ├── colors.css       # 색상 토큰
+│   │   ├── typography.css   # 타이포그래피 토큰  
+│   │   ├── spacing.css      # 간격 토큰
+│   │   ├── effects.css      # 효과 토큰
+│   │   └── index.css        # 통합 토큰 익스포트
 │   └── index.ts             # 디자인 시스템 통합 익스포트
 │
-├── assets/                  # 정적 자산
-│   └── main.css             # 메인 CSS
+├── views/                   # 테스트 및 실험용 뷰
+│   ├── TestDesignSystem.vue # 디자인 시스템 테스트
+│   └── TestNestedTransition.vue # 전환 테스트
+│
+├── assets/                  # 정적 자산  
+│   ├── styles/              # (CSS Co-location으로 대부분 이동됨)
+│   └── vue.svg              # Vue 로고
 │
 ├── App.vue                  # 루트 컴포넌트
 ├── main.ts                  # 앱 엔트리포인트
-└── style.css                # 기본 스타일
+├── style.css                # 기본 스타일
+├── shims-vue.d.ts          # Vue 타입 선언
+└── vite-env.d.ts           # Vite 환경 타입
 ```
 
 ## 핵심 아키텍처 패턴
@@ -421,7 +446,7 @@ watch(searchKeyword, (newKeyword) => {
 })
 ```
 
-### 5. 타입 안전성
+### 5. 타입 안전성 및 네비게이션 시스템
 
 **엄격한 타입 정의:**
 ```typescript
@@ -443,6 +468,53 @@ type BoardEvents = {
   'post-click': [post: Post]
   'page-change': [page: number]
 }
+```
+
+**네비게이션 타입 시스템 (`types/navigate.ts`):**
+```typescript
+// 라우트명 중앙 집중 관리
+export enum RouteName {
+  HOME = 'home',
+  SIGN_IN = 'signIn',
+  SIGN_UP = 'signUp',
+  BOARD = 'board',
+  NOTICE = 'notice',
+  FREE = 'free',
+  BOARD_DETAIL = 'board-detail',
+  MYPAGE = 'mypage',
+}
+
+// 게시판 타입과 라우트 연동
+export enum BoardType {
+  ALL = '',
+  NOTICE = 'notice',
+  FREE = 'free',
+}
+
+// 타입 안전한 네비게이션 유틸리티
+export const getBoardRouteName = (boardType: BoardType): RouteName => {
+  return BOARD_ROUTE_MAP.get(boardType) || RouteName.FREE;
+};
+
+export const getBoardTypeFromRoute = (routeName: RouteName): BoardType => {
+  return ROUTE_BOARD_MAP.get(routeName) || BoardType.ALL;
+};
+```
+
+**네비게이션 시스템의 핵심 원칙:**
+1. **타입 안전성**: 경로 문자열 대신 RouteName enum 사용으로 오타 방지
+2. **중앙 집중 관리**: 모든 라우트명과 게시판 타입을 한 곳에서 관리
+3. **양방향 매핑**: BoardType ↔ RouteName 간 안전한 변환 제공
+4. **확장성**: 새 BoardType/RouteName 추가 시 Map만 수정하면 자동 연동
+5. **IDE 지원**: 자동완성과 리팩토링 도구 완벽 지원
+
+**사용 예시:**
+```typescript
+// ❌ 기존 방식 (오타 위험)
+router.push({ path: '/board/notice' });
+
+// ✅ 권장 방식 (타입 안전)
+router.push({ name: getBoardRouteName(BoardType.NOTICE) });
 ```
 
 ### 6. 주요 참고사항
@@ -484,6 +556,88 @@ api.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
+```
+
+## CSS Co-location 시스템
+
+프로젝트에서는 **CSS Co-location** 패턴을 적용하여 컴포넌트와 스타일을 동일한 위치에 배치합니다.
+
+### CSS Co-location 적용 현황
+
+위의 **표준 프로젝트 구조**에 CSS Co-location이 적용되어 다음과 같은 변화가 있었습니다:
+
+**📁 컴포넌트별 CSS 파일 추가:**
+```
+components/features/auth/SignIn.vue    → SignIn.css 추가
+components/features/board/BoardList.vue → BoardList.css 추가  
+components/ui/form/SearchFilter.vue    → SearchFilter.css 추가
+design-system/components/base/VButton/ → VButton.css 추가
+pages/HomePage.vue                     → HomePage.css 추가
+```
+
+**📁 디자인 시스템 구조 변경:**
+```
+기존: assets/styles/components/design-system/
+변경: design-system/styles/ + design-system/tokens/
+```
+
+### CSS Import 패턴
+
+**컴포넌트에서 CSS Import:**
+```vue
+<script setup lang="ts">
+// ✅ 상대 경로로 CSS import (Co-location)
+import './ComponentName.css';
+import { computed } from 'vue';
+// ... 컴포넌트 로직
+</script>
+```
+
+**main.ts에서 글로벌 스타일 Import:**
+```typescript
+import { createApp } from 'vue';
+import App from './App.vue';
+// ✅ 디자인 시스템 글로벌 스타일 (토큰, 베이스 스타일) import 필수
+import '@/design-system/styles/index.css';
+```
+
+### CSS Co-location의 장점
+
+1. **유지보수성**: 컴포넌트 수정 시 관련 CSS를 바로 찾을 수 있음
+2. **모듈성**: 컴포넌트와 스타일이 하나의 단위로 관리됨
+3. **확장성**: 새 컴포넌트 추가 시 CSS 위치가 자명함
+4. **번들 최적화**: 사용하지 않는 컴포넌트의 CSS 자동 제외 가능
+5. **개발 효율성**: import 경로가 간단함 (`./ComponentName.css`)
+
+### 주의사항 및 함정
+
+**⚠️ 글로벌 스타일 import의 함정:**
+- `design-system/index.ts`에서 CSS를 import하지만, 이 파일 자체가 전역적으로 import되지 않음
+- 따라서 `main.ts`에서 `@/design-system/styles/index.css`를 **반드시** import해야 함
+- 이는 중복이 아니라 **필수** 설정임
+
+**글로벌 스타일 구조:**
+- **디자인 토큰**: `design-system/tokens/` - CSS Custom Properties 정의
+- **베이스 스타일**: `design-system/styles/` - 글로벌 스타일, 리셋, 유틸리티  
+- **컴포넌트 스타일**: 각 컴포넌트 디렉토리 - 해당 컴포넌트만의 스타일
+
+**CSS Import 흐름:**
+```
+main.ts → design-system/styles/index.css → tokens/index.css + base.css
+       ↓
+각 컴포넌트 → ./ComponentName.css (상대 경로)
+```
+
+**금지 패턴:**
+```vue
+<!-- ❌ 절대 경로 사용 금지 -->
+import '/src/assets/styles/components/ComponentName.css';
+
+<!-- ❌ 잘못된 경로 -->
+import '@/assets/styles/components/ComponentName.css';
+
+<!-- ✅ 권장 패턴 -->
+import './ComponentName.css';
 ```
 
 ## 실전 예제 및 패턴

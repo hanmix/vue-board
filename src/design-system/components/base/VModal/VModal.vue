@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VModal.css';
+import './VModal.css';
 import { computed, watch, onMounted, onUnmounted } from 'vue';
 import { VButton } from '@/design-system/components/base';
 

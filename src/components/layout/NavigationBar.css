@@ -51,12 +51,6 @@
   gap: var(--space-2);
 }
 
-.theme-toggle {
-  font-size: var(--font-size-lg);
-  min-width: var(--touch-target-min);
-  min-height: var(--touch-target-min);
-}
-
 /* Bottom Navigation (Mobile) */
 .bottom-navigation {
   position: fixed;
@@ -116,6 +110,7 @@
 @media (max-width: 375px) {
   .navigation-header {
     padding: var(--space-3);
+    height: var(--nav-height-mobile);
   }
 
   .brand-title {

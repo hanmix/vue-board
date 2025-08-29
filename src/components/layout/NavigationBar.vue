@@ -13,18 +13,22 @@
     <div class="actions-section">
       <VButton
         variant="ghost"
-        size="sm"
+        :size="isMobile ? 'sm' : 'md'"
         @click="toggleSearchBar"
-        class="theme-toggle"
       >
-        <VIcon :name="'search'" size="md" />
+        <VIcon :name="'search'" :size="isMobile ? 'sm' : 'md'" />
       </VButton>
     </div>
   </header>
 
   <!-- Search Header -->
   <Transition name="slide-down">
-    <VCard v-if="isSearchVisible" variant="outlined" padding="sm" class="search-section">
+    <VCard
+      v-if="isSearchVisible"
+      variant="outlined"
+      padding="sm"
+      class="search-section"
+    >
       <SearchFilter
         :boardType="boardType"
         :searchKeyword="searchKeyword"
@@ -41,19 +45,20 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/layout/NavigationBar.css';
+import './NavigationBar.css';
 import { type TabInfo, TabName } from '@/types/tab';
-import { BoardType } from '@/types/pagination';
+import { BoardType } from '@/types/navigate';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
 import { VButton, VIcon, VCard } from '@/design-system/components';
 import { Tabs, SearchFilter } from '@/components/ui';
-import { useBoardData } from '@/composables';
+import { useBoardData, useBreakpoint } from '@/composables';
 
 const route = useRoute();
 const { currentPost } = usePostStore();
 const { searchKeyword, searchType, setSearch } = useBoardData(BoardType.ALL);
+const { isMobile } = useBreakpoint();
 
 const tabs: TabInfo[] = [
   {

@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/feedback/VErrorMessage.css';
+import './VErrorMessage.css';
 import { computed } from 'vue';
 import { VCard, VButton, VIcon } from '@/design-system/components';
 

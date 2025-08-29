@@ -9,19 +9,21 @@ export const useNavigation = () => {
   // URL 쿼리에서 현재 상태 읽기
   const currentPage = computed(() => Number(route.query.page) || 1);
   const searchKeyword = computed(() => (route.query.search as string) || '');
-  const searchType = computed(() => (route.query.type as SearchType) || 'title');
+  const searchType = computed(
+    () => (route.query.type as SearchType) || 'title'
+  );
 
   // 페이지 변경
   const goToPage = (page: number) => {
     router.push({
-      query: { ...route.query, page }
+      query: { ...route.query, page },
     });
   };
 
   // 검색 설정 (페이지는 1로 리셋)
   const setSearch = (keyword: string, type: SearchType = 'title') => {
     router.push({
-      query: { ...route.query, search: keyword, type, page: 1 }
+      query: { ...route.query, search: keyword, type, page: 1 },
     });
   };
 
@@ -29,14 +31,14 @@ export const useNavigation = () => {
   const clearSearch = () => {
     const { search, type, ...restQuery } = route.query;
     router.push({
-      query: { ...restQuery, page: 1 }
+      query: { ...restQuery, page: 1 },
     });
   };
 
   // 모든 필터 초기화
   const resetFilters = () => {
     router.push({
-      query: { page: 1 }
+      query: { page: 1 },
     });
   };
 
@@ -50,6 +52,6 @@ export const useNavigation = () => {
     goToPage,
     setSearch,
     clearSearch,
-    resetFilters
+    resetFilters,
   };
 };

@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/features/auth/SignUp.css';
+import './SignUp.css';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables';
 import { useToast } from '@/design-system/composables';

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/features/common/FloatingButton.css';
+import './FloatingButton.css';
 import { VButton, VIcon } from '@/design-system/components';
 import { useModal } from '@/composables';
 import { useRoute } from 'vue-router';

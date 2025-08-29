@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/layout/BoardLayout.css';
+import './BoardLayout.css';
 // NavigationBar는 이제 App.vue에서 관리
 // 여기서는 게시판 콘텐츠 영역만 처리
 </script>

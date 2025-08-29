@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/layout/HomePage.css';
+import './HomePage.css';
 import { useRouter } from 'vue-router';
 import { useTheme } from '@/design-system/composables/useTheme';
 import { VContainer, VCard, VButton } from '@/design-system/components';

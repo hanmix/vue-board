@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/layout/VContainer.css';
+import './VContainer.css';
 import { computed } from 'vue';
 
 export interface ContainerProps {

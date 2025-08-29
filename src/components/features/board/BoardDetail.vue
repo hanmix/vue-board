@@ -147,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/features/board/BoardDetail.css';
+import './BoardDetail.css';
 import { usePost, useUser } from '@/composables';
 import { formatDate } from '@/utils';
 import { onMounted, ref, computed, watch } from 'vue';

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VToastContainer.css';
+import './VToastContainer.css';
 import { VAlert } from '../VAlert';
 import { useToast } from '@/design-system/composables/useToast';
 

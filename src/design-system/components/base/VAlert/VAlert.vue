@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import VIcon from '../VIcon/VIcon.vue';
-import '/src/assets/styles/components/design-system/base/VAlert.css';
+import './VAlert.css';
 import { computed, h, onMounted, onUnmounted, ref } from 'vue';
 
 export interface AlertProps {

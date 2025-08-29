@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import '/src/assets/styles/components/design-system/base/VCard.css';
+import './VCard.css';
 import { computed } from 'vue';
 
 export interface CardProps {

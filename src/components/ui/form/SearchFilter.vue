@@ -63,14 +63,16 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
   VDropdown,
   VDropdownItem,
   VButton,
   VIcon,
 } from '@/design-system/components/base';
-import '/src/assets/styles/components/ui/form/SearchFilter.css';
+import './SearchFilter.css';
 import type { SearchType, BoardType } from '@/types';
+import { getBoardRouteName } from '@/types/navigate';
 
 interface Props {
   boardType: BoardType;
@@ -80,6 +82,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const route = useRoute();
+const router = useRouter();
 
 // 검색 옵션들
 const searchOptions = [
@@ -114,6 +119,21 @@ const selectSearchType = (type: SearchType, closeDropdown: () => void) => {
 // 검색 실행
 const handleSearch = () => {
   const keyword = localSearchKeyword.value.trim();
+  
+  // BoardDetail 페이지에서 검색 시 BoardList로 이동
+  if (route.name === 'board-detail' && keyword) {
+    const routeName = getBoardRouteName(props.boardType);
+    router.push({
+      name: routeName,
+      query: {
+        search: keyword,
+        type: localSearchType.value,
+        page: 1
+      }
+    });
+    return;
+  }
+  
   props.onSearch(keyword, localSearchType.value);
 };
 </script>
