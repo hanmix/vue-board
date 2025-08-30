@@ -1,0 +1,8 @@
+.mypage-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userInfo-section {
+  padding: var(--space-3);
+}

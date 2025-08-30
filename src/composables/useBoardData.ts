@@ -1,10 +1,18 @@
 import { ref, watch, computed } from 'vue';
-import { useNavigation } from './useNavigation';
+import { useNavigation } from '@/composables';
 import { getPostsApi } from '@/apis';
 import type { BoardType, Post, ProcessedPost, PaginationParams } from '@/types';
 
 export const useBoardData = (boardType: BoardType) => {
-  const navigation = useNavigation();
+  const {
+    currentPage,
+    searchKeyword,
+    searchType,
+    goToPage,
+    setSearch,
+    clearSearch,
+    resetFilters,
+  } = useNavigation();
 
   // 로컬 상태
   const loading = ref(false);
@@ -21,10 +29,10 @@ export const useBoardData = (boardType: BoardType) => {
     try {
       const params: PaginationParams = {
         board: boardType,
-        page: navigation.currentPage.value,
+        page: currentPage.value,
         size: 10,
-        type: navigation.searchType.value,
-        keyword: navigation.searchKeyword.value,
+        type: searchType.value,
+        keyword: searchKeyword.value,
       };
 
       const {
@@ -53,7 +61,7 @@ export const useBoardData = (boardType: BoardType) => {
 
   // URL 쿼리 변경 감지하여 API 호출
   watch(
-    [navigation.currentPage, navigation.searchKeyword, navigation.searchType],
+    [currentPage, searchKeyword, searchType],
     () => {
       fetchPosts();
     },
@@ -70,19 +78,19 @@ export const useBoardData = (boardType: BoardType) => {
   // 부모 게시글 삭제 여부를 포함한 가공된 게시글 목록
   const processedPosts = computed<ProcessedPost[]>(() => {
     const map = postsMap.value;
-    
+
     return posts.value.map(post => {
       // 답글이 아니거나 부모 ID가 없는 경우
       if (post.type !== 'reply' || !post.parentId) {
         return { ...post, isParentDeleted: false };
       }
-      
+
       // 부모 게시글 찾기
       const parent = map.get(post.parentId);
-      
+
       return {
         ...post,
-        isParentDeleted: !parent || parent.isDeleted
+        isParentDeleted: !parent || parent.isDeleted,
       };
     });
   });
@@ -96,15 +104,15 @@ export const useBoardData = (boardType: BoardType) => {
     lastPage: computed(() => lastPage.value),
 
     // 네비게이션 상태
-    currentPage: navigation.currentPage,
-    searchKeyword: navigation.searchKeyword,
-    searchType: navigation.searchType,
+    currentPage: currentPage,
+    searchKeyword: searchKeyword,
+    searchType: searchType,
 
     // 액션
-    goToPage: navigation.goToPage,
-    setSearch: navigation.setSearch,
-    clearSearch: navigation.clearSearch,
-    resetFilters: navigation.resetFilters,
+    goToPage: goToPage,
+    setSearch: setSearch,
+    clearSearch: clearSearch,
+    resetFilters: resetFilters,
     refetch: fetchPosts,
   };
 };

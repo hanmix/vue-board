@@ -1,10 +1,8 @@
 // 즉시 로드 - 첫 방문 시 필요한 컴포넌트들
-import HomePage from '@/pages/HomePage.vue';
-import BoardLayout from '@/pages/BoardLayout.vue';
+import { HomePage, BoardLayout } from '@/pages';
 import { SignIn, SignUp } from '@/components/features/auth';
 import type { RouteRecordRaw } from 'vue-router';
 import { RouteName } from '@/types/navigate';
-import TestNestedTransition from '@/views/TestNestedTransition.vue';
 
 // Lazy 로드 - 사용자 액션 후 필요한 컴포넌트들
 const BoardList = () => import('@/components/features/board/BoardList.vue');
@@ -12,6 +10,7 @@ const BoardDetail = () => import('@/components/features/board/BoardDetail.vue');
 const UserProfile = () => import('@/components/features/user/UserProfile.vue');
 const NoticeBoard = () => import('@/components/features/board/NoticeBoard.vue');
 const TestDesignSystem = () => import('@/views/TestDesignSystem.vue');
+const TestNestedTransition = () => import('@/views/TestNestedTransition.vue');
 
 export const routes: RouteRecordRaw[] = [
   {

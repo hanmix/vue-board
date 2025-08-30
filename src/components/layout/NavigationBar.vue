@@ -12,12 +12,15 @@
 
     <div class="actions-section">
       <VButton
+        v-if="route.name !== 'mypage'"
         variant="ghost"
         :size="isMobile ? 'sm' : 'md'"
         @click="toggleSearchBar"
       >
         <VIcon :name="'search'" :size="isMobile ? 'sm' : 'md'" />
       </VButton>
+
+      <SettingButton />
     </div>
   </header>
 
@@ -48,17 +51,19 @@
 import './NavigationBar.css';
 import { type TabInfo, TabName } from '@/types/tab';
 import { BoardType } from '@/types/navigate';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
 import { VButton, VIcon, VCard } from '@/design-system/components';
 import { Tabs, SearchFilter } from '@/components/ui';
-import { useBoardData, useBreakpoint } from '@/composables';
+import { useBoardData, useBreakpoint, useNavigation } from '@/composables';
+import SettingButton from './SettingButton.vue';
 
 const route = useRoute();
 const { currentPost } = usePostStore();
 const { searchKeyword, searchType, setSearch } = useBoardData(BoardType.ALL);
 const { isMobile } = useBreakpoint();
+const { isSearchVisible, toggleSearchBar } = useNavigation();
 
 const tabs: TabInfo[] = [
   {
@@ -70,11 +75,6 @@ const tabs: TabInfo[] = [
     id: TabName.FREE,
     label: '자유게시판',
     to: `/board/${TabName.FREE}`,
-  },
-  {
-    id: TabName.MY,
-    label: '마이페이지',
-    to: '/mypage',
   },
 ];
 
@@ -88,12 +88,6 @@ const boardType = computed(() => {
     return BoardType.ALL; // 기본값 또는 기타 게시판 타입
   }
 });
-
-const isSearchVisible = ref(false);
-
-const toggleSearchBar = () => {
-  isSearchVisible.value = !isSearchVisible.value;
-};
 
 // BoardDetail에서 현재 게시글이 속한 게시판 판단
 const currentBoard = computed(() => {

@@ -1,12 +1,14 @@
 <template>
   <main class="board-layout">
     <div class="header mypage-header">
-      <button @click="handleLogout" class="logout-btn">로그아웃</button>
+      <VButton :variant="'ghost'" @click="handleLogout" class="logout-btn"
+        >로그아웃</VButton
+      >
     </div>
 
     <section class="userInfo-section">
       <div v-if="currentUserFromAuth || currentUser">
-        <h2>내 정보</h2>
+        <h2 class="section-title">내 정보</h2>
         <ul>
           <li>id: {{ currentUserFromAuth?.id || currentUser?.id }}</li>
           <li v-if="currentUser?.email">email: {{ currentUser.email }}</li>
@@ -56,13 +58,20 @@
     />
   </main>
 </template>
+
 <script setup lang="ts">
+import './UserProfile.css';
 import { useMyPageData, useUser, useAuth, usePost } from '@/composables';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { BoardItem } from '@/components/features/board';
 import { Pagination } from '@/components/ui';
-import { VLoadingSpinner, VErrorMessage } from '@/design-system/components';
+import {
+  VLoadingSpinner,
+  VErrorMessage,
+  VButton,
+} from '@/design-system/components';
+
 const {
   filteredPosts,
   loading,
@@ -72,7 +81,6 @@ const {
   lastPage,
   goToPage,
 } = useMyPageData();
-
 const { isMypage } = usePost(); // isMypage는 여전히 usePost에서 가져옴
 const { currentUser, getUserById } = useUser();
 const { logout, getCurrentUser } = useAuth();

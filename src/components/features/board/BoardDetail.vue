@@ -21,7 +21,7 @@
           <div class="header-content">
             <div class="title-section">
               <div v-if="currentPost.type === 'reply'" class="reply-badge">
-                <span class="reply-indicator">Re:</span>
+                <span class="reply-indicator">REPLY</span>
               </div>
 
               <h1 class="post-title">{{ currentPost.title }}</h1>

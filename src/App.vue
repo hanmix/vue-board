@@ -1,24 +1,3 @@
-<script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { NavigationBar } from '@/components/layout';
-import { useTheme } from '@/design-system/composables/useTheme';
-import { VToastContainer } from '@/design-system/components/base';
-
-const route = useRoute();
-const { initTheme } = useTheme();
-
-// Navigation을 보여줄 페이지들 정의
-const shouldShowNavigation = computed(() => {
-  return route.path.startsWith('/board') || route.path === '/mypage';
-});
-
-// 앱 시작 시 테마 초기화
-onMounted(() => {
-  initTheme();
-});
-</script>
-
 <template>
   <div id="app-root">
     <!-- Sticky Navigation Header -->
@@ -39,6 +18,27 @@ onMounted(() => {
     <VToastContainer />
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { NavigationBar } from '@/components/layout';
+import { useTheme } from '@/design-system/composables/useTheme';
+import { VToastContainer } from '@/design-system/components/base';
+
+const route = useRoute();
+const { initTheme } = useTheme();
+
+// Navigation을 보여줄 페이지들 정의
+const shouldShowNavigation = computed(() => {
+  return route.path.startsWith('/board') || route.path === '/mypage';
+});
+
+// 앱 시작 시 테마 초기화
+onMounted(() => {
+  initTheme();
+});
+</script>
 
 <style>
 /* 글로벌 앱 스타일 - 새로운 디자인 시스템 기반 */

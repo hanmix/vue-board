@@ -93,4 +93,3 @@ const handleTouchEnd = () => {
   }
 };
 </script>
-

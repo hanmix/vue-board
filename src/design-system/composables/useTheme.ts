@@ -5,7 +5,7 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 // 전역 상태로 관리 (Vite HMR 친화적)
 const themeMode: Ref<ThemeMode> = ref('system');
-const systemPrefersDark = ref(false);
+const systemPrefersDark = ref(true);
 
 let mediaQuery: MediaQueryList | null = null;
 

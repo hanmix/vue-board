@@ -45,8 +45,7 @@
 
         <!-- 답글 표시 -->
         <div v-if="post.type === 'reply'" class="reply-badge">
-          <VIcon name="reply" size="xs" class="reply-icon" />
-          <span>답글</span>
+          {{ post.type.toUpperCase() }}
         </div>
       </header>
 
@@ -68,26 +67,23 @@
       </main>
 
       <!-- 인터랙션 바 -->
-      <footer class="post-footer">
+      <footer class="item-footer">
         <div class="interaction-stats">
-          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
-            <VIcon name="eye" size="xs" class="stat-icon" />
-            <span class="stat-count">{{ formatStatNumber(post.view) }}</span>
-          </VButton>
+          <VIcon name="eye" size="sm" class="stat-icon" />
+          <span class="stat-count">{{ formatStatNumber(post.view) }}</span>
+        </div>
+        <div class="interaction-stats">
+          <VIcon name="thumbs-up" size="sm" class="stat-icon" />
+          <span class="stat-count">{{
+            formatStatNumber(post.likes.length)
+          }}</span>
+        </div>
 
-          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
-            <VIcon name="thumbs-up" size="xs" class="stat-icon" />
-            <span class="stat-count">{{
-              formatStatNumber(post.likes.length)
-            }}</span>
-          </VButton>
-
-          <VButton variant="ghost" size="sm" class="stat-button" @click.stop>
-            <VIcon name="thumbs-down" size="xs" class="stat-icon" />
-            <span class="stat-count">{{
-              formatStatNumber(post.dislikes.length)
-            }}</span>
-          </VButton>
+        <div class="interaction-stats">
+          <VIcon name="thumbs-down" size="sm" class="stat-icon" />
+          <span class="stat-count">{{
+            formatStatNumber(post.dislikes.length)
+          }}</span>
         </div>
 
         <!-- 읽기 버튼 -->
