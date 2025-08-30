@@ -33,8 +33,9 @@
 
   /* Z-index 레이어 (sticky header 문제 해결) */
   --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-floating: 1030;
+  --z-sticky: 1010;
+  --z-dropdown-high: 1030;
+  --z-floating: 1035;
   --z-fixed: 1040;
   --z-modal-backdrop: 1050;
   --z-modal: 1060;

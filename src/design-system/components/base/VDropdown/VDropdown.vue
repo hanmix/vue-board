@@ -1,5 +1,10 @@
 <template>
-  <div ref="triggerRef" class="v-dropdown-trigger" @click="toggle">
+  <div
+    ref="triggerRef"
+    :id="props.id"
+    class="v-dropdown-trigger"
+    @click="toggle"
+  >
     <slot name="trigger" :is-open="isOpen" :toggle="toggle"></slot>
   </div>
 
@@ -8,6 +13,7 @@
       <div
         v-if="isOpen"
         ref="menuRef"
+        :id="props.id ? `${props.id}-menu` : undefined"
         class="v-dropdown-menu"
         :class="menuClasses"
         :style="menuStyle"
@@ -23,6 +29,8 @@
 <script setup lang="ts">
 import './VDropdown.css';
 import { ref, reactive, computed, onBeforeUnmount, nextTick } from 'vue';
+import { useDropdownManager } from '@/composables/useDropdownManager';
+import type { DropdownId } from '@/types/dropdown';
 
 export interface DropdownProps {
   closeOnScroll?: boolean;
@@ -39,16 +47,19 @@ export interface DropdownProps {
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   ariaLabel?: string;
+  priority?: 'normal' | 'high';
+  id?: DropdownId;
 }
 
 const props = withDefaults(defineProps<DropdownProps>(), {
   closeOnScroll: true,
   placement: 'bottom-start',
-  verticalOffset: 20,
-  horizontalOffset: 13,
+  verticalOffset: 8,
+  horizontalOffset: 0,
   mobileFullWidth: true,
   size: 'md',
   disabled: false,
+  priority: 'normal',
 });
 
 const emit = defineEmits<{
@@ -56,6 +67,16 @@ const emit = defineEmits<{
   open: [];
   close: [];
 }>();
+
+// 드롭다운 상호 배타 관리
+const dropdownManager = useDropdownManager();
+
+// Constants
+const MOBILE_BREAKPOINT = 768;
+const MIN_MENU_WIDTH = 200;
+const MIN_SPACE_FROM_EDGE = 16;
+const SCROLL_THROTTLE_MS = 16; // 60fps
+const MIN_SPACE_FOR_DROPDOWN = 200;
 
 const isOpen = ref(false);
 const triggerRef = ref<HTMLElement | null>(null);
@@ -74,26 +95,93 @@ let scrollTimer: ReturnType<typeof setTimeout> | null = null;
 const toggle = async () => {
   if (props.disabled) return;
 
-  isOpen.value = !isOpen.value;
-  emit('update:open', isOpen.value);
-
   if (isOpen.value) {
+    close();
+  } else {
+    // 다른 드롭다운들 먼저 닫기 (Manager를 통해)
+    if (props.id) {
+      dropdownManager.openDropdown(props.id);
+    }
+
+    // 현재 드롭다운 열기
+    isOpen.value = true;
+    emit('update:open', true);
     emit('open');
     await nextTick();
     updateMenuPosition();
     bindListeners();
-  } else {
-    emit('close');
-    unbindListeners();
   }
 };
 
 const close = () => {
   if (isOpen.value) {
     isOpen.value = false;
+    if (props.id) {
+      dropdownManager.closeDropdown(props.id);
+    }
     emit('update:open', false);
     emit('close');
     unbindListeners();
+  }
+};
+
+const calculateMobilePosition = (rect: DOMRect, viewportHeight: number) => {
+  menuStyle.left = 'var(--space-4)';
+  menuStyle.right = 'var(--space-4)';
+  menuStyle.width = 'auto';
+
+  const spaceBelow = viewportHeight - rect.bottom - props.verticalOffset;
+  const spaceAbove = rect.top - props.verticalOffset;
+
+  if (spaceBelow >= MIN_SPACE_FOR_DROPDOWN || spaceBelow >= spaceAbove) {
+    menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
+  } else {
+    menuStyle.bottom = `${viewportHeight - rect.top + props.verticalOffset}px`;
+  }
+};
+
+const calculateDesktopPosition = (
+  rect: DOMRect,
+  viewportWidth: number,
+  viewportHeight: number
+) => {
+  const menuWidth = Math.max(MIN_MENU_WIDTH, rect.width);
+
+  // Horizontal positioning
+  let leftPos = rect.left;
+  switch (props.placement) {
+    case 'bottom-start':
+    case 'top-start':
+      leftPos = rect.left - props.horizontalOffset;
+      break;
+    case 'bottom-end':
+    case 'top-end':
+      leftPos = rect.right - menuWidth;
+      break;
+    case 'bottom-center':
+    case 'top-center':
+      leftPos = rect.left + (rect.width - menuWidth) / 2;
+      break;
+  }
+
+  // Prevent overflow
+  const rightEdge = leftPos + menuWidth;
+  if (rightEdge > viewportWidth - MIN_SPACE_FROM_EDGE) {
+    leftPos = viewportWidth - menuWidth - MIN_SPACE_FROM_EDGE;
+  }
+  if (leftPos < MIN_SPACE_FROM_EDGE) {
+    leftPos = MIN_SPACE_FROM_EDGE;
+  }
+
+  menuStyle.left = `${leftPos}px`;
+  menuStyle.minWidth = `${menuWidth}px`;
+
+  // Vertical positioning
+  const isTopPlacement = props.placement.startsWith('top');
+  if (isTopPlacement) {
+    menuStyle.bottom = `${viewportHeight - rect.top + props.verticalOffset}px`;
+  } else {
+    menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
   }
 };
 
@@ -110,72 +198,17 @@ const updateMenuPosition = () => {
     delete menuStyle[key];
   });
 
+  // Set base styles
   menuStyle.position = 'fixed';
-  menuStyle.zIndex = 'var(--z-dropdown)';
+  menuStyle.zIndex =
+    props.priority === 'high' ? 'var(--z-dropdown-high)' : 'var(--z-dropdown)';
 
-  // Check if mobile
-  const isMobile = viewportWidth <= 768;
-
+  // Calculate position based on viewport
+  const isMobile = viewportWidth <= MOBILE_BREAKPOINT;
   if (isMobile && props.mobileFullWidth) {
-    // Mobile: full width with margins
-    menuStyle.left = 'var(--space-4)';
-    menuStyle.right = 'var(--space-4)';
-    menuStyle.width = 'auto';
-
-    // Position based on available space
-    const spaceBelow = viewportHeight - rect.bottom - props.verticalOffset;
-    const spaceAbove = rect.top - props.verticalOffset;
-
-    if (spaceBelow >= 200 || spaceBelow >= spaceAbove) {
-      menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
-    } else {
-      menuStyle.bottom = `${
-        viewportHeight - rect.top + props.verticalOffset
-      }px`;
-    }
+    calculateMobilePosition(rect, viewportHeight);
   } else {
-    // Desktop: positioned relative to trigger
-    const menuWidth = Math.max(200, rect.width);
-
-    // Horizontal positioning
-    let leftPos = rect.left;
-
-    switch (props.placement) {
-      case 'bottom-start':
-      case 'top-start':
-        leftPos = rect.left - props.horizontalOffset;
-        break;
-      case 'bottom-end':
-      case 'top-end':
-        leftPos = rect.right - menuWidth;
-        break;
-      case 'bottom-center':
-      case 'top-center':
-        leftPos = rect.left + (rect.width - menuWidth) / 2;
-        break;
-    }
-
-    // Prevent overflow
-    const rightEdge = leftPos + menuWidth;
-    if (rightEdge > viewportWidth - 16) {
-      leftPos = viewportWidth - menuWidth - 16;
-    }
-    if (leftPos < 16) {
-      leftPos = 16;
-    }
-
-    menuStyle.left = `${leftPos}px`;
-    menuStyle.minWidth = `${menuWidth}px`;
-
-    // Vertical positioning
-    const isTopPlacement = props.placement.startsWith('top');
-    if (isTopPlacement) {
-      menuStyle.bottom = `${
-        viewportHeight - rect.top + props.verticalOffset
-      }px`;
-    } else {
-      menuStyle.top = `${rect.bottom + props.verticalOffset}px`;
-    }
+    calculateDesktopPosition(rect, viewportWidth, viewportHeight);
   }
 };
 
@@ -208,18 +241,23 @@ const handleScroll = () => {
 
   if (scrollTimer) {
     clearTimeout(scrollTimer);
+    scrollTimer = null;
   }
 
   scrollTimer = setTimeout(() => {
-    if (isOpen.value) {
-      if (props.closeOnScroll) {
-        close();
-      } else {
-        updateMenuPosition();
-      }
+    // 드롭다운이 여전히 열려있는지 다시 한 번 확인
+    if (!isOpen.value) {
+      scrollTimer = null;
+      return;
+    }
+
+    if (props.closeOnScroll) {
+      close();
+    } else {
+      updateMenuPosition();
     }
     scrollTimer = null;
-  }, 16); // 60fps
+  }, SCROLL_THROTTLE_MS);
 };
 
 const bindListeners = () => {
@@ -249,7 +287,19 @@ defineExpose({
   updatePosition: updateMenuPosition,
 });
 
-onBeforeUnmount(() => {
-  unbindListeners();
-});
+// 드롭다운 등록/해제 및 상호 배타 관리
+if (props.id) {
+  // 컴포넌트 마운트 시 드롭다운 등록
+  dropdownManager.registerDropdown(props.id, close);
+
+  // 컴포넌트 언마운트 시 드롭다운 해제
+  onBeforeUnmount(() => {
+    dropdownManager.unregisterDropdown(props.id);
+    unbindListeners();
+  });
+} else {
+  onBeforeUnmount(() => {
+    unbindListeners();
+  });
+}
 </script>

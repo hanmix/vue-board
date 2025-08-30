@@ -1,0 +1,35 @@
+/* UserProfileButton.css */
+
+/* 드롭다운 메뉴 스타일 */
+.user-menu {
+  min-width: 180px;
+  padding: var(--space-2);
+}
+
+.user-info {
+  padding: var(--space-3) var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.menu-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-2) 0;
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+  .user-menu {
+    min-width: 160px;
+  }
+
+  .user-info {
+    padding: var(--space-2);
+  }
+}

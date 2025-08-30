@@ -14,18 +14,18 @@
       <VButton
         v-if="route.name !== 'mypage'"
         variant="ghost"
-        :size="isMobile ? 'sm' : 'md'"
+        :size="'md'"
         @click="toggleSearchBar"
       >
-        <VIcon :name="'search'" :size="isMobile ? 'sm' : 'md'" />
+        <VIcon name="search" size="sm" />
       </VButton>
 
-      <SettingButton />
+      <UserProfileButton />
     </div>
   </header>
 
   <!-- Search Header -->
-  <Transition name="slide-down">
+  <Transition name="search-slide" appear>
     <VCard
       v-if="isSearchVisible"
       variant="outlined"
@@ -57,7 +57,7 @@ import { usePostStore } from '@/stores/post';
 import { VButton, VIcon, VCard } from '@/design-system/components';
 import { Tabs, SearchFilter } from '@/components/ui';
 import { useBoardData, useBreakpoint, useNavigation } from '@/composables';
-import SettingButton from './SettingButton.vue';
+import UserProfileButton from './UserProfileButton.vue';
 
 const route = useRoute();
 const { currentPost } = usePostStore();

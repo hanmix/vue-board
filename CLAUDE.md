@@ -856,6 +856,221 @@ const { toggleTheme, isDark } = useTheme();
 </style>
 ```
 
+#### VDropdown 컴포넌트 사용법
+
+**기본 사용법:**
+
+```vue
+<template>
+  <VDropdown
+    id="my-dropdown"
+    placement="bottom-start"
+    :vertical-offset="8"
+  >
+    <template #trigger="{ isOpen, toggle }">
+      <VButton @click="toggle" :class="{ active: isOpen }">
+        드롭다운 열기
+        <VIcon name="chevron-down" :class="{ rotate: isOpen }" />
+      </VButton>
+    </template>
+
+    <template #menu="{ close }">
+      <VDropdownItem @click="handleAction1(close)">
+        액션 1
+      </VDropdownItem>
+      <VDropdownItem @click="handleAction2(close)">
+        액션 2
+      </VDropdownItem>
+      <div class="menu-divider"></div>
+      <VDropdownItem destructive @click="handleDelete(close)">
+        삭제
+      </VDropdownItem>
+    </template>
+  </VDropdown>
+</template>
+
+<script setup lang="ts">
+import { VDropdown, VDropdownItem, VButton, VIcon } from '@/design-system';
+
+const handleAction1 = (closeDropdown: () => void) => {
+  // 액션 실행
+  console.log('액션 1 실행');
+  closeDropdown(); // 드롭다운 닫기
+};
+
+const handleAction2 = (closeDropdown: () => void) => {
+  // 액션 실행
+  console.log('액션 2 실행');
+  closeDropdown();
+};
+
+const handleDelete = (closeDropdown: () => void) => {
+  const confirmed = confirm('정말 삭제하시겠습니까?');
+  if (confirmed) {
+    // 삭제 로직
+    console.log('삭제 실행');
+  }
+  closeDropdown();
+};
+</script>
+```
+
+**VDropdown Props:**
+
+```typescript
+interface DropdownProps {
+  id?: string;                    // 필수: 드롭다운 식별자 (상호 배타성)
+  placement?: 'bottom-start'      // 배치 위치 (기본값: 'bottom-start')
+    | 'bottom-end' 
+    | 'bottom-center'
+    | 'top-start' 
+    | 'top-end' 
+    | 'top-center';
+  verticalOffset?: number;        // 세로 간격 (기본값: 8px)
+  horizontalOffset?: number;      // 가로 간격 (기본값: 0px)  
+  mobileFullWidth?: boolean;      // 모바일 전체폭 (기본값: true)
+  size?: 'sm' | 'md' | 'lg';     // 크기 (기본값: 'md')
+  priority?: 'normal' | 'high';   // z-index 우선순위 (기본값: 'normal')
+  closeOnScroll?: boolean;        // 스크롤시 닫기 (기본값: true)
+  disabled?: boolean;             // 비활성화 (기본값: false)
+  ariaLabel?: string;             // 접근성 라벨
+}
+```
+
+**상호 배타적 드롭다운 관리:**
+
+```vue
+<!-- ✅ 권장: 각 드롭다운에 고유 id 부여 -->
+<VDropdown id="user-profile-dropdown">
+  <!-- 사용자 프로필 드롭다운 -->
+</VDropdown>
+
+<VDropdown id="search-filter-dropdown">
+  <!-- 검색 필터 드롭다운 -->
+</VDropdown>
+
+<!-- ❌ 비권장: id 없으면 상호 배타성 적용 안됨 -->
+<VDropdown>
+  <!-- 다른 드롭다운과 동시에 열릴 수 있음 -->
+</VDropdown>
+```
+
+**드롭다운 이벤트 처리:**
+
+```vue
+<template>
+  <VDropdown
+    id="event-dropdown"
+    @open="handleDropdownOpen"
+    @close="handleDropdownClose"
+  >
+    <!-- 드롭다운 내용 -->
+  </VDropdown>
+</template>
+
+<script setup lang="ts">
+const handleDropdownOpen = () => {
+  console.log('드롭다운이 열렸습니다');
+  // 다른 UI 요소와의 상호작용 처리
+};
+
+const handleDropdownClose = () => {
+  console.log('드롭다운이 닫혔습니다');
+  // 정리 작업
+};
+</script>
+```
+
+**반응형 드롭다운:**
+
+```vue
+<template>
+  <VDropdown
+    id="responsive-dropdown"
+    :vertical-offset="verticalOffset"
+    :mobile-full-width="false"
+  >
+    <!-- 드롭다운 내용 -->
+  </VDropdown>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useBreakpoint } from '@/composables';
+
+const { isMobile } = useBreakpoint();
+
+// 반응형 오프셋 계산
+const verticalOffset = computed(() => {
+  return isMobile.value ? 12 : 16;
+});
+</script>
+```
+
+**VDropdownItem 사용법:**
+
+```vue
+<template #menu="{ close }">
+  <!-- 기본 아이템 -->
+  <VDropdownItem @click="handleClick(close)">
+    일반 메뉴
+  </VDropdownItem>
+
+  <!-- 활성 상태 아이템 -->
+  <VDropdownItem :active="isActive" @click="handleClick(close)">
+    활성 메뉴
+  </VDropdownItem>
+
+  <!-- 위험한 액션 (빨간색) -->
+  <VDropdownItem destructive @click="handleDelete(close)">
+    삭제
+  </VDropdownItem>
+
+  <!-- 비활성화된 아이템 -->
+  <VDropdownItem disabled>
+    비활성화 메뉴
+  </VDropdownItem>
+
+  <!-- 구분선 -->
+  <div class="menu-divider"></div>
+
+  <!-- 아이콘과 함께 -->
+  <VDropdownItem @click="handleClick(close)">
+    <VIcon name="user" size="sm" />
+    프로필
+  </VDropdownItem>
+</template>
+```
+
+**드롭다운 스타일 커스터마이징:**
+
+```css
+/* 메뉴 컨테이너 스타일 */
+.custom-menu {
+  min-width: 200px;
+  padding: var(--space-2);
+}
+
+/* 구분선 스타일 */
+.menu-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-2) 0;
+}
+
+/* 사용자 정보 섹션 */
+.user-info {
+  padding: var(--space-3) var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+```
+
 **반응형 디자인:**
 
 ```vue

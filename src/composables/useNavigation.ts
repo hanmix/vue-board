@@ -2,11 +2,13 @@ import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { SearchType } from '@/types';
 
+// 전역 상태로 선언 (컴포넌트 간 공유)
+const isSearchVisible = ref(false);
+
 export const useNavigation = () => {
   const route = useRoute();
   const router = useRouter();
 
-  const isSearchVisible = ref(false);
   const setIsSearchVisible = (value: boolean) => {
     isSearchVisible.value = value;
   };

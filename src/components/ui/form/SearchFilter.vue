@@ -4,15 +4,17 @@
       <div class="search-input-group">
         <!-- 검색 타입 드롭다운 -->
         <VDropdown
+          :id="DROPDOWN_IDS.SEARCH_FILTER"
           placement="bottom-start"
           size="sm"
           :aria-label="'검색 타입 선택'"
         >
           <template #trigger="{ isOpen }">
-            <button
-              type="button"
+            <div
               class="search-type-trigger"
               :class="{ 'search-type-trigger--open': isOpen }"
+              role="button"
+              tabindex="0"
             >
               {{ currentSearchLabel }}
               <VIcon
@@ -23,7 +25,7 @@
                   { 'search-type-arrow--open': isOpen },
                 ]"
               />
-            </button>
+            </div>
           </template>
 
           <template #menu="{ close }">
@@ -73,6 +75,7 @@ import {
 import './SearchFilter.css';
 import type { SearchType, BoardType } from '@/types';
 import { getBoardRouteName } from '@/types/navigate';
+import { DROPDOWN_IDS } from '@/types/dropdown';
 
 interface Props {
   boardType: BoardType;
@@ -85,6 +88,8 @@ const props = defineProps<Props>();
 
 const route = useRoute();
 const router = useRouter();
+
+// DROPDOWN_ID 상수는 DROPDOWN_IDS.SEARCH_FILTER로 대체
 
 // 검색 옵션들
 const searchOptions = [

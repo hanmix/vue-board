@@ -51,6 +51,21 @@
   gap: var(--space-2);
 }
 
+/* Search Dropdown Content */
+.search-dropdown-content {
+  min-width: 320px;
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 768px) {
+  .search-dropdown-content {
+    min-width: 280px;
+    padding: var(--space-3);
+  }
+}
+
 /* Bottom Navigation (Mobile) */
 .bottom-navigation {
   position: fixed;
@@ -143,20 +158,33 @@
   }
 }
 
-/* Transition 정의 */
-.slide-down-enter-active,
-.slide-down-leave-active {
+/* 간단한 max-height 트릭 */
+.search-slide-enter-active,
+.search-slide-leave-active {
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
-.slide-down-enter-from,
-.slide-down-leave-to {
+.search-slide-enter-from {
   opacity: 0;
-  transform: translateY(-20px); /* 위에서 시작 */
+  max-height: 0;
+  transform: translateY(-10px);
 }
 
-.slide-down-enter-to,
-.slide-down-leave-from {
+.search-slide-enter-to {
   opacity: 1;
-  transform: translateY(0); /* 최종 위치 */
+  max-height: 200px; /* 충분히 큰 값 */
+  transform: translateY(0);
+}
+
+.search-slide-leave-from {
+  opacity: 1;
+  max-height: 200px;
+  transform: translateY(0);
+}
+
+.search-slide-leave-to {
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(-10px);
 }
