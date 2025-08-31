@@ -6,25 +6,26 @@
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Cascadia Code',
     monospace;
 
-  /* 폰트 크기 스케일 (rem 기반) */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2rem; /* 32px */
+  /* 폰트 크기 스케일 (rem 기반) - 최적화된 스케일 */
+  --font-size-xs: 0.75rem; /* 12px - 캡션, 라벨 */
+  --font-size-sm: 0.875rem; /* 14px - 보조 텍스트, 메타데이터 */
+  --font-size-base: 0.9375rem; /* 15px - 본문 텍스트 (기본) */
+  --font-size-lg: 1rem; /* 16px - 제목, 버튼 텍스트 */
+  --font-size-xl: 1.125rem; /* 18px - 섹션 제목 */
+  --font-size-2xl: 1.25rem; /* 20px - 페이지 제목 */
+  --font-size-3xl: 1.5rem; /* 24px - 대형 제목 */
+  --font-size-4xl: 2rem; /* 32px - 히어로 제목 */
 
   /* 폰트 굵기 */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* 줄 높이 */
-  --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.75;
+  /* 줄 높이 - 한국어 최적화 */
+  --line-height-tight: 1.3; /* 제목용 */
+  --line-height-normal: 1.6; /* 본문용 (한국어 권장) */
+  --line-height-relaxed: 1.8; /* 긴 텍스트용 */
 
   /* 자간 */
   --letter-spacing-tight: -0.025em;

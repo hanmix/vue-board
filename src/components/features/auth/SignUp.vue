@@ -1,36 +1,36 @@
 <template>
-  <VContainer class="auth-page" centerContent>
-    <div class="auth-container">
-      <VCard variant="elevated" padding="lg" class="auth-card">
+  <VContainer class="sign-up-page" centerContent>
+    <div class="sign-up-container">
+      <VCard variant="elevated" padding="lg" class="sign-up-card">
         <template #header>
-          <div class="auth-header">
-            <h1 class="auth-title">회원가입</h1>
-            <p class="auth-subtitle">Vue Board 계정을 만들어보세요</p>
+          <div class="sign-up-header">
+            <h1 class="sign-up-title">회원가입</h1>
+            <p class="sign-up-subtitle">Vue Board 계정을 만들어보세요</p>
           </div>
         </template>
 
-        <form @submit.prevent="handleSignUp" class="auth-form">
-          <div class="form-field">
-            <label for="name" class="form-label">이름</label>
+        <form @submit.prevent="handleSignUp" class="sign-up-form">
+          <div class="sign-up-field">
+            <label for="name" class="sign-up-label">이름</label>
             <input
               id="name"
               type="text"
               v-model="name"
               required
-              class="form-input"
+              class="sign-up-input"
               placeholder="이름을 입력해주세요"
             />
           </div>
 
-          <div class="form-field">
-            <label for="email" class="form-label">이메일</label>
-            <div class="form-input-group">
+          <div class="sign-up-field">
+            <label for="email" class="sign-up-label">이메일</label>
+            <div class="sign-up-input-group">
               <input
                 id="email"
                 type="email"
                 v-model="email"
                 required
-                class="form-input form-input-grouped"
+                class="sign-up-input sign-up-input-grouped"
                 placeholder="이메일을 입력해주세요"
               />
               <VButton
@@ -38,35 +38,35 @@
                 variant="secondary"
                 size="sm"
                 @click="checkedEmail"
-                class="form-input-button"
+                class="sign-up-input-button"
               >
                 중복확인
               </VButton>
             </div>
           </div>
 
-          <div class="form-field">
-            <label for="password" class="form-label">비밀번호</label>
+          <div class="sign-up-field">
+            <label for="password" class="sign-up-label">비밀번호</label>
             <input
               id="password"
               type="password"
               v-model="password"
               required
-              class="form-input"
+              class="sign-up-input"
               placeholder="비밀번호를 입력해주세요"
             />
           </div>
 
-          <div class="form-field">
-            <label for="doublePassword" class="form-label">비밀번호 확인</label>
+          <div class="sign-up-field">
+            <label for="doublePassword" class="sign-up-label">비밀번호 확인</label>
             <input
               id="doublePassword"
               type="password"
               v-model="doubleCheckPassword"
               required
-              class="form-input"
+              class="sign-up-input"
               :class="{
-                'form-input-error': doubleCheckPassword && !isPasswordMatch,
+                'sign-up-input-error': doubleCheckPassword && !isPasswordMatch,
               }"
               placeholder="비밀번호를 다시 입력해주세요"
             />
@@ -83,15 +83,15 @@
             variant="primary"
             size="lg"
             block
-            class="auth-submit"
+            class="sign-up-submit"
           >
             회원가입 하기
           </VButton>
         </form>
 
         <template #footer>
-          <div class="auth-footer">
-            <p class="auth-footer-text">이미 아이디가 있으신가요?</p>
+          <div class="sign-up-footer">
+            <p class="sign-up-footer-text">이미 아이디가 있으신가요?</p>
             <VButton variant="ghost" @click="$router.push('/signIn')">
               로그인
             </VButton>

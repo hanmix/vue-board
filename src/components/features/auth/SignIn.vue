@@ -1,35 +1,35 @@
 <template>
-  <VContainer class="auth-page" centerContent>
-    <div class="auth-container">
-      <VCard variant="elevated" padding="lg" class="auth-card">
+  <VContainer class="sign-in-page" centerContent>
+    <div class="sign-in-container">
+      <VCard variant="elevated" padding="lg" class="sign-in-card">
         <template #header>
-          <div class="auth-header">
-            <h1 class="auth-title">로그인</h1>
-            <p class="auth-subtitle">안녕하세요. 싱글벙글 게시판 입니다.</p>
+          <div class="sign-in-header">
+            <h1 class="sign-in-title">로그인</h1>
+            <p class="sign-in-subtitle">안녕하세요. 싱글벙글 게시판 입니다.</p>
           </div>
         </template>
 
-        <form @submit.prevent="handleLogin" class="auth-form">
-          <div class="form-field">
-            <label for="email" class="form-label">이메일</label>
+        <form @submit.prevent="handleLogin" class="sign-in-form">
+          <div class="sign-in-field">
+            <label for="email" class="sign-in-label">이메일</label>
             <input
               id="email"
               type="email"
               v-model="email"
               required
-              class="form-input"
+              class="sign-in-input"
               placeholder="이메일을 입력하세요"
             />
           </div>
 
-          <div class="form-field">
-            <label for="password" class="form-label">비밀번호</label>
+          <div class="sign-in-field">
+            <label for="password" class="sign-in-label">비밀번호</label>
             <input
               id="password"
               type="password"
               v-model="password"
               required
-              class="form-input"
+              class="sign-in-input"
               placeholder="비밀번호를 입력하세요"
             />
           </div>
@@ -40,7 +40,7 @@
             size="lg"
             :loading="loading"
             block
-            class="auth-submit"
+            class="sign-in-submit"
           >
             {{ loading ? '로그인 중...' : '로그인' }}
           </VButton>
@@ -49,8 +49,8 @@
         </form>
 
         <template #footer>
-          <div class="auth-footer">
-            <p class="auth-footer-text">아직 아이디가 없으신가요?</p>
+          <div class="sign-in-footer">
+            <p class="sign-in-footer-text">아직 아이디가 없으신가요?</p>
             <VButton variant="ghost" @click="$router.push('/signUp')">
               회원가입
             </VButton>

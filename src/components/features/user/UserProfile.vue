@@ -1,9 +1,42 @@
 <template>
   <main class="board-layout">
     <div class="header mypage-header">
-      <VButton :variant="'ghost'" @click="handleLogout" class="logout-btn"
-        >로그아웃</VButton
-      >
+      <div class="header-controls">
+        <!-- 테마 설정 -->
+        <div class="theme-control">
+          <label class="theme-label">테마 설정</label>
+          <div class="theme-buttons">
+            <VButton
+              :variant="themeMode === 'light' ? 'primary' : 'ghost'"
+              size="sm"
+              @click="setTheme('light')"
+              class="theme-button"
+            >
+              🌞 라이트
+            </VButton>
+            <VButton
+              :variant="themeMode === 'dark' ? 'primary' : 'ghost'"
+              size="sm"
+              @click="setTheme('dark')"
+              class="theme-button"
+            >
+              🌙 다크
+            </VButton>
+            <VButton
+              :variant="themeMode === 'system' ? 'primary' : 'ghost'"
+              size="sm"
+              @click="setTheme('system')"
+              class="theme-button"
+            >
+              💻 시스템
+            </VButton>
+          </div>
+        </div>
+
+        <VButton :variant="'ghost'" @click="handleLogout" class="logout-btn">
+          로그아웃
+        </VButton>
+      </div>
     </div>
 
     <section class="userInfo-section">
@@ -71,6 +104,7 @@ import {
   VErrorMessage,
   VButton,
 } from '@/design-system/components';
+import { useTheme } from '@/design-system/composables';
 
 const {
   filteredPosts,
@@ -85,6 +119,9 @@ const { isMypage } = usePost(); // isMypage는 여전히 usePost에서 가져옴
 const { currentUser, getUserById } = useUser();
 const { logout, getCurrentUser } = useAuth();
 const router = useRouter();
+
+// 테마 관리
+const { themeMode, setTheme, isDark } = useTheme();
 
 const currentUserFromAuth = computed(() => getCurrentUser());
 

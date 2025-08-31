@@ -117,10 +117,10 @@
           class="nav-button prev-button"
         >
           <VIcon name="chevron-left" size="sm" aria-label="이전 글로 이동" />
-          <span class="nav-title desktop-only">
+          <span class="nav-title board-detail-desktop-only">
             {{ truncateTitle(prevPost.title) }}
           </span>
-          <span class="nav-label mobile-only">이전 글</span>
+          <span class="nav-label board-detail-mobile-only">이전 글</span>
         </VButton>
 
         <VButton
@@ -130,10 +130,10 @@
           @click="moveToPost('next')"
           class="nav-button next-button"
         >
-          <span class="nav-title desktop-only">{{
+          <span class="nav-title board-detail-desktop-only">{{
             truncateTitle(nextPost.title)
           }}</span>
-          <span class="nav-label mobile-only">다음 글</span>
+          <span class="nav-label board-detail-mobile-only">다음 글</span>
           <VIcon name="chevron-right" size="sm" aria-label="다음 글로 이동" />
         </VButton>
       </div>

@@ -1,4 +1,4 @@
-.auth-page {
+.sign-up-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -6,53 +6,53 @@
   padding: var(--space-8) 0;
 }
 
-.auth-container {
+.sign-up-container {
   width: 100%;
   max-width: 440px;
 }
 
-.auth-card {
+.sign-up-card {
   box-shadow: var(--shadow-xl);
 }
 
 /* Header */
-.auth-header {
+.sign-up-header {
   text-align: center;
 }
 
-.auth-title {
+.sign-up-title {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
   margin: 0 0 var(--space-2) 0;
 }
 
-.auth-subtitle {
+.sign-up-subtitle {
   font-size: var(--font-size-base);
   color: var(--color-text-muted);
   margin: 0;
 }
 
 /* Form */
-.auth-form {
+.sign-up-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
 
-.form-field {
+.sign-up-field {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-.form-label {
+.sign-up-label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
 }
 
-.form-input {
+.sign-up-input {
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -72,23 +72,23 @@
   color: var(--color-text-muted);
 }
 
-.form-input-error {
+.sign-up-input-error {
   border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
 }
 
 /* Input Group */
-.form-input-group {
+.sign-up-input-group {
   display: flex;
   gap: var(--space-2);
   align-items: stretch;
 }
 
-.form-input-grouped {
+.sign-up-input-grouped {
   flex: 1;
 }
 
-.form-input-button {
+.sign-up-input-button {
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -101,12 +101,12 @@
   padding-top: var(--space-1);
 }
 
-.auth-submit {
+.sign-up-submit {
   margin-top: var(--space-2);
 }
 
 /* Footer */
-.auth-footer {
+.sign-up-footer {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -114,7 +114,7 @@
   gap: var(--space-3);
 }
 
-.auth-footer-text {
+.sign-up-footer-text {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   margin: 0;
@@ -122,23 +122,23 @@
 
 /* Mobile optimizations */
 @media (max-width: 480px) {
-  .auth-page {
+  .sign-up-page {
     padding: var(--space-4);
   }
   
-  .auth-container {
+  .sign-up-container {
     max-width: none;
   }
   
-  .auth-title {
+  .sign-up-title {
     font-size: var(--font-size-2xl);
   }
   
-  .form-input-group {
+  .sign-up-input-group {
     flex-direction: column;
   }
   
-  .form-input-button {
+  .sign-up-input-button {
     align-self: stretch;
   }
 }

@@ -4,14 +4,21 @@
 }
 
 .v-dropdown-menu {
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
+  /* 테스트: 테마별 반투명 효과 */
+  background-color: rgba(var(--color-surface-elevated-rgb), 0.6); /* 테마별 색상 60% 투명 */
+  border: 1px solid rgba(var(--color-border-rgb), 0.15); /* 테마별 테두리 */
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   max-height: 320px;
   overflow-y: auto;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(16px) saturate(1.2); /* 강한 블러 */
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  
+  /* 기존 스타일 (주석처리) */
+  /* background-color: var(--color-surface-elevated); */
+  /* border: 1px solid var(--color-border); */
+  /* backdrop-filter: blur(8px); */
+  /* -webkit-backdrop-filter: blur(8px); */
 }
 
 /* Size variants */
@@ -64,7 +71,7 @@
   background: var(--color-text-muted);
 }
 
-/* Transitions */
+/* Transitions (기존 스타일) */
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all var(--transition-base);
@@ -81,6 +88,32 @@
   opacity: 1;
   transform: translateY(0) scale(1);
 }
+
+/* 새로운 애니메이션 (주석처리) */
+/* .dropdown-enter-active {
+  transition: opacity 0.2s ease-out,
+              transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              backdrop-filter 0.2s ease-out;
+}
+
+.dropdown-leave-active {
+  transition: opacity 0.15s ease-in,
+              transform 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19),
+              backdrop-filter 0.15s ease-in;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+
+.dropdown-enter-to,
+.dropdown-leave-from {
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  will-change: auto;
+} */
 
 /* Focus styles */
 .v-dropdown-trigger:focus-visible {

@@ -6,8 +6,8 @@
         <template #header>
           <div class="hero-header">
             <h1 class="hero-title">Vue Board</h1>
-            <VButton variant="ghost" @click="toggleTheme" class="theme-toggle">
-              {{ isDark ? '🌞' : '🌙' }}
+            <VButton variant="ghost" @click="toggleTheme" class="theme-toggle" :title="`${isDark ? '라이트' : '다크'} 테마로 전환`">
+              {{ isDark ? '🌞' : '🌙' }} {{ isDark ? '라이트' : '다크' }}
             </VButton>
           </div>
         </template>

@@ -6,7 +6,7 @@
       <span class="brand-subtitle">싱글벙글 게시판</span>
     </div>
 
-    <nav class="desktop-nav desktop-only">
+    <nav class="desktop-nav nav-desktop-only">
       <Tabs :tabs="tabs" :current-board="currentBoard" />
     </nav>
 
@@ -42,7 +42,7 @@
   </Transition>
 
   <!-- 모바일: 하단 고정 탭 -->
-  <nav class="bottom-navigation mobile-only">
+  <nav class="bottom-navigation nav-mobile-only">
     <Tabs :tabs="tabs" :current-board="currentBoard" />
   </nav>
 </template>

@@ -1,22 +1,22 @@
 /* src/design-system/tokens/colors.css */
 :root {
-  /* 브랜드 색상 - 다크 테마와 조화로운 톤 */
-  --color-primary-50: #f0f4ff;
-  --color-primary-100: #e0e9ff;
-  --color-primary-500: #6366f1; /* 더 밝고 선명한 보라 */
-  --color-primary-600: #5b63d3;
-  --color-primary-700: #4f46e5;
+  /* 브랜드 색상 */
+  --color-primary-50: #e6f3ff;
+  --color-primary-100: #cce7ff;
+  --color-primary-500: #007AFF;
+  --color-primary-600: #0051D5;
+  --color-primary-700: #003d99;
 
-  --color-secondary-500: #06b6d4; /* 시원한 청록색 */
-  --color-secondary-600: #0891b2;
+  --color-secondary-500: #5856D6;
+  --color-secondary-600: #4A47B8;
 
-  /* 시스템 색상 - 다크 테마 최적화 */
-  --color-success: #10b981; /* 더 선명한 녹색 */
-  --color-danger: #f87171; /* 부드러운 빨간색 */
-  --color-warning: #fbbf24; /* 따뜻한 황색 */
-  --color-info: #60a5fa; /* 밝은 파란색 */
+  /* 시스템 색상 */
+  --color-success: #34C759;
+  --color-danger: #FF3B30;
+  --color-warning: #FF9500;
+  --color-info: #5AC8FA;
 
-  /* 중성 색상 - 다크 테마와 조화로운 따뜻한 그레이 */
+  /* 중성 색상 */
   --color-gray-50: #fafafa;
   --color-gray-100: #f5f5f5;
   --color-gray-200: #e5e5e5;
@@ -29,45 +29,99 @@
   --color-gray-900: #171717;
 }
 
-/* 라이트 테마 매핑 */
+/* 라이트 테마 */
 :root {
-  --color-primary: var(--color-primary-500);
-  --color-primary-hover: var(--color-primary-600);
-  --color-secondary: var(--color-secondary-500);
+  --color-primary: #007AFF;
+  --color-primary-hover: #0051D5;
+  --color-secondary: #5856D6;
+  --color-secondary-hover: #4A47B8;
 
-  --color-bg: #ffffff;
-  --color-surface: var(--color-gray-50);
-  --color-text: var(--color-gray-900);
-  --color-text-muted: var(--color-gray-600);
-  --color-border: var(--color-gray-200);
+  --color-bg: #FFFFFF;
+  --color-surface: #F2F2F7;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #000000;
+  --color-text-muted: rgba(60, 60, 67, 0.6);
+  --color-border: rgba(60, 60, 67, 0.29);
+  --color-border-light: #C6C6C8;
+  
+  /* RGB 값 (반투명 효과용) */
+  --color-surface-elevated-rgb: 255, 255, 255;
+  --color-border-rgb: 60, 60, 67;
 }
 
-/* 다크 테마 매핑 */
+/* 다크 테마 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #242424; /* 메인 배경 (차분한 다크 그레이) */
-    --color-surface: #2e2e2e; /* 카드/패널 배경 */
-    --color-text: #f5f5f5; /* 메인 텍스트 */
-    --color-text-muted: #a1a1a1; /* 보조 텍스트 */
-    --color-border: #404040; /* 경계선 - 더 자연스러운 그레이 */
+    --color-bg: #000000;
+    --color-surface: #1C1C1E;
+    --color-surface-elevated: #2C2C2E;
+    --color-text: #FFFFFF;
+    --color-text-muted: rgba(235, 235, 245, 0.6);
+    --color-border: rgba(84, 84, 88, 0.36);
+    --color-border-light: #38383A;
     
-    /* 다크 모드에서 브랜드 색상 미세 조정 */
-    --color-primary: #7c3aed; /* 다크에서 더 생동감 있는 보라 */
-    --color-primary-hover: #8b5cf6;
-    --color-secondary: #14b8a6; /* 다크에서 더 선명한 청록 */
+    /* RGB 값 (반투명 효과용) */
+    --color-surface-elevated-rgb: 44, 44, 46;
+    --color-border-rgb: 84, 84, 88;
+    
+    --color-primary: #0A84FF;
+    --color-primary-hover: #409CFF;
+    --color-secondary: #5E5CE6;
+    --color-secondary-hover: #7B79F0;
+
+    --color-success: #30D158;
+    --color-danger: #FF453A;
+    --color-warning: #FF9F0A;
+    --color-info: #64D2FF;
+
+    --shadow-xs: var(--glow-xs);
+    --shadow-sm: var(--glow-sm);
+    --shadow-base: var(--glow-base);
+    --shadow-md: var(--glow-md);
   }
+}
+
+/* 강제 라이트 테마 클래스 */
+.theme-light {
+  --color-bg: #FFFFFF;
+  --color-surface: #F2F2F7;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #000000;
+  --color-text-muted: rgba(60, 60, 67, 0.6);
+  --color-border: rgba(60, 60, 67, 0.29);
+  --color-border-light: #C6C6C8;
+  
+  --color-primary: #007AFF;
+  --color-primary-hover: #0051D5;
+  --color-secondary: #5856D6;
+  --color-secondary-hover: #4A47B8;
+  
+  /* RGB 값 (반투명 효과용) */
+  --color-surface-elevated-rgb: 255, 255, 255;
+  --color-border-rgb: 60, 60, 67;
 }
 
 /* 강제 다크 테마 클래스 */
 .theme-dark {
-  --color-bg: #242424; /* 메인 배경 (차분한 다크 그레이) */
-  --color-surface: #2e2e2e; /* 카드/패널 배경 */
-  --color-text: #f5f5f5; /* 메인 텍스트 */
-  --color-text-muted: #a1a1a1; /* 보조 텍스트 */
-  --color-border: #404040; /* 경계선 - 더 자연스러운 그레이 */
+  --color-bg: #000000;
+  --color-surface: #1C1C1E;
+  --color-surface-elevated: #2C2C2E;
+  --color-text: #FFFFFF;
+  --color-text-muted: rgba(235, 235, 245, 0.6);
+  --color-border: rgba(84, 84, 88, 0.36);
+  --color-border-light: #38383A;
   
-  /* 다크 모드에서 브랜드 색상 미세 조정 */
-  --color-primary: #7c3aed; /* 다크에서 더 생동감 있는 보라 */
-  --color-primary-hover: #8b5cf6;
-  --color-secondary: #14b8a6; /* 다크에서 더 선명한 청록 */
+  --color-primary: #0A84FF;
+  --color-primary-hover: #409CFF;
+  --color-secondary: #5E5CE6;
+  --color-secondary-hover: #7B79F0;
+
+  /* RGB 값 (반투명 효과용) */
+  --color-surface-elevated-rgb: 44, 44, 46;
+  --color-border-rgb: 84, 84, 88;
+
+  --shadow-xs: var(--glow-xs);
+  --shadow-sm: var(--glow-sm);
+  --shadow-base: var(--glow-base);
+  --shadow-md: var(--glow-md);
 }

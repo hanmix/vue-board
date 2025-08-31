@@ -6,13 +6,13 @@
     size="md"
   >
     <form @submit.prevent="handleCreate" class="post-form">
-      <div class="form-field">
-        <label for="title" class="form-label">제목</label>
+      <div class="new-post-field">
+        <label for="title" class="new-post-label">제목</label>
         <input
           id="title"
           v-model="title"
           type="text"
-          class="form-input"
+          class="new-post-input"
           placeholder="제목을 입력하세요."
           required
           @compositionstart="handleComposition(true)"
@@ -20,12 +20,12 @@
         />
       </div>
 
-      <div class="form-field">
-        <label for="content" class="form-label">내용</label>
+      <div class="new-post-field">
+        <label for="content" class="new-post-label">내용</label>
         <textarea
           id="content"
           v-model="content"
-          class="form-textarea"
+          class="new-post-textarea"
           placeholder="내용을 입력하세요."
           required
           rows="6"

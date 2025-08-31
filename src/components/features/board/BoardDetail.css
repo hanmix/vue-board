@@ -224,12 +224,12 @@
 }
 
 /* 데스크톱에서만 제목 표시 */
-.desktop-only {
+.board-detail-desktop-only {
   display: inline;
 }
 
 /* 모바일에서만 제목 표시 */
-.mobile-only {
+.board-detail-mobile-only {
   display: none;
 }
 
@@ -304,12 +304,12 @@
   }
 
   /* 모바일에서 제목 숨기기 */
-  .desktop-only {
+  .board-detail-desktop-only {
     display: none;
   }
 
   /* 모바일에서만 라벨 표시 */
-  .mobile-only {
+  .board-detail-mobile-only {
     display: inline;
     flex: 1;
     text-align: center;

@@ -2,7 +2,7 @@
 .navigation-header {
   /* 크기 및 위치 */
   height: var(--nav-height);
-  max-width: var(--container-xl);
+  max-width: var(--container-2xl);
   margin: 0 auto;
 
   /* 레이아웃 */
@@ -12,8 +12,11 @@
   gap: var(--space-4);
 
   /* 스타일링 */
-  background-color: var(--color-bg);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-light);
   padding: 0 var(--space-4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Brand Section */
@@ -55,8 +58,10 @@
 .search-dropdown-content {
   min-width: 320px;
   padding: var(--space-4);
-  background: var(--color-bg);
+  background: var(--color-surface-elevated);
   border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
 }
 
 @media (max-width: 768px) {
@@ -72,10 +77,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border-light);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: var(--shadow-lg);
   z-index: var(--z-sticky);
 }
@@ -86,20 +91,20 @@
 }
 
 /* Responsive Design */
-.desktop-only {
+.nav-desktop-only {
   display: block;
 }
 
-.mobile-only {
+.nav-mobile-only {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .desktop-only {
+  .nav-desktop-only {
     display: none;
   }
 
-  .mobile-only {
+  .nav-mobile-only {
     display: block;
   }
 
@@ -141,14 +146,7 @@
   }
 }
 
-/* Dark mode optimizations */
-@media (prefers-color-scheme: dark) {
-  .navigation-container,
-  .bottom-navigation {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-}
+/* 테마별 자동 적용 - CSS custom properties가 자동으로 처리 */
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
@@ -158,33 +156,56 @@
   }
 }
 
-/* 간단한 max-height 트릭 */
-.search-slide-enter-active,
-.search-slide-leave-active {
-  transition: all 0.3s ease;
+/* Search Section - 네비게이션바 아래 간격 추가 */
+.search-section {
+  max-width: var(--container-xl);
+  margin: var(--space-4) auto 0 auto;
+  padding: 0 var(--space-4);
+  
+  /* 애니메이션 성능 최적화 */
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .search-section {
+    margin: var(--space-3) auto 0 auto;
+    padding: 0 var(--space-3);
+  }
+}
+
+/* 자연스러운 검색창 애니메이션 */
+.search-slide-enter-active {
+  transition: opacity 0.25s ease-out, 
+              transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.search-slide-leave-active {
+  transition: opacity 0.2s ease-in,
+              transform 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  overflow: hidden;
+  will-change: transform, opacity;
 }
 
 .search-slide-enter-from {
   opacity: 0;
-  max-height: 0;
-  transform: translateY(-10px);
+  transform: translateY(-8px) scale(0.98);
 }
 
 .search-slide-enter-to {
   opacity: 1;
-  max-height: 200px; /* 충분히 큰 값 */
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  will-change: auto; /* 애니메이션 완료 후 정리 */
 }
 
 .search-slide-leave-from {
   opacity: 1;
-  max-height: 200px;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .search-slide-leave-to {
   opacity: 0;
-  max-height: 0;
-  transform: translateY(-10px);
+  transform: translateY(-8px) scale(0.98);
+  will-change: auto; /* 애니메이션 완료 후 정리 */
 }

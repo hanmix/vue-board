@@ -6,13 +6,16 @@
   /* 컨테이너 레이아웃 */
   max-width: var(--container-xl);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-8);
+  padding: var(--space-4) var(--space-4) 0; /* 상단 간격 추가하여 검색창과 동일한 간격 유지 */
+  
+  /* 검색창 변화에 대한 부드러운 반응 */
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* 모바일에서 하단 네비게이션 고려 */
 @media (max-width: 768px) {
   .board-layout {
-    padding: var(--space-6) var(--space-4) calc(80px + var(--safe-area-inset-bottom) + var(--space-6));
+    padding: var(--space-3) var(--space-4) calc(80px + var(--safe-area-inset-bottom)); /* 상단 간격 + 좌우 + 하단 패딩 */
     min-height: auto;
   }
 }
@@ -20,6 +23,6 @@
 /* iPhone SE 및 작은 화면 최적화 */
 @media (max-width: 375px) {
   .board-layout {
-    padding: var(--space-4) var(--space-3) calc(80px + var(--safe-area-inset-bottom) + var(--space-4));
+    padding: var(--space-3) var(--space-3) calc(80px + var(--safe-area-inset-bottom)); /* 상단 간격 + 좌우 + 하단 패딩 */
   }
 }

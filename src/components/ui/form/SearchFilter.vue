@@ -7,6 +7,7 @@
           :id="DROPDOWN_IDS.SEARCH_FILTER"
           placement="bottom-start"
           size="sm"
+          :vertical-offset="16"
           :aria-label="'검색 타입 선택'"
         >
           <template #trigger="{ isOpen }">
@@ -124,7 +125,7 @@ const selectSearchType = (type: SearchType, closeDropdown: () => void) => {
 // 검색 실행
 const handleSearch = () => {
   const keyword = localSearchKeyword.value.trim();
-  
+
   // BoardDetail 페이지에서 검색 시 BoardList로 이동
   if (route.name === 'board-detail' && keyword) {
     const routeName = getBoardRouteName(props.boardType);
@@ -133,12 +134,12 @@ const handleSearch = () => {
       query: {
         search: keyword,
         type: localSearchType.value,
-        page: 1
-      }
+        page: 1,
+      },
     });
     return;
   }
-  
+
   props.onSearch(keyword, localSearchType.value);
 };
 </script>

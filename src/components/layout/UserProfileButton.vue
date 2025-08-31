@@ -54,9 +54,9 @@ const { closeSearchOnNavigation, navigate, isSearchVisible } = useNavigation();
 const { logout } = useAuth();
 const { isMobile } = useBreakpoint();
 
-// 반응형 vertical-offset 계산
+// 반응형 vertical-offset 계산 - 네비게이션바와 더 떨어뜨림
 const verticalOffset = computed(() => {
-  return isMobile.value ? 12 : 16;
+  return isMobile.value ? 20 : 24;
 });
 
 // UserProfile 드롭다운이 열릴 때 검색창 닫기

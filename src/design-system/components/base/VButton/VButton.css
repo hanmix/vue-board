@@ -131,14 +131,14 @@
 }
 
 .v-button--ghost:hover:not(.v-button--disabled) {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-elevated);
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
 
 @media (hover: none) and (pointer: coarse) {
   .v-button--ghost:active:not(.v-button--disabled) {
-    background-color: var(--color-surface);
+    background-color: var(--color-surface-elevated);
     border-color: var(--color-primary);
     color: var(--color-primary);
     transform: scale(0.98);
