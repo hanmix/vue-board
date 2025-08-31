@@ -14,9 +14,17 @@ const breakpoints = {
   '2xl': 1536 // 초대형 화면
 } as const
 
-type Breakpoint = keyof typeof breakpoints# Vue Board 디자인 시스템 구축 가이드
+type Breakpoint = keyof typeof breakpoints# Vue Board 디자인 시스템 구축 가이드 (아카이브)
 
-## 📋 개요
+> ⚠️ **문서 상태**: 이 문서는 디자인 시스템 초기 구축 시점의 가이드로, 현재는 아카이브 상태입니다.
+> 
+> **최신 정보는 다음 파일들을 참조하세요:**
+> - **전체 아키텍처**: [CLAUDE.md](./CLAUDE.md)
+> - **컴포넌트 사용법**: [DESIGN_SYSTEM_MANUAL.md](./DESIGN_SYSTEM_MANUAL.md)
+> 
+> *이 문서는 역사적 참조 목적으로만 유지됩니다.*
+
+## 📋 개요 (아카이브된 초기 계획)
 이 문서는 Vue Board 디자인 시스템을 실제 프로젝트에 구현하기 위한 단계별 가이드입니다. **Flat 2.0 + Subtle Depth + Adaptive Tokens** 철학을 바탕으로 확장 가능하고 유지보수가 쉬운 디자인 시스템을 구축합니다.
 
 ---

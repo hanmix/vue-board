@@ -71,6 +71,7 @@ src/
 │   ├── usePagination.ts     # 페이지네이션 로직
 │   ├── usePost.ts           # 게시글 로직
 │   ├── useUser.ts           # 사용자 로직
+│   ├── useDropdownManager.ts # 드롭다운 전역 상태 관리
 │   └── index.ts             # 컴포저블 통합 익스포트
 │
 ├── apis/                    # API 서비스 모듈
@@ -90,6 +91,7 @@ src/
 │   ├── navigate.ts          # 네비게이션 타입 (RouteName, BoardType, 매핑 유틸리티)
 │   ├── pagination.ts        # 페이지네이션 타입 (SearchType 포함)
 │   ├── tab.ts               # 탭 관련 타입
+│   ├── dropdown.ts          # 드롭다운 타입 (DropdownId, 상수, 유틸리티)
 │   └── index.ts             # 타입 통합 익스포트
 │
 ├── utils/                   # 유틸리티 함수
@@ -675,6 +677,70 @@ import '@/assets/styles/components/ComponentName.css';
 import './ComponentName.css';
 ```
 
+### CSS 클래스명 충돌 방지 시스템
+
+프로젝트에서는 **컴포넌트별 고유 클래스명**을 사용하여 CSS 선택자 충돌을 방지합니다.
+
+#### **충돌 방지 원칙**
+
+1. **컴포넌트 전용 클래스명 사용**
+```css
+/* ✅ 권장: 컴포넌트별 고유 클래스명 */
+.sign-in-page, .sign-in-form, .sign-in-field
+.sign-up-page, .sign-up-form, .sign-up-field  
+.new-post-field, .new-post-label, .new-post-input
+.nav-desktop-only, .nav-mobile-only
+.board-detail-desktop-only, .board-detail-mobile-only
+
+/* ❌ 지양: 일반적인 클래스명 */
+.auth-page, .form-field, .desktop-only, .mobile-only
+```
+
+2. **BEM 방법론 적용**
+```css
+/* 블록__요소--수정자 패턴 */
+.board-item-card
+.board-item-card__header  
+.board-item-card__content
+.board-item-card--elevated
+```
+
+#### **해결된 충돌 사례**
+
+**Auth 컴포넌트 충돌:**
+- `SignIn.css` & `SignUp.css`: 공통 `.auth-*`, `.form-*` 클래스명
+- **해결**: `SignIn` → `.sign-in-*`, `SignUp` → `.sign-up-*`
+
+**Form 관련 충돌:**
+- `SignIn/SignUp.css` & `NewPostModal.css`: `.form-field`, `.form-label`
+- **해결**: `NewPostModal` → `.new-post-*`
+
+**반응형 클래스 충돌:**
+- `NavigationBar.css` & `BoardDetail.css`: `.desktop-only`, `.mobile-only`
+- **해결**: `nav-*-only`, `board-detail-*-only`
+
+#### **클래스명 네이밍 규칙**
+
+```css
+/* 컴포넌트명 + 역할/상태 */
+.{component-name}-{element}
+.{component-name}-{element}--{modifier}
+
+/* 예시 */
+.sign-in-page           /* SignIn 컴포넌트의 페이지 래퍼 */  
+.sign-in-form           /* SignIn 컴포넌트의 폼 */
+.sign-in-field          /* SignIn 컴포넌트의 필드 */
+.nav-desktop-only       /* Navigation 컴포넌트의 데스크톱 전용 */
+.board-item-card--reply /* BoardItem 컴포넌트의 답글 수정자 */
+```
+
+#### **장점**
+
+- ✅ **충돌 없는 스타일링**: 각 컴포넌트의 스타일이 서로 간섭하지 않음
+- ✅ **명확한 범위**: 클래스명만으로 어느 컴포넌트인지 식별 가능  
+- ✅ **안전한 확장**: 새 컴포넌트 추가 시 기존 스타일에 영향 없음
+- ✅ **디버깅 용이**: 개발자도구에서 스타일 출처를 쉽게 파악
+
 ## 실전 예제 및 패턴
 
 ### 1. 새 기능 추가 시 구조
@@ -796,6 +862,10 @@ router.beforeEach(to => {
 
 ### 6. 디자인 시스템 가이드
 
+> ⚠️ **중요**: 디자인 시스템 컴포넌트의 상세한 사용법과 API 문서는 **[DESIGN_SYSTEM_MANUAL.md](./DESIGN_SYSTEM_MANUAL.md)** 파일을 참조하세요. 
+> 
+> 이 섹션은 기본 개요와 주요 패턴만 다루며, 실무에서 사용할 때는 반드시 별도 매뉴얼을 확인해야 합니다.
+
 **토큰 기반 CSS 시스템:**
 
 ```css
@@ -858,189 +928,30 @@ const { toggleTheme, isDark } = useTheme();
 
 #### VDropdown 컴포넌트 사용법
 
-**기본 사용법:**
+> ⚠️ **상세한 사용법**: VDropdown의 전체 API와 고급 사용법은 **[DESIGN_SYSTEM_MANUAL.md - VDropdown 섹션](./DESIGN_SYSTEM_MANUAL.md#vdropdown)** 을 참조하세요.
+
+**기본 사용 패턴 (간단 예제):**
 
 ```vue
 <template>
-  <VDropdown
-    id="my-dropdown"
-    placement="bottom-start"
-    :vertical-offset="8"
-  >
+  <VDropdown id="user-menu" placement="bottom-end">
     <template #trigger="{ isOpen, toggle }">
-      <VButton @click="toggle" :class="{ active: isOpen }">
-        드롭다운 열기
-        <VIcon name="chevron-down" :class="{ rotate: isOpen }" />
+      <VButton @click="toggle">
+        메뉴 {{ isOpen ? '▲' : '▼' }}
       </VButton>
     </template>
-
     <template #menu="{ close }">
-      <VDropdownItem @click="handleAction1(close)">
-        액션 1
-      </VDropdownItem>
-      <VDropdownItem @click="handleAction2(close)">
-        액션 2
-      </VDropdownItem>
-      <div class="menu-divider"></div>
-      <VDropdownItem destructive @click="handleDelete(close)">
-        삭제
-      </VDropdownItem>
+      <VDropdownItem @click="handleAction(close)">액션</VDropdownItem>
     </template>
   </VDropdown>
 </template>
-
-<script setup lang="ts">
-import { VDropdown, VDropdownItem, VButton, VIcon } from '@/design-system';
-
-const handleAction1 = (closeDropdown: () => void) => {
-  // 액션 실행
-  console.log('액션 1 실행');
-  closeDropdown(); // 드롭다운 닫기
-};
-
-const handleAction2 = (closeDropdown: () => void) => {
-  // 액션 실행
-  console.log('액션 2 실행');
-  closeDropdown();
-};
-
-const handleDelete = (closeDropdown: () => void) => {
-  const confirmed = confirm('정말 삭제하시겠습니까?');
-  if (confirmed) {
-    // 삭제 로직
-    console.log('삭제 실행');
-  }
-  closeDropdown();
-};
-</script>
 ```
 
-**VDropdown Props:**
-
-```typescript
-interface DropdownProps {
-  id?: string;                    // 필수: 드롭다운 식별자 (상호 배타성)
-  placement?: 'bottom-start'      // 배치 위치 (기본값: 'bottom-start')
-    | 'bottom-end' 
-    | 'bottom-center'
-    | 'top-start' 
-    | 'top-end' 
-    | 'top-center';
-  verticalOffset?: number;        // 세로 간격 (기본값: 8px)
-  horizontalOffset?: number;      // 가로 간격 (기본값: 0px)  
-  mobileFullWidth?: boolean;      // 모바일 전체폭 (기본값: true)
-  size?: 'sm' | 'md' | 'lg';     // 크기 (기본값: 'md')
-  priority?: 'normal' | 'high';   // z-index 우선순위 (기본값: 'normal')
-  closeOnScroll?: boolean;        // 스크롤시 닫기 (기본값: true)
-  disabled?: boolean;             // 비활성화 (기본값: false)
-  ariaLabel?: string;             // 접근성 라벨
-}
-```
-
-**상호 배타적 드롭다운 관리:**
-
-```vue
-<!-- ✅ 권장: 각 드롭다운에 고유 id 부여 -->
-<VDropdown id="user-profile-dropdown">
-  <!-- 사용자 프로필 드롭다운 -->
-</VDropdown>
-
-<VDropdown id="search-filter-dropdown">
-  <!-- 검색 필터 드롭다운 -->
-</VDropdown>
-
-<!-- ❌ 비권장: id 없으면 상호 배타성 적용 안됨 -->
-<VDropdown>
-  <!-- 다른 드롭다운과 동시에 열릴 수 있음 -->
-</VDropdown>
-```
-
-**드롭다운 이벤트 처리:**
-
-```vue
-<template>
-  <VDropdown
-    id="event-dropdown"
-    @open="handleDropdownOpen"
-    @close="handleDropdownClose"
-  >
-    <!-- 드롭다운 내용 -->
-  </VDropdown>
-</template>
-
-<script setup lang="ts">
-const handleDropdownOpen = () => {
-  console.log('드롭다운이 열렸습니다');
-  // 다른 UI 요소와의 상호작용 처리
-};
-
-const handleDropdownClose = () => {
-  console.log('드롭다운이 닫혔습니다');
-  // 정리 작업
-};
-</script>
-```
-
-**반응형 드롭다운:**
-
-```vue
-<template>
-  <VDropdown
-    id="responsive-dropdown"
-    :vertical-offset="verticalOffset"
-    :mobile-full-width="false"
-  >
-    <!-- 드롭다운 내용 -->
-  </VDropdown>
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useBreakpoint } from '@/composables';
-
-const { isMobile } = useBreakpoint();
-
-// 반응형 오프셋 계산
-const verticalOffset = computed(() => {
-  return isMobile.value ? 12 : 16;
-});
-</script>
-```
-
-**VDropdownItem 사용법:**
-
-```vue
-<template #menu="{ close }">
-  <!-- 기본 아이템 -->
-  <VDropdownItem @click="handleClick(close)">
-    일반 메뉴
-  </VDropdownItem>
-
-  <!-- 활성 상태 아이템 -->
-  <VDropdownItem :active="isActive" @click="handleClick(close)">
-    활성 메뉴
-  </VDropdownItem>
-
-  <!-- 위험한 액션 (빨간색) -->
-  <VDropdownItem destructive @click="handleDelete(close)">
-    삭제
-  </VDropdownItem>
-
-  <!-- 비활성화된 아이템 -->
-  <VDropdownItem disabled>
-    비활성화 메뉴
-  </VDropdownItem>
-
-  <!-- 구분선 -->
-  <div class="menu-divider"></div>
-
-  <!-- 아이콘과 함께 -->
-  <VDropdownItem @click="handleClick(close)">
-    <VIcon name="user" size="sm" />
-    프로필
-  </VDropdownItem>
-</template>
-```
+**주요 특징:**
+- **상호 배타성**: `id` prop으로 드롭다운들이 상호 배타적으로 동작
+- **타입 안전성**: `useDropdownManager`와 `types/dropdown.ts`로 중앙 관리
+- **접근성**: 키보드 네비게이션과 ARIA 속성 완전 지원
+- **반응형**: 모바일/데스크톱 자동 최적화
 
 **드롭다운 스타일 커스터마이징:**
 
