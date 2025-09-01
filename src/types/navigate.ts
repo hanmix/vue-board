@@ -6,7 +6,8 @@ export enum RouteName {
   NOTICE = 'notice',
   FREE = 'free',
   BOARD_DETAIL = 'board-detail',
-  MYPAGE = 'mypage',
+  USERPROFILE = 'userprofile',
+  MYPOSTS = 'myposts',
 }
 
 export enum BoardType {

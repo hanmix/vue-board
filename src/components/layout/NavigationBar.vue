@@ -56,13 +56,12 @@ import { useRoute } from 'vue-router';
 import { usePostStore } from '@/stores/post';
 import { VButton, VIcon, VCard } from '@/design-system/components';
 import { Tabs, SearchFilter } from '@/components/ui';
-import { useBoardData, useBreakpoint, useNavigation } from '@/composables';
+import { useBoardData, useNavigation } from '@/composables';
 import UserProfileButton from './UserProfileButton.vue';
 
 const route = useRoute();
 const { currentPost } = usePostStore();
 const { searchKeyword, searchType, setSearch } = useBoardData(BoardType.ALL);
-const { isMobile } = useBreakpoint();
 const { isSearchVisible, toggleSearchBar } = useNavigation();
 
 const tabs: TabInfo[] = [

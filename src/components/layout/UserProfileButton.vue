@@ -68,12 +68,12 @@ const handleDropdownOpen = () => {
 
 const handleUserProfile = (closeDropdownFn: () => void) => {
   closeDropdownFn();
-  // TODO: 프로필 설정 페이지 구현 후 navigate('/profile') 추가
+  navigate('/userprofile');
 };
 
 const handleMypage = (closeDropdownFn: () => void) => {
   closeDropdownFn();
-  navigate('/mypage');
+  navigate('/myposts');
 };
 
 const handleLogout = (closeDropdownFn: () => void) => {

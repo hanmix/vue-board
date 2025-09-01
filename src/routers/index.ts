@@ -8,6 +8,7 @@ import { RouteName } from '@/types/navigate';
 const BoardList = () => import('@/components/features/board/BoardList.vue');
 const BoardDetail = () => import('@/components/features/board/BoardDetail.vue');
 const UserProfile = () => import('@/components/features/user/UserProfile.vue');
+const MyPosts = () => import('@/components/features/user/MyPosts.vue');
 const NoticeBoard = () => import('@/components/features/board/NoticeBoard.vue');
 const TestDesignSystem = () => import('@/views/TestDesignSystem.vue');
 const TestNestedTransition = () => import('@/views/TestNestedTransition.vue');
@@ -54,10 +55,16 @@ export const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/mypage',
-    name: RouteName.MYPAGE,
+    path: '/userprofile',
+    name: RouteName.USERPROFILE,
     meta: { requiresAuth: true },
     component: UserProfile,
+  },
+  {
+    path: '/myposts',
+    name: RouteName.MYPOSTS,
+    meta: { requiresAuth: true },
+    component: MyPosts,
   },
   {
     path: '/design-system',

@@ -31,7 +31,11 @@ const { initTheme } = useTheme();
 
 // Navigation을 보여줄 페이지들 정의
 const shouldShowNavigation = computed(() => {
-  return route.path.startsWith('/board') || route.path === '/mypage';
+  return (
+    route.path.startsWith('/board') ||
+    route.path === '/userprofile' ||
+    route.path === '/myposts'
+  );
 });
 
 // 앱 시작 시 테마 초기화

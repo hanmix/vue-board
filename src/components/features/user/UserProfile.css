@@ -1,6 +1,6 @@
-.mypage-header {
+.profile-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   padding: var(--space-4);
 }
@@ -34,33 +34,27 @@
   white-space: nowrap;
 }
 
-.logout-btn {
-  padding: var(--space-2) var(--space-4);
+.my-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 /* 모바일에서 테마 컨트롤 레이아웃 최적화 */
 @media (max-width: 768px) {
   .header-controls {
     flex-direction: column;
-    align-items: flex-end;
+    justify-content: flex-start;
     gap: var(--space-4);
   }
-  
-  .theme-control {
-    align-items: flex-end;
-  }
-  
+
   .theme-buttons {
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-  
+
   .theme-button {
     font-size: var(--font-size-xs);
     padding: var(--space-1) var(--space-2);
   }
-}
-
-.userInfo-section {
-  padding: var(--space-3);
 }
