@@ -106,7 +106,7 @@ import { type ProcessedPost, BoardType } from '@/types';
 import { formatDate } from '@/utils';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { VCard, VButton, VIcon } from '@/design-system/components';
+import { VCard, VIcon } from '@/design-system/components';
 import './BoardItem.css';
 
 const props = defineProps<{
@@ -120,12 +120,10 @@ const route = useRoute();
 
 // 캡슐화된 boardType 자동 감지 로직
 const detectedBoardType = computed((): BoardType => {
-  // 1순위: 명시적으로 전달된 boardType (기존 방식 지원)
   if (props.boardType) {
     return props.boardType;
   }
 
-  // 2순위: post.board 값을 BoardType으로 매핑
   if (props.post.board) {
     switch (props.post.board) {
       case 'notice':
@@ -139,7 +137,6 @@ const detectedBoardType = computed((): BoardType => {
     }
   }
 
-  // 3순위: 현재 라우트에서 추정
   if (route.path.includes('/board/notice')) {
     return BoardType.NOTICE;
   } else if (route.path.includes('/board/free')) {

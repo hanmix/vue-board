@@ -109,6 +109,11 @@
     margin-right: var(--space-6);
   }
 
+  /* VCard 내부에서 SearchFilter가 찌그러지지 않도록 */
+  .search-section .search-input-group {
+    min-height: 44px;
+  }
+
   .search-input-group {
     border-radius: var(--radius-xl);
   }
@@ -123,8 +128,15 @@
     font-size: var(--font-size-sm);
   }
 
-  .search-button {
-    padding: var(--space-2) var(--space-3);
+  .search-button.v-button {
+    padding: var(--space-2);
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-2xl);
   }
 }
 

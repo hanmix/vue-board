@@ -1,7 +1,9 @@
 .tabs {
   display: flex;
+  background: transparent;
   border-bottom: 1px solid var(--color-border);
-  background-color: transparent;
+  position: relative;
+  overflow-x: auto;
 }
 
 .tab {
@@ -11,25 +13,32 @@
   justify-content: center;
   padding: var(--space-4) var(--space-6);
   min-height: var(--touch-target-min);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-text-secondary);
   text-decoration: none;
+  background: transparent;
+  border: none;
   border-bottom: 2px solid transparent;
-  transition: all var(--transition-base);
+  transition: all 0.25s ease;
   cursor: pointer;
   position: relative;
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
 .tab:hover {
   color: var(--color-text);
-  background-color: var(--color-surface);
 }
 
 .tab.active {
   color: var(--color-primary);
   border-bottom-color: var(--color-primary);
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
+}
+
+.tab.active:hover {
+  color: var(--color-primary);
 }
 
 .tab:focus-visible {
@@ -37,22 +46,39 @@
   outline-offset: -2px;
 }
 
+/* iOS 스타일 슬라이딩 인디케이터 */
+.tabs::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transition: all 0.25s ease;
+  width: 0;
+  opacity: 0;
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
-  .tabs {
-    background-color: var(--color-bg);
-    border-bottom: none;
-  }
-
   .tab {
     padding: var(--space-3) var(--space-4);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    padding: var(--space-3) var(--space-2);
+    font-size: var(--text-sm);
+    min-width: 0;
   }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .tab {
+  .tab,
+  .tabs::after {
     transition: none;
   }
 }

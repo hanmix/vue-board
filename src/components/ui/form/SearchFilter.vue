@@ -52,7 +52,7 @@
         <!-- 검색 버튼 -->
         <VButton
           variant="primary"
-          size="sm"
+          size="lg"
           type="submit"
           class="search-button"
           :aria-label="'검색'"

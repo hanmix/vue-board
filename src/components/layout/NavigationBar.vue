@@ -29,7 +29,7 @@
     <VCard
       v-if="isSearchVisible"
       variant="outlined"
-      padding="sm"
+      padding="none"
       class="search-section"
     >
       <SearchFilter

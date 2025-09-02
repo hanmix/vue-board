@@ -1,5 +1,5 @@
 <template>
-  <VContainer v-if="currentPost" class="post-detail">
+  <VContainer v-if="currentPost" class="board-detail-container">
     <!-- 삭제된 원글 알림 -->
     <VCard
       v-if="parentPost?.isDeleted && currentPost.type === 'reply'"
@@ -7,28 +7,24 @@
       padding="md"
       class="deleted-parent-notice"
     >
-      <div class="notice-content">
-        <div class="notice-icon">⚠️</div>
-        <span class="notice-text">원글이 삭제된 답글입니다</span>
-      </div>
+      <div class="notice-icon">⚠️</div>
+      <span class="notice-text">원글이 삭제된 답글입니다</span>
     </VCard>
 
     <!-- 메인 게시글 카드 -->
-    <VCard variant="elevated" padding="lg" class="post-main-card">
+    <VCard variant="elevated" padding="lg" class="board-detail-main-card">
       <article role="article" :aria-label="`게시글: ${currentPost.title}`">
         <!-- 게시글 헤더 -->
-        <header class="item-header">
-          <div class="header-content">
-            <div class="title-section">
-              <div v-if="currentPost.type === 'reply'" class="reply-badge">
-                <span class="reply-indicator">REPLY</span>
-              </div>
-
-              <h1 class="post-title">{{ currentPost.title }}</h1>
+        <header class="board-detail-header">
+          <div class="board-detail-actions">
+            <div v-if="currentPost.type === 'reply'" class="reply-badge">
+              <span class="reply-indicator">REPLY</span>
             </div>
-
             <!-- 액션 버튼들 -->
-            <div v-if="currentPost.userId === userId" class="header-actions">
+            <div
+              v-if="currentPost.userId === userId"
+              class="board-detail-buttons"
+            >
               <VButton
                 variant="ghost"
                 size="sm"
@@ -51,10 +47,12 @@
               </VButton>
             </div>
           </div>
+
+          <h1 class="board-detail-title">{{ currentPost.title }}</h1>
         </header>
 
         <!-- 작성자 정보 -->
-        <div class="author-section">
+        <div class="board-detail-author">
           <div class="author-avatar">
             {{ currentPost.user.name.charAt(0).toUpperCase() }}
           </div>
@@ -67,13 +65,13 @@
         </div>
 
         <!-- 게시글 내용 -->
-        <div class="post-content">
+        <div class="board-detail-content">
           {{ currentPost.content }}
         </div>
 
         <!-- 게시글 푸터 -->
-        <footer class="post-footer">
-          <div class="post-stats">
+        <footer class="board-detail-footer">
+          <div class="board-detail-stats">
             <div class="stat-item">
               <VIcon name="eye" size="sm" />
               {{ currentPost.view.toLocaleString() }}
@@ -93,6 +91,7 @@
             size="sm"
             @click="handleModal"
             :aria-label="`게시글 '${currentPost.title}'에 답글 작성`"
+            class="board-detail-reply-button"
           >
             <VIcon name="message-circle" size="sm" />
             답글 쓰기
@@ -102,42 +101,39 @@
     </VCard>
 
     <!-- 게시글 네비게이션 -->
-    <VCard
+    <nav
       v-if="prevPost?.id || nextPost?.id"
-      variant="outlined"
-      padding="md"
-      class="post-navigation"
+      class="board-detail-navigation"
+      :class="navigationClass"
     >
-      <div class="navigation-content" :class="navigationClass">
-        <VButton
-          v-if="prevPost?.id"
-          variant="ghost"
-          size="sm"
-          @click="moveToPost('prev')"
-          class="nav-button prev-button"
-        >
-          <VIcon name="chevron-left" size="sm" aria-label="이전 글로 이동" />
-          <span class="nav-title board-detail-desktop-only">
-            {{ truncateTitle(prevPost.title) }}
-          </span>
-          <span class="nav-label board-detail-mobile-only">이전 글</span>
-        </VButton>
+      <VButton
+        v-if="prevPost?.id"
+        variant="ghost"
+        size="sm"
+        @click="moveToPost('prev')"
+        class="nav-button prev-button"
+      >
+        <VIcon name="chevron-left" size="sm" aria-label="이전 글로 이동" />
+        <span class="nav-title board-detail-desktop-only">
+          {{ truncateTitle(prevPost.title) }}
+        </span>
+        <span class="nav-label board-detail-mobile-only">이전 글</span>
+      </VButton>
 
-        <VButton
-          v-if="nextPost?.id"
-          variant="ghost"
-          size="sm"
-          @click="moveToPost('next')"
-          class="nav-button next-button"
-        >
-          <span class="nav-title board-detail-desktop-only">{{
-            truncateTitle(nextPost.title)
-          }}</span>
-          <span class="nav-label board-detail-mobile-only">다음 글</span>
-          <VIcon name="chevron-right" size="sm" aria-label="다음 글로 이동" />
-        </VButton>
-      </div>
-    </VCard>
+      <VButton
+        v-if="nextPost?.id"
+        variant="ghost"
+        size="sm"
+        @click="moveToPost('next')"
+        class="nav-button next-button"
+      >
+        <span class="nav-title board-detail-desktop-only">{{
+          truncateTitle(nextPost.title)
+        }}</span>
+        <span class="nav-label board-detail-mobile-only">다음 글</span>
+        <VIcon name="chevron-right" size="sm" aria-label="다음 글로 이동" />
+      </VButton>
+    </nav>
   </VContainer>
 
   <!-- 로딩 상태 -->

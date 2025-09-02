@@ -108,6 +108,18 @@
     display: block;
   }
 
+  /* 네비게이션 버튼들 찌그러짐 방지 - 완전한 크기 제어 */
+  .navigation-header .actions-section .v-button.v-button--md {
+    min-width: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    flex-shrink: 0;
+    padding: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1;
+    border-radius: var(--radius-md);
+  }
+
   .brand-section {
     flex-direction: row;
     align-items: center;
@@ -161,7 +173,7 @@
   max-width: var(--container-xl);
   margin: var(--space-4) auto 0 auto;
   padding: 0 var(--space-4);
-  
+
   /* 애니메이션 성능 최적화 */
   will-change: transform, opacity;
 }
@@ -175,15 +187,15 @@
 
 /* 자연스러운 검색창 애니메이션 */
 .search-slide-enter-active {
-  transition: opacity 0.25s ease-out, 
-              transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.25s ease-out,
+    transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
   will-change: transform, opacity;
 }
 
 .search-slide-leave-active {
   transition: opacity 0.2s ease-in,
-              transform 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    transform 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   overflow: hidden;
   will-change: transform, opacity;
 }

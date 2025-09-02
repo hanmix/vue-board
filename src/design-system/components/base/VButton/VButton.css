@@ -51,6 +51,13 @@
 }
 
 /* 크기 변형 (터치 친화적) */
+.v-button--xs {
+  font-size: var(--font-size-xs);
+  padding: var(--space-2) var(--space-1);
+  min-height: var(--touch-target-min); /* 44px 최소 터치 영역 */
+  min-width: var(--touch-target-min);
+}
+
 .v-button--sm {
   font-size: var(--font-size-sm);
   padding: var(--space-2) var(--space-3);
@@ -77,9 +84,9 @@
     padding: var(--space-2-5) var(--space-4);
   }
 
-  /* .v-button--md {
+  .v-button--md {
     padding: var(--space-3-5) var(--space-5);
-  } */
+  }
 
   .v-button--lg {
     padding: var(--space-4) var(--space-7);

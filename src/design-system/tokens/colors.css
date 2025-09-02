@@ -3,7 +3,7 @@
   /* 브랜드 색상 */
   --color-primary-50: #e6f3ff;
   --color-primary-100: #cce7ff;
-  --color-primary-500: #007AFF;
+  --color-primary-500: 0, 122, 255; /* RGB 값으로 변경 */
   --color-primary-600: #0051D5;
   --color-primary-700: #003d99;
 

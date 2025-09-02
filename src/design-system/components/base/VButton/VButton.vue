@@ -38,7 +38,7 @@ import { computed, ref } from 'vue';
 
 export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
   block?: boolean;
